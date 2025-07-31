@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,16 +18,9 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    /*
+    
     public function boot()
     {
-        if (config('app.env') === 'production') {
-            URL::forceScheme('https');
-        }
-        
-        // Ou force sempre HTTPS no Heroku
-        if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
-            URL::forceScheme('https');
-        }
-    }*/
+        URL::forceScheme('https');
+    }
 }
