@@ -17,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
+    /*
     public function boot()
     {
         if (config('app.env') === 'production') {
@@ -27,5 +28,5 @@ class AppServiceProvider extends ServiceProvider
         if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
             URL::forceScheme('https');
         }
-    }
+    }*/
 }

@@ -1,4 +1,4 @@
 <div>
     <x-head-bpm :title="'Liberacao Produtos'"/>
-    <a href="{{ route('home') }}">TESTE</a>
+    <a href="{{ secure_url(route('home')) }}">TESTE</a>
 </div>
