@@ -155,6 +155,7 @@ class ComposerStaticInit88970a0117c062eed55fa8728fc43833
         'D' => 
         array (
             'Dotenv\\' => 7,
+            'Domain\\' => 7,
             'Doctrine\\Inflector\\' => 19,
             'Doctrine\\Common\\Lexer\\' => 22,
             'Dflydev\\DotAccessData\\' => 22,
@@ -467,6 +468,10 @@ class ComposerStaticInit88970a0117c062eed55fa8728fc43833
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
         ),
+        'Domain\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/Domain',
+        ),
         'Doctrine\\Inflector\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector',
@@ -518,10 +523,13 @@ class ComposerStaticInit88970a0117c062eed55fa8728fc43833
 
     public static $classMap = array (
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\Empresa' => __DIR__ . '/../..' . '/app/Http/Controllers/Empresa.php',
         'App\\Http\\Controllers\\LiberacaoProdutos' => __DIR__ . '/../..' . '/app/Http/Controllers/LiberacaoProdutos.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\View\\Components\\Alert' => __DIR__ . '/../..' . '/app/View/Components/Alert.php',
+        'App\\View\\Components\\SelectCompany' => __DIR__ . '/../..' . '/app/View/Components/SelectCompany.php',
+        'App\\View\\Components\\navbar' => __DIR__ . '/../..' . '/app/View/Components/navbar.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Brick\\Math\\BigDecimal' => __DIR__ . '/..' . '/brick/math/src/BigDecimal.php',
         'Brick\\Math\\BigInteger' => __DIR__ . '/..' . '/brick/math/src/BigInteger.php',
@@ -725,6 +733,21 @@ class ComposerStaticInit88970a0117c062eed55fa8728fc43833
         'Doctrine\\Inflector\\Rules\\Word' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/Word.php',
         'Doctrine\\Inflector\\RulesetInflector' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/RulesetInflector.php',
         'Doctrine\\Inflector\\WordInflector' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/WordInflector.php',
+        'Domain\\Integrations\\ExecuteSeniorSoap' => __DIR__ . '/../..' . '/app/Domain/Integrations/ExecuteSeniorSoap.php',
+        'Domain\\Integrations\\SeniorSoapClient' => __DIR__ . '/../..' . '/app/Domain/Integrations/SeniorSoapClient.php',
+        'Domain\\Senior\\Exceptions\\IntegrationSoapSeniorException' => __DIR__ . '/../..' . '/app/Domain/Senior/Exceptions/IntegrationSoapSeniorException.php',
+        'Domain\\Senior\\Exceptions\\SeniorSessionExpiredException' => __DIR__ . '/../..' . '/app/Domain/Senior/Exceptions/SeniorSessionExpiredException.php',
+        'Domain\\Senior\\Services\\SeniorCompanyBranchService' => __DIR__ . '/../..' . '/app/Domain/Senior/Services/SeniorCompanyBranchService.php',
+        'Domain\\Senior\\Services\\SeniorFinalizeProductionOrdersService' => __DIR__ . '/../..' . '/app/Domain/Senior/Services/SeniorFinalizeProductionOrdersService.php',
+        'Domain\\Senior\\Services\\SeniorLoginService' => __DIR__ . '/../..' . '/app/Domain/Senior/Services/SeniorLoginService.php',
+        'Domain\\Senior\\Services\\SeniorOperatorsService' => __DIR__ . '/../..' . '/app/Domain/Senior/Services/SeniorOperatorsService.php',
+        'Domain\\Senior\\Services\\SeniorPacksService' => __DIR__ . '/../..' . '/app/Domain/Senior/Services/SeniorPacksService.php',
+        'Domain\\Senior\\Services\\SeniorPrintersService' => __DIR__ . '/../..' . '/app/Domain/Senior/Services/SeniorPrintersService.php',
+        'Domain\\Senior\\Services\\SeniorProductionOrdersService' => __DIR__ . '/../..' . '/app/Domain/Senior/Services/SeniorProductionOrdersService.php',
+        'Domain\\Senior\\Services\\SeniorResourceCenterService' => __DIR__ . '/../..' . '/app/Domain/Senior/Services/SeniorResourceCenterService.php',
+        'Domain\\Senior\\Services\\SeniorStorePacksService' => __DIR__ . '/../..' . '/app/Domain/Senior/Services/SeniorStorePacksService.php',
+        'Domain\\Senior\\Services\\SeniorStoreProductionOrderService' => __DIR__ . '/../..' . '/app/Domain/Senior/Services/SeniorStoreProductionOrderService.php',
+        'Domain\\User\\Services\\LogoutUserService' => __DIR__ . '/../..' . '/app/Domain/User/Services/LogoutUserService.php',
         'Dotenv\\Dotenv' => __DIR__ . '/..' . '/vlucas/phpdotenv/src/Dotenv.php',
         'Dotenv\\Exception\\ExceptionInterface' => __DIR__ . '/..' . '/vlucas/phpdotenv/src/Exception/ExceptionInterface.php',
         'Dotenv\\Exception\\InvalidEncodingException' => __DIR__ . '/..' . '/vlucas/phpdotenv/src/Exception/InvalidEncodingException.php',

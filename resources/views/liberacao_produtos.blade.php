@@ -9,6 +9,7 @@
 <body>
     <x-navbar />      
     <div class="flex-1 w-1/2">
+        <x-select-company/>
         <x-input
             label="Empresa"
             name="empresa"
