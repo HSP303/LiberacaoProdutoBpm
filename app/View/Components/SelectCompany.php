@@ -22,7 +22,7 @@ class SelectCompany extends Component
      */
     public function __construct()
     {
-        $this->branches = (new SeniorCompanyBranchService())->list(Auth::user());
+        $this->branches = [];//(new SeniorCompanyBranchService())->list(Auth::user());
         $this->branchSelected = Session::get('branch');
     }
 
