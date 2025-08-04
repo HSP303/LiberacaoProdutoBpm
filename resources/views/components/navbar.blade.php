@@ -21,7 +21,7 @@
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex space-x-4">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-            <a href="{{ route('home') }}" aria-current="page" class="rounded-md px-3 py-2 text-sm font-medium text-red-700">Liberação</a>
+            <a href="{{ route('liberacao.produtos.index', [], true) }}" aria-current="page" class="rounded-md px-3 py-2 text-sm font-medium text-red-700">Liberação</a>
             <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-red-700 hover:bg-gray-700 hover:text-white">Anexos</a>
           </div>
         </div>
