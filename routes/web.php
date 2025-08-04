@@ -1,8 +1,23 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LiberacaoProdutos;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {return view('liberacao_produtos');})->name('liberacao_produtos');
+Route::get('/', function () {
+    return view('welcome');
+});
 
-Route::get('/liberacao.produtos', [LiberacaoProdutos::class, 'index'])->name('liberacao.produtos.index');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::get('/liberacao.produto', [LiberacaoProdutos::class, 'index'])->name('liberacao.produtos.index');
+
+require __DIR__.'/auth.php';
