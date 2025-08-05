@@ -1,6 +1,6 @@
 <div class="mb-4">
     @if ($label)
-        <label for="{{ $name }}" class="block text-lg font-medium text-gray-700 ml-5 mb-3 mt-3">
+        <label for="{{ $name }}" class="block text-lg font-medium text-gray-700 mb-3 mt-3">
             {{ $label }}
         </label>
     @endif
