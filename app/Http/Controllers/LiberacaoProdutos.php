@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class LiberacaoProdutos extends Controller
 {
     public function index()
     {
-        return view('dashboard');
+        dd(Auth::user());
+        //return view('dashboard');
     }
 }

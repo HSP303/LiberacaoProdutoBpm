@@ -12,6 +12,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -28,13 +31,24 @@ class LoginController extends Controller
      * @return RedirectResponse
      * @throws ValidationException
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(Request $request)
     {
-        (new SeniorLoginService())->login(
-            $request->validated('username'), $request->validated('password')
-        );
+        $token = $_COOKIE['com.senior.token'];
+        dd($token->all());
+        /*
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+        ]);
 
-        return redirect()->route('dashboard');
+        Auth::login(User::UpdateOrCreate([
+            'name' => $request->name,
+        ], [
+            'name' => $request->name,
+            'email' => $request->email
+        ]));
+
+        return redirect()->route('dashboard');*/
     }
 
     public function destroy(Request $request): Application|Redirector|RedirectResponse
@@ -43,4 +57,5 @@ class LoginController extends Controller
 
         return redirect()->route('login');
     }
+
 }
