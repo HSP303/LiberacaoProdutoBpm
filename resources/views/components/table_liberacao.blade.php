@@ -14,16 +14,29 @@
                     style="left: 390px;">
                     Equipamento
                 </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Genre</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Duration</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rating</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Language</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Release Date
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cavidade 1
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cavidade 2
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cavidade 3
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cavidade 4
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cavidade 5
                 </th>
                 <th
                     class="sticky right-0 z-20 bg-gray-200 px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Producer
+                    <form class="max-w-sm mx-auto">
+                        <label for="Seleção"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Selecione</label>
+                        <select id="selecao"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option selected>Selecione a Opção</option>
+                            <option value="OK">OK</option>
+                            <option value="NOK">Não OK</option>
+                        </select>
+                    </form>
                 </th>
             </tr>
         </thead>
@@ -66,7 +79,7 @@
             </tr>
             <tr>
                 <td class="sticky left-0 z-10 bg-gray-100 px-6 py-4 whitespace-nowrap" style="left: 0px;">
-                    Shining Star 
+                    Shining Star
                 </td>
                 <td class="sticky z-10 bg-gray-100 px-6 py-4 whitespace-nowrap" style="left: 200px;">
                     Earth, Wind, and Fire
