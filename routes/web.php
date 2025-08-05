@@ -5,7 +5,11 @@ use App\Http\Controllers\LiberacaoProdutos;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 
-Route::get('/', [LoginController::class, 'store'])->name('welcome');
+//Route::get('/', [LoginController::class, 'store'])->name('welcome');
+
+Route::get('/', function () {
+    dd($_COOKIE);
+})->name('welcome');
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])->name('login');
