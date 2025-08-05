@@ -33,8 +33,8 @@ class LoginController extends Controller
      */
     public function store(Request $request)
     {
-        $token = $_COOKIE['com.senior.token'];
-        dd($token->all());
+        $token = $request->cookie();
+        dd($token);
         /*
         $request->validate([
             'name' => 'required',
