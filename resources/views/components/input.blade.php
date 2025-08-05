@@ -10,7 +10,7 @@
             type="{{ $type }}"
             name="{{ $name }}"
             id="{{ $name }}"
-            value="{{ old($name, $value) }}"
+            value="{{ $value }}"
             placeholder="{{ $placeholder }}"
             @if($required) required @endif
             class="border rounded p-2 w-full shadow-sm focus:ring focus:ring-blue-300 ml-5"
