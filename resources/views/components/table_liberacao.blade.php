@@ -26,17 +26,7 @@
                 </th>
                 <th
                     class="sticky right-0 z-20 bg-gray-200 px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    <form class="max-w-sm mx-auto">
-                        <label for="Seleção"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                            Selecione</label>
-                        <select id="selecao"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option selected>Selecione a Opção</option>
-                            <option value="OK">OK</option>
-                            <option value="NOK">Não OK</option>
-                        </select>
-                    </form>
+                    Seleção
                 </th>
             </tr>
         </thead>
@@ -57,7 +47,19 @@
                 <td class="px-6 py-4 whitespace-nowrap">4.5</td>
                 <td class="px-6 py-4 whitespace-nowrap">English</td>
                 <td class="px-6 py-4 whitespace-nowrap">1961-07-15</td>
-                <td class="sticky right-0 z-10 bg-gray-100 px-6 py-4 whitespace-nowrap">EMI</td>
+                <td class="sticky right-0 z-10 bg-gray-100 px-6 py-4 whitespace-nowrap">
+                    <form class="max-w-sm mx-auto">
+                        <label for="Seleção"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Selecione</label>
+                        <select id="selecao"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option selected>Selecione a Opção</option>
+                            <option value="OK">OK</option>
+                            <option value="NOK">Não OK</option>
+                        </select>
+                    </form>
+                </td>
             </tr>
             <tr>
                 <td class="sticky left-0 z-10 bg-gray-100 px-6 py-4 whitespace-nowrap" style="left: 0px;">
@@ -75,7 +77,19 @@
                 <td class="px-6 py-4 whitespace-nowrap">4.7</td>
                 <td class="px-6 py-4 whitespace-nowrap">English</td>
                 <td class="px-6 py-4 whitespace-nowrap">1972-11-08</td>
-                <td class="sticky right-0 z-10 bg-gray-100 px-6 py-4 whitespace-nowrap">Asylum Records</td>
+                <td class="sticky right-0 z-10 bg-gray-100 px-6 py-4 whitespace-nowrap">
+                    <form class="max-w-sm mx-auto">
+                        <label for="Seleção"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Selecione</label>
+                        <select id="selecao"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option selected>Selecione a Opção</option>
+                            <option value="OK">OK</option>
+                            <option value="NOK">Não OK</option>
+                        </select>
+                    </form>
+                </td>
             </tr>
             <tr>
                 <td class="sticky left-0 z-10 bg-gray-100 px-6 py-4 whitespace-nowrap" style="left: 0px;">
@@ -93,7 +107,19 @@
                 <td class="px-6 py-4 whitespace-nowrap">4.8</td>
                 <td class="px-6 py-4 whitespace-nowrap">English</td>
                 <td class="px-6 py-4 whitespace-nowrap">1975-05-21</td>
-                <td class="sticky right-0 z-10 bg-gray-100 px-6 py-4 whitespace-nowrap">Columbia</td>
+                <td class="sticky right-0 z-10 bg-gray-100 px-6 py-4 whitespace-nowrap">
+                    <form class="max-w-sm mx-auto">
+                        <label for="Seleção"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Selecione</label>
+                        <select id="selecao"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option selected>Selecione a Opção</option>
+                            <option value="OK">OK</option>
+                            <option value="NOK">Não OK</option>
+                        </select>
+                    </form>    
+                </td>
             </tr>
         </tbody>
     </table>
