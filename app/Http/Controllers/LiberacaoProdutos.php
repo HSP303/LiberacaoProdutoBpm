@@ -10,7 +10,6 @@ class LiberacaoProdutos extends Controller
 {
     public function index()
     {
-        dd(Auth::user());
-        //return view('dashboard');
+        return view('dashboard');
     }
 }
