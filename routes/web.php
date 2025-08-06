@@ -8,7 +8,7 @@ use App\Http\Controllers\LoginController;
 //Route::get('/', [LoginController::class, 'store'])->name('welcome');
 
 Route::get('/', function () {
-    return view('dashboard');
+    echo'\saascacsgacsGKLGHO';
 })->name('welcome');
 
 //Route::get('/', [LiberacaoProdutos::class, 'index'])->name('welcome');
