@@ -8,7 +8,7 @@ use App\Http\Controllers\LoginController;
 //Route::get('/', [LoginController::class, 'store'])->name('welcome');
 
 Route::get('/', function () {
-    echo'\saascacsgacsGKLGHO';
+    return view('welcome');
 })->name('welcome');
 
 //Route::get('/', [LiberacaoProdutos::class, 'index'])->name('welcome');
@@ -19,7 +19,7 @@ Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->name('dashboard');
+})->middleware(['auth', 'verified']) ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
