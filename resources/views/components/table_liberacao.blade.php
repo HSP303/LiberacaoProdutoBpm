@@ -16,13 +16,6 @@
                 </th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cavidade 1
                 </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cavidade 2
-                </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cavidade 3
-                </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cavidade 4
-                </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cavidade 5
                 </th>
                 <th class="sticky right-0 z-20 bg-gray-200 px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Seleção
@@ -41,10 +34,6 @@
                     1961
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">View</td>
-                <td class="px-6 py-4 whitespace-nowrap">Jazz</td>
-                <td class="px-6 py-4 whitespace-nowrap">3:45</td>
-                <td class="px-6 py-4 whitespace-nowrap">4.5</td>
-                <td class="px-6 py-4 whitespace-nowrap">English</td>
                 <td class="sticky right-0 z-10 bg-gray-100 px-6 py-4 whitespace-nowrap">
                     <form class="max-w-sm mx-auto">
                         <select id="selecao"
@@ -67,10 +56,6 @@
                     1972
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">View</td>
-                <td class="px-6 py-4 whitespace-nowrap">Rock</td>
-                <td class="px-6 py-4 whitespace-nowrap">4:10</td>
-                <td class="px-6 py-4 whitespace-nowrap">4.7</td>
-                <td class="px-6 py-4 whitespace-nowrap">English</td>
                 <td class="sticky right-0 z-10 bg-gray-100 px-6 py-4 whitespace-nowrap">
                     <form class="max-w-sm mx-auto">
                         <select id="selecao"
@@ -93,10 +78,6 @@
                     1975
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">View</td>
-                <td class="px-6 py-4 whitespace-nowrap">Funk</td>
-                <td class="px-6 py-4 whitespace-nowrap">3:20</td>
-                <td class="px-6 py-4 whitespace-nowrap">4.8</td>
-                <td class="px-6 py-4 whitespace-nowrap">English</td>
                 <td class="sticky right-0 z-10 bg-gray-100 px-6 py-4 whitespace-nowrap">
                     <form class="max-w-sm mx-auto">
                         <select id="selecao"
