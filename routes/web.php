@@ -7,11 +7,11 @@ use App\Http\Controllers\LoginController;
 
 //Route::get('/', [LoginController::class, 'store'])->name('welcome');
 
-/*Route::get('/', function () {
-    dd($_COOKIE);
-})->name('welcome');*/
+Route::get('/', function () {
+    return view('dashboard');
+})->name('welcome');
 
-Route::get('/', [LiberacaoProdutos::class, 'index'])->name('welcome');
+//Route::get('/', [LiberacaoProdutos::class, 'index'])->name('welcome');
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])->name('login');
