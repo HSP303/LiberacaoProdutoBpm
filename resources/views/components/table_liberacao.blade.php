@@ -14,8 +14,11 @@
                     style="left: 390px;">
                     Equipamento
                 </th>
+
+               
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cavidade 1
                 </th>
+
                 </th>
                 <th class="sticky right-0 z-20 bg-gray-200 px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Seleção

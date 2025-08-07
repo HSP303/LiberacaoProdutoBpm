@@ -5,13 +5,13 @@ use App\Http\Controllers\LiberacaoProdutos;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 
-//Route::get('/', [LoginController::class, 'store'])->name('welcome');
 
-/*Route::get('/', function () {
-    return view('dashboard');
-})->name('welcome');*/
+Route::get('/home', [LiberacaoProdutos::class, 'index'])->name('dashboard.index');
 
-Route::get('/', [LiberacaoProdutos::class, 'index'])->name('dashboard');
+//INSERIR REGISTROS LIBERACAO PRODUTOS
+Route::post('/liberacao-produtos', [LiberacaoProdutos::class, 'store'])->name('liberacao-produtos.store');
+Route::put('/liberacao-produtos/{id}', [LiberacaoProdutos::class, 'update'])->name('liberacao-produtos.update');
+
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])->name('login');
@@ -26,5 +26,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 
 require __DIR__.'/auth.php';
