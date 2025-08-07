@@ -98,20 +98,83 @@
                                                     'Cair de uma altura de 1.5m por 03 vezes e continuar atendendo os requisitos acima',
                                                     'Aparência visual',
                                                     'Teste de Campo ( Mínimo 15 dias )',
-                                                    'Outro (detalhar)'
+                                                    'Outro (detalhar)',
+                                                    'Teste Prático',
+                                                    'Verificar se os tratamentos estão de acordo com as especificações. (para produto final)',
+                                                    'Teste de queda (Conforme especificado)',
+                                                    'Teste de vida útil. (Conforme especificado)'
                                                 ];
+
+                                                $itensBanco = [
+                                                    'interferencia_montagem',
+                                                    'folga_componentes',
+                                                    'aparencia',
+                                                    'outro_cinco',
+                                                    'impedir_desmontagem',
+                                                    'introducao_funcionamento',
+                                                    'giro_livre',
+                                                    'funcionamento_valvula',
+                                                    'introducao_bocal',
+                                                    'retirada_bocal',
+                                                    'estanqueidade',
+                                                    'altura_requisitos',
+                                                    'aparencia_visual',
+                                                    'teste_campo',
+                                                    'outro_tres',
+                                                    'teste_pratico',
+                                                    'tratamentos_especificacoes',
+                                                    'teste_queda',
+                                                    'teste_vida',
+                                                ];
+
+                                                $itensOk = [
+                                                    'ok_interferencia_montagem',
+                                                    'ok_folga_componentes',
+                                                    'ok_aparencia',
+                                                    'ok_outro_cinco',
+                                                    'ok_impedir_desmontagem',
+                                                    'ok_introducao_funcionamento',
+                                                    'ok_giro_livre',
+                                                    'ok_funcionamento_valvula',
+                                                    'ok_introducao_bocal',
+                                                    'ok_retirada_bocal',
+                                                    'ok_estanqueidade',
+                                                    'ok_altura_requisitos',
+                                                    'ok_aparencia_visual',
+                                                    'ok_teste_campo',
+                                                    'ok_outro_tres',
+                                                    'ok_teste_pratico',
+                                                    'ok_tratamentos_especificacoes',
+                                                    'ok_teste_queda',
+                                                    'ok_teste_vida',
+                                                ]
+
+
                                             @endphp
 
                                             @foreach ($itens as $index => $item)
                                                 <tr class="{{ $index % 2 === 0 ? 'bg-white' : 'bg-gray-50' }}">
                                                     <td class="border px-4 py-2">{{ $item }}</td>
                                                     <td class="border px-4 py-2">
-                                                        <x-input label="" name="observacao_{{ $index }}" type="text"
-                                                            placeholder="Digite aqui" />
+                                                        <x-input label="" name="{{ $itensBanco[$index] }}" type="text"
+                                                            placeholder="{{ $liberacao->{$itensBanco[$index]} ?? $item}}" />
                                                     </td>
                                                     <td class="border px-4 py-2">
-                                                        <x-input label="" name="status_{{ $index }}" type="text"
-                                                            placeholder="Status" />
+                                                        <select id="{{ $itensOk[$index] }}" name="{{ $itensOk[$index] }}"
+                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                            @php
+                                                                $valorAtual = $liberacao->{$itensOk[$index]} ?? '';
+                                                            @endphp
+
+                                                            <option value="" {{ $valorAtual === '' ? 'selected' : '' }}
+                                                                disabled>Selecione a Opção</option>
+                                                            <option value="OK" {{ $valorAtual === 'OK' ? 'selected' : '' }}>OK
+                                                            </option>
+                                                            <option value="NOK" {{ $valorAtual === 'NOK' ? 'selected' : '' }}>
+                                                                Não OK</option>
+                                                            <option value="NA" {{ $valorAtual === 'NA' ? 'selected' : '' }}>
+                                                                N/A</option>
+                                                        </select>
                                                     </td>
                                                 </tr>
                                             @endforeach

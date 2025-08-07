@@ -44,25 +44,25 @@ return new class extends Migration {
             $table->date('data_analise')->nullable();
 
             // Campos OK_
-            $table->string('Ok_interferencia_montagem')->nullable();
-            $table->string('Ok_folga_componentes')->nullable();
-            $table->string('Ok_teste_pratico')->nullable();
-            $table->string('Ok_aparencia')->nullable();
-            $table->string('Ok_tratamentos_especificacoes')->nullable();
-            $table->string('Ok_teste_queda')->nullable();
-            $table->string('Ok_teste_vida')->nullable();
-            $table->string('Ok_outro_cinco')->nullable();
-            $table->string('Ok_impedir_desmontagem')->nullable();
-            $table->string('Ok_introducao_funcionamento')->nullable();
-            $table->string('Ok_giro_livre')->nullable();
-            $table->string('Ok_funcionamento_valvula')->nullable();
-            $table->string('Ok_introducao_bocal')->nullable();
-            $table->string('Ok_retirada_bocal')->nullable();
-            $table->string('Ok_estanqueidade')->nullable();
-            $table->string('Ok_altura_requisitos')->nullable();
-            $table->string('Ok_aparencia_visual')->nullable();
-            $table->string('Ok_teste_campo')->nullable();
-            $table->string('Ok_outro_tres')->nullable();
+            $table->string('ok_interferencia_montagem')->nullable();
+            $table->string('ok_folga_componentes')->nullable();
+            $table->string('ok_teste_pratico')->nullable();
+            $table->string('ok_aparencia')->nullable();
+            $table->string('ok_tratamentos_especificacoes')->nullable();
+            $table->string('ok_teste_queda')->nullable();
+            $table->string('ok_teste_vida')->nullable();
+            $table->string('ok_outro_cinco')->nullable();
+            $table->string('ok_impedir_desmontagem')->nullable();
+            $table->string('ok_introducao_funcionamento')->nullable();
+            $table->string('ok_giro_livre')->nullable();
+            $table->string('ok_funcionamento_valvula')->nullable();
+            $table->string('ok_introducao_bocal')->nullable();
+            $table->string('ok_retirada_bocal')->nullable();
+            $table->string('ok_estanqueidade')->nullable();
+            $table->string('ok_altura_requisitos')->nullable();
+            $table->string('ok_aparencia_visual')->nullable();
+            $table->string('ok_teste_campo')->nullable();
+            $table->string('ok_outro_tres')->nullable();
 
             $table->timestamps();
         });
