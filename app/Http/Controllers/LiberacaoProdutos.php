@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\LiberacaoProduto;
+use App\Models\ItemLiberacao;
 use Illuminate\Support\Facades\Auth;
+use function Laravel\Prompts\select;
 
 
 class LiberacaoProdutos extends Controller
@@ -13,15 +15,26 @@ class LiberacaoProdutos extends Controller
     {
         $idLiberacao = $request->query('id');
         $liberacao = null;
+        $itensLiberacao = [];
+
+        $liberacoes = LiberacaoProduto::select('id', 'empresa', 'produto', 'created_at')->get();
 
         if ($idLiberacao) {
             $liberacao = LiberacaoProduto::find($idLiberacao);
-
-            return view('dashboard', compact('liberacao'));
-        } else {
-
-            return view('dashboard');
+            $itensLiberacao = ItemLiberacao::where('id', $idLiberacao)->select('id','id_item','especificado','equipamento','resultado')->get();
         }
+
+        // Sempre retorne a view com todas as variáveis necessárias
+        return view('dashboard', [
+            'liberacao' => $liberacao,
+            'liberacoes' => $liberacoes,
+            'itensLiberacao' => $itensLiberacao
+        ]);
+    }
+    public function getIds(Request $request)
+    {
+        $idsLiberacoes = LiberacaoProduto::pluck('id');
+        return view('dashboard.index', compact('idsLiberacoes'));
     }
 
     public function store(Request $request)
@@ -73,7 +86,7 @@ class LiberacaoProdutos extends Controller
             'ok_teste_queda' => 'nullable|string',
             'ok_teste_vida' => 'nullable|string',
         ]);
-        
+
         // Armazena a instância criada
         $liberacao = LiberacaoProduto::create($validated);
 

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LiberacaoProdutos;
+use App\Http\Controllers\ItemLiberacaoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 
@@ -11,6 +12,9 @@ Route::get('/home', [LiberacaoProdutos::class, 'index'])->name('dashboard.index'
 //INSERIR REGISTROS LIBERACAO PRODUTOS
 Route::post('/liberacao-produtos', [LiberacaoProdutos::class, 'store'])->name('liberacao-produtos.store');
 Route::put('/liberacao-produtos/{id}', [LiberacaoProdutos::class, 'update'])->name('liberacao-produtos.update');
+Route::get('/liberacoes/ids', [LiberacaoProdutos::class, 'getIds'])->name('liberacoes.ids');
+
+Route::post('/itens-liberacao', [ItemLiberacaoController::class, 'store'])->name('itens-liberacao.store');
 
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
