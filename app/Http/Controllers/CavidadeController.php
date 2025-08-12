@@ -17,7 +17,7 @@ class CavidadeController extends Controller
 
         // Busca o último registro para esse id e id_item
         $ultimoRegistro = CavidadeLiberacao::where('id', $idLib)
-            ->orderByDesc('id') // ou pelo campo de data se preferir
+            ->orderByDesc('id_cavidade') // ou pelo campo de data se preferir
             ->select('descricao')
             ->first();
 
@@ -45,7 +45,7 @@ class CavidadeController extends Controller
             'maximo' => $maximo,
         ]);
 
-        return redirect()->route('dashboard.index', ['id' => $idLib, 'id_item' => $idItem, 'code' => 201])
+        return redirect()->route('dashboard.index', ['id' => $idLib, 'id_item' => $idItem, 'id_cavidade' => $proximo, 'code' => 201])
             ->with(['success' => 'Produto liberado com sucesso!', 'status_code' => 201]);
     }
 

@@ -56,9 +56,9 @@
                                             @foreach($liberacoes as $item)
                                                 <tr class="hover:bg-gray-50"
                                                     x-show="
-                                                                {{ json_encode((string) $item->produto ?? '') }}.toLowerCase().includes(filtroProduto.toLowerCase()) &&
-                                                                {{ json_encode((string) $item->empresa ?? '') }}.toLowerCase().includes(filtroEmpresa.toLowerCase())
-                                                                                                                                ">
+                                                                            {{ json_encode((string) $item->produto ?? '') }}.toLowerCase().includes(filtroProduto.toLowerCase()) &&
+                                                                            {{ json_encode((string) $item->empresa ?? '') }}.toLowerCase().includes(filtroEmpresa.toLowerCase())
+                                                                                                                                            ">
                                                     <td class="border px-2 py-1">{{ $item->id }}</td>
                                                     <td class="border px-2 py-1">{{ $item->empresa ?? '-' }}</td>
                                                     <td class="border px-2 py-1">{{ $item->produto ?? '-' }}</td>
@@ -364,17 +364,18 @@
                                             class="sticky left-[55px] z-20 bg-gray-200 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[150px]">
                                             Especificado
                                         </th>
+
                                         <th
                                             class="sticky left-[190px] z-20 bg-gray-200 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[150px]">
                                             Equipamento
                                         </th>
 
-
-                                        <th
-                                            class="sticky left-[190px] z-20 bg-gray-200 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[150px]">
-                                            Cavidade 1
-                                        </th>
-
+                                        @foreach ($cavidadesLiberacao as $cavidade)
+                                            <th
+                                                class="sticky left-[190px] z-20 bg-gray-200 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[150px]">
+                                                {{ $cavidade->descricao }}
+                                            </th>
+                                        @endforeach
 
                                         <th
                                             class="sticky right-[80px] z-20 bg-gray-200 w-[200px] px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -403,10 +404,13 @@
                                             </td>
 
 
-                                            <td class="px-6 py-4 whitespace-nowrap w-[150px]">
-                                                vcxcvvcv
-                                            </td>
-
+                                            @foreach ($itensCavidadesLiberacao as $itemCavidade)
+                                                <form action="">
+                                                    <td class="px-6 py-4 whitespace-nowrap w-[150px]">
+                                                        {{ $itemCavidade->minimo }} {{ $itemCavidade->maximo }}
+                                                    </td>        
+                                                </form>
+                                            @endforeach
 
                                             <td
                                                 class="sticky right-[100px] z-10 bg-white w-[100px] px-6 py-4 whitespace-nowrap">

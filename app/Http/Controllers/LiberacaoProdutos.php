@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\LiberacaoProduto;
 use App\Models\ItemLiberacao;
 use App\Models\CavidadeLiberacao;
+use App\Models\ItemCavidadeLiberacao;
 use Illuminate\Support\Facades\Auth;
 use function Laravel\Prompts\select;
 
@@ -19,7 +20,6 @@ class LiberacaoProdutos extends Controller
         $liberacao = null;
         $itensLiberacao = collect();
         $cavidadesLiberacao = collect();
-        $cabecalhoCavidades = collect();
 
         $liberacoes = LiberacaoProduto::select('id', 'empresa', 'produto', 'created_at')->get();
 
@@ -30,13 +30,24 @@ class LiberacaoProdutos extends Controller
                 ->select('id', 'id_item', 'especificado', 'equipamento', 'resultado')
                 ->get();
 
-            $idItens = $itensLiberacao->pluck('id_item');
+            $idItem = $itensLiberacao->first()->id_item ?? null;
+            
+
+            $cavidadesLiberacao = CavidadeLiberacao::where('id', $idLiberacao)
+                ->select('id', 'id_cavidade', 'descricao')->get();
+
+            $itensCavidadeLiberacao = ItemCavidadeLiberacao::where('id', $idLiberacao)
+                ->where('id_item', $idItem)
+                ->select('id', 'id_item', 'id_cavidade', 'minimo', 'maximo')
+                ->get();
         }
 
         return view('dashboard', [
             'liberacao' => $liberacao,
             'liberacoes' => $liberacoes,
             'itensLiberacao' => $itensLiberacao,
+            'cavidadesLiberacao' => $cavidadesLiberacao,
+            'itensCavidadesLiberacao' => $itensCavidadeLiberacao,
         ]);
     }
 
