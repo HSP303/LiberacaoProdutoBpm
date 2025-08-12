@@ -31,31 +31,12 @@ class LiberacaoProdutos extends Controller
                 ->get();
 
             $idItens = $itensLiberacao->pluck('id_item');
-
-            $cavidadesLiberacao = CavidadeLiberacao::where('id', $idLiberacao)
-                ->whereIn('id_item', $idItens)
-                ->select('id', 'id_item', 'id_cavidade', 'descricao', 'minimo', 'maximo')
-                ->get();
-
-            // 1) pegar todas as descrições, remover duplicadas e reindexar
-            $descricoes = $cavidadesLiberacao->pluck('descricao')->unique()->values();
-
-            // 2) ordenar pelo número no fim da string (Cavidade 1, Cavidade 2, ...)
-            $descricoes = $descricoes->sortBy(function ($d) {
-                preg_match('/\d+$/', $d, $m);
-                return isset($m[0]) ? (int) $m[0] : 0;
-            })->values();
-
-            // 3) mapear para objetos com propriedade descricao (opcional, para manter interface na view)
-            $cabecalhoCavidades = $descricoes->map(fn($d) => (object) ['descricao' => $d]);
         }
 
         return view('dashboard', [
             'liberacao' => $liberacao,
             'liberacoes' => $liberacoes,
             'itensLiberacao' => $itensLiberacao,
-            'cavidadesLiberacao' => $cavidadesLiberacao,
-            'cabecalhoCavidades' => $cabecalhoCavidades,
         ]);
     }
 

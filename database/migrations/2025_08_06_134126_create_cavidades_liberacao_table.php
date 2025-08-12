@@ -11,16 +11,16 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('cavidades_liberacao', function (Blueprint $table) {
-            $table->unsignedBigInteger('id'); // FK para itens_liberacao.id
-            $table->unsignedBigInteger('id_item'); // FK para itens_liberacao.id_item
+            $table->unsignedBigInteger('id'); // FK para liberacao_produtos.id
             $table->unsignedBigInteger('id_cavidade'); // PK da tabela
             $table->string('descricao')->nullable();
-            $table->string('minimo')->nullable();
-            $table->string('maximo')->nullable();
 
-            $table->primary(['id', 'id_item', 'id_cavidade']);
+            $table->primary(['id', 'id_cavidade']);
 
-            $table->foreign(['id', 'id_item'])->references(['id', 'id_item'])->on('itens_liberacao')->onDelete('cascade');
+            $table->foreign('id')
+                ->references('id')
+                ->on('liberacao_produtos')
+                ->onDelete('cascade');
         });
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\CavidadeLiberacao;
+use App\Models\ItemCavidadeLiberacao;
 
 class CavidadeController extends Controller
 {
@@ -16,7 +17,6 @@ class CavidadeController extends Controller
 
         // Busca o último registro para esse id e id_item
         $ultimoRegistro = CavidadeLiberacao::where('id', $idLib)
-            ->where('id_item', $idItem)
             ->orderByDesc('id') // ou pelo campo de data se preferir
             ->select('descricao')
             ->first();
@@ -33,9 +33,14 @@ class CavidadeController extends Controller
 
         CavidadeLiberacao::create([
             'id' => $idLib,
-            'id_item' => $idItem,
             'id_cavidade' => $proximo,
             'descricao' => $novaDescricao,
+        ]);
+
+        ItemCavidadeLiberacao::create([
+            'id'=> $idLib,
+            'id_item' => $idItem,
+            'id_cavidade' => $proximo,
             'minimo' => $minimo,
             'maximo' => $maximo,
         ]);
