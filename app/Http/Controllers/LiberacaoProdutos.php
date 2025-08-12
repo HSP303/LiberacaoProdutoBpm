@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\LiberacaoProduto;
 use App\Models\ItemLiberacao;
+use App\Models\CavidadeLiberacao;
 use Illuminate\Support\Facades\Auth;
 use function Laravel\Prompts\select;
 
@@ -14,23 +15,50 @@ class LiberacaoProdutos extends Controller
     public function index(Request $request)
     {
         $idLiberacao = $request->query('id');
+
         $liberacao = null;
-        $itensLiberacao = [];
+        $itensLiberacao = collect();
+        $cavidadesLiberacao = collect();
+        $cabecalhoCavidades = collect();
 
         $liberacoes = LiberacaoProduto::select('id', 'empresa', 'produto', 'created_at')->get();
 
         if ($idLiberacao) {
             $liberacao = LiberacaoProduto::find($idLiberacao);
-            $itensLiberacao = ItemLiberacao::where('id', $idLiberacao)->select('id','id_item','especificado','equipamento','resultado')->get();
+
+            $itensLiberacao = ItemLiberacao::where('id', $idLiberacao)
+                ->select('id', 'id_item', 'especificado', 'equipamento', 'resultado')
+                ->get();
+
+            $idItens = $itensLiberacao->pluck('id_item');
+
+            $cavidadesLiberacao = CavidadeLiberacao::where('id', $idLiberacao)
+                ->whereIn('id_item', $idItens)
+                ->select('id', 'id_item', 'id_cavidade', 'descricao', 'minimo', 'maximo')
+                ->get();
+
+            // 1) pegar todas as descrições, remover duplicadas e reindexar
+            $descricoes = $cavidadesLiberacao->pluck('descricao')->unique()->values();
+
+            // 2) ordenar pelo número no fim da string (Cavidade 1, Cavidade 2, ...)
+            $descricoes = $descricoes->sortBy(function ($d) {
+                preg_match('/\d+$/', $d, $m);
+                return isset($m[0]) ? (int) $m[0] : 0;
+            })->values();
+
+            // 3) mapear para objetos com propriedade descricao (opcional, para manter interface na view)
+            $cabecalhoCavidades = $descricoes->map(fn($d) => (object) ['descricao' => $d]);
         }
 
-        // Sempre retorne a view com todas as variáveis necessárias
         return view('dashboard', [
             'liberacao' => $liberacao,
             'liberacoes' => $liberacoes,
-            'itensLiberacao' => $itensLiberacao
+            'itensLiberacao' => $itensLiberacao,
+            'cavidadesLiberacao' => $cavidadesLiberacao,
+            'cabecalhoCavidades' => $cabecalhoCavidades,
         ]);
     }
+
     public function getIds(Request $request)
     {
         $idsLiberacoes = LiberacaoProduto::pluck('id');

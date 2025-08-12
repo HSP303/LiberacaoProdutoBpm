@@ -55,9 +55,9 @@
                                         <tbody>
                                             @foreach($liberacoes as $item)
                                                 <tr class="hover:bg-gray-50" x-show="
-                                                                                                                {{ json_encode((string) $item->produto ?? '') }}.toLowerCase().includes(filtroProduto.toLowerCase()) &&
-                                                                                                                {{ json_encode((string) $item->empresa ?? '') }}.toLowerCase().includes(filtroEmpresa.toLowerCase())
-                                                                                                            ">
+                                                                                                                            {{ json_encode((string) $item->produto ?? '') }}.toLowerCase().includes(filtroProduto.toLowerCase()) &&
+                                                                                                                            {{ json_encode((string) $item->empresa ?? '') }}.toLowerCase().includes(filtroEmpresa.toLowerCase())
+                                                                                                                        ">
                                                     <td class="border px-2 py-1">{{ $item->id }}</td>
                                                     <td class="border px-2 py-1">{{ $item->empresa ?? '-' }}</td>
                                                     <td class="border px-2 py-1">{{ $item->produto ?? '-' }}</td>
@@ -368,10 +368,12 @@
                                             Equipamento
                                         </th>
 
-                                        <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[150px]">
-                                            Cavidade 1
-                                        </th>
+                                        @foreach ($cabecalhoCavidades as $cabecalho)
+                                            <th
+                                                class="sticky left-[190px] z-20 bg-gray-200 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[150px]">
+                                                {{ $cabecalho->descricao }}
+                                            </th>
+                                        @endforeach
 
                                         <th
                                             class="sticky right-[80px] z-20 bg-gray-200 w-[200px] px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -398,9 +400,13 @@
                                                 class="sticky left-[250px] z-10 bg-white px-6 py-4 whitespace-nowrap w-[150px]">
                                                 {{ $itens->equipamento }}
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap w-[150px]">
-                                                {{ $itens->equipamento }}
-                                            </td>
+
+                                            @foreach ($cavidadesLiberacao as $cavidades)
+                                                <td class="px-6 py-4 whitespace-nowrap w-[150px]">
+                                                    vcxcvvcv
+                                                </td>
+                                            @endforeach
+
                                             <td
                                                 class="sticky right-[100px] z-10 bg-white w-[100px] px-6 py-4 whitespace-nowrap">
                                                 <form>
@@ -415,7 +421,10 @@
                                             <td
                                                 class="sticky right-0 z-10 bg-white w-[200px] px-6 py-4 whitespace-nowrap text-right">
                                                 <div class="flex justify-end gap-2 w-full">
-                                                    <form action="">
+                                                    <form action="{{ route('cavidades-liberacao.store') }}" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="id" value="{{ $itens->id }}">
+                                                        <input type="hidden" name="id_item" value="{{ $itens->id_item }}">
                                                         <button
                                                             class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
                                                             + Cavidade
@@ -423,7 +432,8 @@
                                                     </form>
                                                     <form action="">
                                                         <button
-                                                            class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                                                            class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                                                            method="POST">
                                                             Excluir Item
                                                         </button>
                                                     </form>

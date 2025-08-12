@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CavidadeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LiberacaoProdutos;
 use App\Http\Controllers\ItemLiberacaoController;
@@ -14,7 +15,11 @@ Route::post('/liberacao-produtos', [LiberacaoProdutos::class, 'store'])->name('l
 Route::put('/liberacao-produtos/{id}', [LiberacaoProdutos::class, 'update'])->name('liberacao-produtos.update');
 Route::get('/liberacoes/ids', [LiberacaoProdutos::class, 'getIds'])->name('liberacoes.ids');
 
+// INSERIR ITENS DA LIBERAÇÃO 
 Route::post('/itens-liberacao', [ItemLiberacaoController::class, 'store'])->name('itens-liberacao.store');
+
+// INSERIR CAVIDADES
+Route::post('/cavidades-liberacao', [CavidadeController::class, 'store'])->name('cavidades-liberacao.store');
 
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
