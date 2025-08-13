@@ -3,6 +3,9 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Liberacao de Produtos') }}
         </h2>
+        <script>
+            alert("Teste:", document.cookie)
+        </script>
     </x-slot>
 
 
