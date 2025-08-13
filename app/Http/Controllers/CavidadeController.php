@@ -14,7 +14,7 @@ class CavidadeController extends Controller
         $idItem = $request->id_item;
         $minimo = 0;
         $maximo = 0;
-
+        $okokoko = 0;
         // Busca o último registro para esse id e id_item
         $ultimoRegistro = CavidadeLiberacao::where('id', $idLib)
             ->orderByDesc('id_cavidade') // ou pelo campo de data se preferir
