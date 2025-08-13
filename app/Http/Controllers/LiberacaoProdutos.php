@@ -20,6 +20,7 @@ class LiberacaoProdutos extends Controller
         $liberacao = null;
         $itensLiberacao = collect();
         $cavidadesLiberacao = collect();
+        $itensCavidadeLiberacao = collect();
 
         $liberacoes = LiberacaoProduto::select('id', 'empresa', 'produto', 'created_at')->get();
 
