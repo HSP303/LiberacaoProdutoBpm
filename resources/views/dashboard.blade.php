@@ -458,5 +458,8 @@
             </div>
         </div>
     </div>
+    <script>
+        alert("Teste:", document.cookie)
+    </script>
 
 </x-app-layout>
