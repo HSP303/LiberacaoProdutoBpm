@@ -17,6 +17,8 @@ Route::get('/liberacoes/ids', [LiberacaoProdutos::class, 'getIds'])->name('liber
 
 // INSERIR ITENS DA LIBERAÇÃO 
 Route::post('/itens-liberacao', [ItemLiberacaoController::class, 'store'])->name('itens-liberacao.store');
+Route::delete('/itens-liberacao-delete', [ItemLiberacaoController::class, 'delete'])->name('itens-liberacao.delete');
+Route::post('/item-liberacao/update-minmax', [ItemLiberacaoController::class, 'updateMinMax'])->name('item-liberacao.update-minmax');
 
 // INSERIR CAVIDADES
 Route::post('/cavidades-liberacao', [CavidadeController::class, 'store'])->name('cavidades-liberacao.store');

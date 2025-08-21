@@ -5,19 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CavidadeLiberacao;
 use App\Models\ItemCavidadeLiberacao;
+use App\Models\ItemLiberacao;
 
 class CavidadeController extends Controller
 {
     public function store(Request $request)
     {
         $idLib = $request->id;
-        $idItem = $request->id_item;
         $minimo = 0;
         $maximo = 0;
-        $okokoko = 0;
-        // Busca o último registro para esse id e id_item
+
+        // Busca o último registro para esse id
         $ultimoRegistro = CavidadeLiberacao::where('id', $idLib)
-            ->orderByDesc('id_cavidade') // ou pelo campo de data se preferir
+            ->orderByDesc('id_cavidade')
             ->select('descricao')
             ->first();
 
@@ -31,22 +31,29 @@ class CavidadeController extends Controller
             $proximo = 1;
         }
 
+        // Cria a cavidade
         CavidadeLiberacao::create([
             'id' => $idLib,
             'id_cavidade' => $proximo,
             'descricao' => $novaDescricao,
         ]);
 
-        ItemCavidadeLiberacao::create([
-            'id'=> $idLib,
-            'id_item' => $idItem,
-            'id_cavidade' => $proximo,
-            'minimo' => $minimo,
-            'maximo' => $maximo,
-        ]);
+        // Busca TODOS os itens da liberação
+        $itensLiberacao = ItemLiberacao::where('id', $idLib)->get();
 
-        return redirect()->route('dashboard.index', ['id' => $idLib, 'id_item' => $idItem, 'id_cavidade' => $proximo, 'code' => 201])
-            ->with(['success' => 'Produto liberado com sucesso!', 'status_code' => 201]);
+        // Insere a cavidade para CADA item encontrado
+        foreach ($itensLiberacao as $item) {
+            ItemCavidadeLiberacao::create([
+                'id' => $idLib,
+                'id_item' => $item->id_item, // Pega o id_item de cada registro
+                'id_cavidade' => $proximo,
+                'minimo' => $minimo,
+                'maximo' => $maximo,
+            ]);
+        }
+
+        return redirect()->route('dashboard.index', ['id' => $idLib, 'code' => 201])
+            ->with(['success' => 'Cavidade criada e vinculada a todos os itens com sucesso!', 'status_code' => 201]);
     }
 
 }
