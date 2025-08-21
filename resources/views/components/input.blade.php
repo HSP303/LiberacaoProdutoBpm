@@ -11,7 +11,7 @@
             name="{{ $name }}"
             id="{{ $name }}"
             placeholder="{{ $placeholder }}"
-            class="border rounded p-2 w-full shadow-sm focus:ring focus:ring-blue-300"
+            class="border rounded p-2 w-full shadow-sm focus:ring focus:ring-blue-300 text-black"
         >
     </div>
 </div>
