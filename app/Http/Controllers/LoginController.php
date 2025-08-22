@@ -53,7 +53,9 @@ class LoginController extends Controller
         ]);
 
         $data = json_decode($response->getBody()->getContents(), true);
-
+        
+        dd($data['username']);
+        
         Auth::login(User::updateOrCreate(
             [
                 'name' => $data['username'], // array key
