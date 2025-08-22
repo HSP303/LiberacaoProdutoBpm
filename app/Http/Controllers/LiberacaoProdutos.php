@@ -25,7 +25,7 @@ class LiberacaoProdutos extends Controller
         $this->client = new Client();
 
         $response = $this->client->request('POST', 'https://platform.senior.com.br/t/senior.com.br/bridge/1.0/rest/platform/conector/actions/invoke', [
-            'inputData' => [
+            'json' => [
                 'server'=> 'https://senior.gramserv.com.br:8081',
                 'rootObject' => '',
                 'service' => 'com.avs.SeniorX',
