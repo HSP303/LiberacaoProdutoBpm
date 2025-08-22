@@ -541,7 +541,7 @@
         });
 
         document.addEventListener('DOMContentLoaded', function () {
-            const empresaSelect = document.getElementById('codemp');
+            const empresaSelect = document.getElementById('empresa');
 
             empresaSelect.addEventListener('change', function () {
                 const empresaId = this.value;
@@ -551,7 +551,7 @@
                     return;
                 }
 
-                fetch("{{ route('buscar.produtos') }}", {
+                fetch("{{ route('buscar.produtos', $empresaId) }}", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
