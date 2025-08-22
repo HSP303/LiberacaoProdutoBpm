@@ -51,37 +51,7 @@ class LiberacaoProdutos extends Controller
         ]);
 
         $responseDataEmpresa = json_decode($response->getBody()->getContents(), true);
-
         $empresas = $responseDataEmpresa['outputData']['empresas'];
-
-        // BUSCA DADOS DO PRODUTO
-        $this->client = new Client();
-        $response = $this->client->request('POST', 'https://platform.senior.com.br/t/senior.com.br/bridge/1.0/rest/platform/conector/actions/invoke', [
-            'json' => [
-                'inputData' => [
-                    'server' => 'https://senior.gramserv.com.br:8081',
-                    'rootObject' => '',
-                    'service' => 'com.avs.SeniorX',
-                    'module' => 'sapiens',
-                    'encryption' => '0',
-                    'port' => 'BuscaProduto',
-                    'despro' => '',
-                    'codemp' => $empSelecionada,
-                    'codpro' => '',
-                    'top' => '500000',
-                    'skip' => '0',
-                ],
-                'id' => 'f2200c3b-c7df-4040-9613-34f697b75889',
-                'configurationId' => '7afdb58f-a138-4005-b3f2-f9d9f124459a',
-            ],
-            'headers' => [
-                'Accept' => 'application/json',
-                'Authorization' => $bearer,
-            ]
-        ]);
-
-        $responseDataProduto = json_decode($response->getBody()->getContents(), true);
-        $produtos = $responseDataProduto['outputData']['contents']['produtos'];
 
 
         $liberacoes = LiberacaoProduto::select('id', 'empresa', 'produto', 'created_at')->get();
