@@ -122,7 +122,7 @@
 
                         <datalist id="listaEmpresas">
                             @foreach($empresas as $empresa)
-                                <option value="{{ $empresa['nome'] ?? '' }}"></option>
+                                <option value="{{ $empresa->nome ?? '' }}"></option>
                             @endforeach
                         </datalist>
 
