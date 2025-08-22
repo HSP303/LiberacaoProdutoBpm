@@ -20,7 +20,8 @@ class LiberacaoProdutos extends Controller
         
         $token = $user->token;
 
-        dd($token);
+        $bearer = 'Bearer ' + $token;
+
         $this->client = new Client();
 
         $response = $this->client->request('POST', 'https://platform.senior.com.br/t/senior.com.br/bridge/1.0/rest/platform/conector/actions/invoke', [
@@ -35,9 +36,13 @@ class LiberacaoProdutos extends Controller
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer',
+                'Authorization' => $bearer,
             ]
         ]);
+
+        $responseData = json_decode($response->getBody()->getContents(), true);
+        
+        dd($responseData);
 
         $idLiberacao = $request->query('id');
 
