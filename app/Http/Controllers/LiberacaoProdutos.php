@@ -43,9 +43,9 @@ class LiberacaoProdutos extends Controller
         ]);
 
         $responseData = json_decode($response->getBody()->getContents(), true);
-        $tokenData = json_decode($responseData['outputData'], true);
+        //$tokenData = json_decode($responseData['outputData'], true);
 
-        dd($tokenData);
+        dd($responseData);
 
         $idLiberacao = $request->query('id');
 
