@@ -56,9 +56,9 @@
                                             @foreach($liberacoes as $item)
                                                 <tr class="hover:bg-gray-50"
                                                     x-show="
-                                                                                                                                                                                                                                                                    {{ json_encode((string) $item->produto ?? '') }}.toLowerCase().includes(filtroProduto.toLowerCase()) &&
-                                                                                                                                                                                                                                                                    {{ json_encode((string) $item->empresa ?? '') }}.toLowerCase().includes(filtroEmpresa.toLowerCase())
-                                                                                                                                                                                                                                                                                                                                    ">
+                                                                                                                                                                                                                                                                        {{ json_encode((string) $item->produto ?? '') }}.toLowerCase().includes(filtroProduto.toLowerCase()) &&
+                                                                                                                                                                                                                                                                        {{ json_encode((string) $item->empresa ?? '') }}.toLowerCase().includes(filtroEmpresa.toLowerCase())
+                                                                                                                                                                                                                                                                                                                                        ">
                                                     <td class="border px-2 py-1">{{ $item->id }}</td>
                                                     <td class="border px-2 py-1">{{ $item->empresa ?? '-' }}</td>
                                                     <td class="border px-2 py-1">{{ $item->produto ?? '-' }}</td>
@@ -540,37 +540,40 @@
             });
         });
 
-        document.getElementById('empresa').addEventListener('change', function () {
-            const empresaId = this.value;
+        document.addEventListener('DOMContentLoaded', function () {
+            const empresaSelect = document.getElementById('empresa');
 
-            if (!empresaId) {
-                document.getElementById('produto').innerHTML = '<option value="">Selecione um produto</option>';
-                return;
-            }
+            empresaSelect.addEventListener('change', function () {
+                const empresaId = this.value;
 
-            fetch("{{ route('buscar.produtos') }}", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({
-                    empresa: empresaId
+                if (!empresaId) {
+                    document.getElementById('produto').innerHTML = '<option value="">Selecione um produto</option>';
+                    return;
+                }
+
+                fetch("{{ route('buscar.produtos') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({ empresa: empresaId })
                 })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    const produtoSelect = document.getElementById('produto');
-                    produtoSelect.innerHTML = '<option value="">Selecione um produto</option>'; // limpa
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Produtos recebidos:', data); // <-- debug
+                        const produtoSelect = document.getElementById('produto');
+                        produtoSelect.innerHTML = '<option value="">Selecione um produto</option>';
 
-                    data.forEach(produto => {
-                        const option = document.createElement('option');
-                        option.value = produto.codpro; // ID do produto
-                        option.textContent = `${produto.codpro} - ${produto.despro}`; // Exibe código e descrição
-                        produtoSelect.appendChild(option);
-                    });
-                })
-                .catch(error => console.error('Erro ao buscar produtos:', error));
+                        data.forEach(produto => {
+                            const option = document.createElement('option');
+                            option.value = produto.codpro;
+                            option.textContent = `${produto.codpro} - ${produto.despro}`;
+                            produtoSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Erro ao buscar produtos:', error));
+            });
         });
     </script>
 </x-app-layout>
