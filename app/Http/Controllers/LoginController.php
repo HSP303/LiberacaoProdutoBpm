@@ -52,10 +52,15 @@ class LoginController extends Controller
             ]
         ]);
 
-        $data = json_decode($response->getBody()->getContents(), true);
-        
-        dd($data);
+        // Primeiro decodifica a resposta do Guzzle
+        $responseData = json_decode($response->getBody()->getContents(), true);
 
+        // Agora decodifica a string JSON dentro de 'jsonToken'
+        $tokenData = json_decode($responseData['jsonToken'], true);
+
+        // Depura apenas o username
+        dd($tokenData['username']);
+        
         Auth::login(User::updateOrCreate(
             [
                 'name' => $data['username'], // array key
