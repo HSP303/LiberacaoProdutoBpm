@@ -56,9 +56,9 @@
                                             @foreach($liberacoes as $item)
                                                 <tr class="hover:bg-gray-50"
                                                     x-show="
-                                                                                                                                                                                                                        {{ json_encode((string) $item->produto ?? '') }}.toLowerCase().includes(filtroProduto.toLowerCase()) &&
-                                                                                                                                                                                                                        {{ json_encode((string) $item->empresa ?? '') }}.toLowerCase().includes(filtroEmpresa.toLowerCase())
-                                                                                                                                                                                                                                                                                        ">
+                                                                                                                                                                                                                            {{ json_encode((string) $item->produto ?? '') }}.toLowerCase().includes(filtroProduto.toLowerCase()) &&
+                                                                                                                                                                                                                            {{ json_encode((string) $item->empresa ?? '') }}.toLowerCase().includes(filtroEmpresa.toLowerCase())
+                                                                                                                                                                                                                                                                                            ">
                                                     <td class="border px-2 py-1">{{ $item->id }}</td>
                                                     <td class="border px-2 py-1">{{ $item->empresa ?? '-' }}</td>
                                                     <td class="border px-2 py-1">{{ $item->produto ?? '-' }}</td>
@@ -117,8 +117,14 @@
                             @method('PUT')
                         @endif
 
-                        <x-input label="Empresa" name="empresa" type="number"
-                            placeholder="{{ $liberacao->empresa ?? 'Empresa' }}" required="true" />
+                        <x-input label="Empresa" name="empresa" list="listaEmpresas" placeholder="Digite a empresa"
+                            required />
+
+                        <datalist id="listaEmpresas">
+                            @foreach($empresas as $empresa)
+                                <option value="{{ $empresa['nome'] ?? '' }}"></option>
+                            @endforeach
+                        </datalist>
 
                         <div class="flex gap-4">
                             <div class="w-1/2">

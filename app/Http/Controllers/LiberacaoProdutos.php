@@ -21,7 +21,7 @@ class LiberacaoProdutos extends Controller
         $token = $user->token;
 
         $bearer = 'Bearer ' . $token;
-
+        // BUSCA DADOS DAS EMPRESAS 
         $this->client = new Client();
 
         $response = $this->client->request('POST', 'https://platform.senior.com.br/t/senior.com.br/bridge/1.0/rest/platform/conector/actions/invoke', [
@@ -43,9 +43,8 @@ class LiberacaoProdutos extends Controller
         ]);
 
         $responseData = json_decode($response->getBody()->getContents(), true);
-        
+
         $empresas = $responseData['outputData']['empresas'];
-        dd($empresas);
 
         $idLiberacao = $request->query('id');
 
@@ -84,6 +83,7 @@ class LiberacaoProdutos extends Controller
             'itensLiberacao' => $itensLiberacao,
             'cavidadesLiberacao' => $cavidadesLiberacao,
             'itensCavidadesLiberacao' => $itensCavidadeLiberacao,
+            'empresas' => $empresas,
         ]);
     }
 
