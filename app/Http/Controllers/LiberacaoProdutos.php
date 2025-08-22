@@ -16,7 +16,7 @@ class LiberacaoProdutos extends Controller
 {
     public function index(Request $request)
     {
-        $user = auth()->user(); 
+        $user = Auth::user();
         dd($user);
         $this->client = new Client();
 
