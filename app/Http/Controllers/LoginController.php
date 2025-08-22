@@ -55,10 +55,10 @@ class LoginController extends Controller
         $autentication = json_decode($autentication->getBody(), true);
         
         Auth::login(User::UpdateOrCreate([
-            'name' => $autentication->username,
+            'name' => $autentication['username'],
         ], [
-            'name' => $autentication->username,
-            'token' => $autentication->access_token
+            'name' => $autentication['username'],
+            'token' => $autentication['access_token']
         ]));
 
         return redirect()->route('dashboard.index');
