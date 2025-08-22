@@ -9,6 +9,7 @@ use App\Models\CavidadeLiberacao;
 use App\Models\ItemCavidadeLiberacao;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Laravel\Pail\ValueObjects\Origin\Console;
 use function Laravel\Prompts\select;
 
@@ -98,8 +99,9 @@ class LiberacaoProdutos extends Controller
     public function buscarProdutos(Request $request)
     {
         $empresaId = $request->input('empresaId');
-        dd($empresaId);
-        
+
+        Log::channel('meu_log')->info("Buscando produtos para a empresa ID: $empresaId");
+
         $user = Auth::user();
         $token = $user->token;
         $bearer = 'Bearer ' . $token;
@@ -130,6 +132,8 @@ class LiberacaoProdutos extends Controller
         ]);
 
         $responseDataProduto = json_decode($response->getBody()->getContents(), true);
+
+        Log::channel('meu_log')->info("Resultado da API BuscaProduto: $responseDataProduto");
         $produtos = $responseDataProduto['outputData']['produtos'] ?? [];
 
         return response()->json($produtos);
