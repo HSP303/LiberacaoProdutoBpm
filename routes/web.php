@@ -33,9 +33,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified']) ->name('dashboard');
 
-Route::get('/welcome', function () {
-    return view('welcome');
-});
+Route::get('/welcome', [LoginController::class, 'store'])->name('login');
 
 
 Route::middleware('auth')->group(function () {

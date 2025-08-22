@@ -15,9 +15,12 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\User;
+use GuzzleHttp\Client;
 
 class LoginController extends Controller
 {
+    private Client $client;
+
     /**
      * @return View|Factory|Application
      */
@@ -31,23 +34,34 @@ class LoginController extends Controller
      * @return RedirectResponse
      * @throws ValidationException
      */
-    public function store(Request $request)
-    {
-        $token = $request->cookie();
+    public function store()
+    {   
+        $this->client = new Client();
 
-        $token = $_COOKIE;
-        dd($token);
-        /*
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required',
+        $name = 'integracaoseniorx@gramserv.com.br';
+        $password = 'Integracao@2024';
+
+        $autentication = $this->client->request('POST', 'https://platform.senior.com.br/t/senior.com.br/bridge/1.0/rest/platform/authentication/actions/login', [
+            'data' => [
+                [
+                    'name' => $name,
+                    'password' => $password,
+                ]
+            ],
+            'headers' => [
+                'accept' => 'application/json',
+            ]
         ]);
 
+        $autentication = json_decode($autentication->getBody(), true);
+        dd($autentication);
+
+        /*
         Auth::login(User::UpdateOrCreate([
             'name' => $request->name,
         ], [
             'name' => $request->name,
-            'email' => $request->email
+            'token' => $request->email
         ]));
 
         return redirect()->route('dashboard');*/
