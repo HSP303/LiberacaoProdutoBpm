@@ -98,6 +98,7 @@ class LiberacaoProdutos extends Controller
     {
         $empresaId = $request->input('empresa');
 
+        \Log::info('Empresa recebida via Ajax: ' . $empresaId);
         $user = Auth::user();
         $token = $user->token;
         $bearer = 'Bearer ' . $token;
@@ -128,6 +129,7 @@ class LiberacaoProdutos extends Controller
         ]);
 
         $responseDataProduto = json_decode($response->getBody()->getContents(), true);
+        \Log::info('Resposta da API: ' . print_r($responseDataProduto, true));
         $produtos = $responseDataProduto['outputData']['produtos'] ?? [];
 
         return response()->json($produtos);
