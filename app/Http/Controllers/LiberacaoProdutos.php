@@ -9,6 +9,7 @@ use App\Models\CavidadeLiberacao;
 use App\Models\ItemCavidadeLiberacao;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Pail\ValueObjects\Origin\Console;
 use function Laravel\Prompts\select;
 
 
@@ -98,7 +99,7 @@ class LiberacaoProdutos extends Controller
     {
         $empresaId = $request->input('empresa');
 
-        \Log::info('Empresa recebida via Ajax: ' . $empresaId);
+        Console.log($empresaId);    
         $user = Auth::user();
         $token = $user->token;
         $bearer = 'Bearer ' . $token;
@@ -129,7 +130,6 @@ class LiberacaoProdutos extends Controller
         ]);
 
         $responseDataProduto = json_decode($response->getBody()->getContents(), true);
-        \Log::info('Resposta da API: ' . print_r($responseDataProduto, true));
         $produtos = $responseDataProduto['outputData']['produtos'] ?? [];
 
         return response()->json($produtos);
