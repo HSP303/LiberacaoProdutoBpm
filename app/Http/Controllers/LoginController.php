@@ -46,6 +46,7 @@ class LoginController extends Controller
                 [
                     'name' => $name,
                     'password' => $password,
+                    'scope' => "string",
                 ]
             ],
             'headers' => [
