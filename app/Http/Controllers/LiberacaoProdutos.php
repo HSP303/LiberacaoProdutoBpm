@@ -85,7 +85,6 @@ class LiberacaoProdutos extends Controller
             'cavidadesLiberacao' => $cavidadesLiberacao,
             'itensCavidadesLiberacao' => $itensCavidadeLiberacao,
             'empresas' => $empresas,
-            'produtos' => $produtos,
         ]);
     }
 
