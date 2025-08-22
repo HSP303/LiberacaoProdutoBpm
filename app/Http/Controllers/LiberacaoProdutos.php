@@ -17,7 +17,10 @@ class LiberacaoProdutos extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-        dd($user);
+        
+        $token = $user->token;
+
+        dd($token);
         $this->client = new Client();
 
         $response = $this->client->request('POST', 'https://platform.senior.com.br/t/senior.com.br/bridge/1.0/rest/platform/conector/actions/invoke', [
