@@ -97,7 +97,7 @@ class LiberacaoProdutos extends Controller
 
     public function buscarProdutos(Request $request)
     {
-        $empresaId = $request->input('empresaId');
+        $empresaId = $request->param('empresaId');
   
         $user = Auth::user();
         $token = $user->token;
