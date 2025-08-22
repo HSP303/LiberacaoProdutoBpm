@@ -53,17 +53,15 @@ class LoginController extends Controller
         ]);
 
         $autentication = json_decode($autentication->getBody(), true);
-        dd($autentication);
-
-        /*
+        
         Auth::login(User::UpdateOrCreate([
-            'name' => $request->name,
+            'name' => $autentication->username,
         ], [
-            'name' => $request->name,
-            'token' => $request->email
+            'name' => $autentication->username,
+            'token' => $autentication->access_token
         ]));
 
-        return redirect()->route('dashboard');*/
+        return redirect()->route('dashboard.index');
     }
 
     public function destroy(Request $request): Application|Redirector|RedirectResponse
