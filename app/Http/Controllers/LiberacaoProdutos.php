@@ -7,6 +7,7 @@ use App\Models\LiberacaoProduto;
 use App\Models\ItemLiberacao;
 use App\Models\CavidadeLiberacao;
 use App\Models\ItemCavidadeLiberacao;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use function Laravel\Prompts\select;
 
@@ -15,6 +16,26 @@ class LiberacaoProdutos extends Controller
 {
     public function index(Request $request)
     {
+        $user = auth()->user(); 
+        dd($user);
+        $this->client = new Client();
+
+        $response = $this->client->request('POST', 'https://platform.senior.com.br/t/senior.com.br/bridge/1.0/rest/platform/conector/actions/invoke', [
+            'inputData' => [
+                'server'=> 'https://senior.gramserv.com.br:8081',
+                'rootObject' => '',
+                'service' => 'com.avs.SeniorX',
+                'module' => 'sapiens',
+                'encryption' => '0',
+                'port' => 'BuscaEmpresa'
+            ],
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer',
+            ]
+        ]);
+
         $idLiberacao = $request->query('id');
 
         $liberacao = null;
