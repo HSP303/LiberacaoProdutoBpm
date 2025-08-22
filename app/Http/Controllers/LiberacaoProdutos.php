@@ -16,11 +16,18 @@ class LiberacaoProdutos extends Controller
 {
     public function index(Request $request)
     {
+        $idLiberacao = $request->query('id');
+        $liberacao = null;
+        $itensLiberacao = collect();
+        $cavidadesLiberacao = collect();
+        $itensCavidadeLiberacao = collect();
+
         $user = Auth::user();
         
         $token = $user->token;
 
         $bearer = 'Bearer ' . $token;
+        
         // BUSCA DADOS DAS EMPRESAS 
         $this->client = new Client();
 
@@ -42,16 +49,37 @@ class LiberacaoProdutos extends Controller
             ]
         ]);
 
-        $responseData = json_decode($response->getBody()->getContents(), true);
+        $responseDataEmpresa = json_decode($response->getBody()->getContents(), true);
 
-        $empresas = $responseData['outputData']['empresas'];
+        $empresas = $responseDataEmpresa['outputData']['empresas'];
 
-        $idLiberacao = $request->query('id');
+        // BUSCA DADOS DO PRODUTO
+        $this->client = new Client();
+        $response = $this->client->request('POST', 'https://platform.senior.com.br/t/senior.com.br/bridge/1.0/rest/platform/conector/actions/invoke', [
+            'json' => [
+                'inputData' => [
+                    'server'=> 'https://senior.gramserv.com.br:8081',
+                    'rootObject' => '',
+                    'service' => 'com.avs.SeniorX',
+                    'module' => 'sapiens',
+                    'encryption' => '0',
+                    'port' => 'BuscaProduto',
+                    'despro' => '',
+                    'codemp' => '',
+                    'codpro' => '',
+                ],
+                'id' => 'f2200c3b-c7df-4040-9613-34f697b75889',
+                'configurationId' => '7afdb58f-a138-4005-b3f2-f9d9f124459a',
+            ],
+            'headers' => [
+                'Accept' => 'application/json',
+                'Authorization' => $bearer,
+            ]
+        ]);
 
-        $liberacao = null;
-        $itensLiberacao = collect();
-        $cavidadesLiberacao = collect();
-        $itensCavidadeLiberacao = collect();
+        $responseDataProduto = json_decode($response->getBody()->getContents(), true);
+
+        dd($responseDataProduto);
 
         $liberacoes = LiberacaoProduto::select('id', 'empresa', 'produto', 'created_at')->get();
 
