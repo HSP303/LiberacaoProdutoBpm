@@ -44,7 +44,7 @@ class LoginController extends Controller
         $autentication = $this->client->request('POST', 'https://platform.senior.com.br/t/senior.com.br/bridge/1.0/rest/platform/authentication/actions/login', [
             'data' => [
                 [
-                    'name' => $name,
+                    'username' => $name,
                     'password' => $password,
                     'scope' => "string",
                 ]
