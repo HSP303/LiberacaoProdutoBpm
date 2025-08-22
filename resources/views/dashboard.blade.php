@@ -122,8 +122,8 @@
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                             <option value="">Selecione a empresa</option>
                             @foreach($empresas as $empresa)
-                                <option value="{{ $empresa['id'] ?? '' }}">
-                                    {{ $empresa['nome'] ?? 'Sem nome' }}
+                                <option value="{{ $empresa->codemp ?? '' }}">
+                                    {{ $empresa->nomemp ?? 'Sem nome' }}
                                 </option>
                             @endforeach
                         </select>
