@@ -117,7 +117,7 @@
                             @method('PUT')
                         @endif
 
-                        <x-input label="Empresa" name="empresa" list="listaEmpresas" placeholder="Digite a empresa"
+                        <x-input label="Empresa" name="empresa" list="listaEmpresas" placeholder="Digite a empresa" type="text"
                             required />
 
                         <datalist id="listaEmpresas">
