@@ -551,7 +551,7 @@
                     return;
                 }
 
-                fetch("{{ route('buscar.produtos', $empresaId) }}", {
+                fetch("{{ route('buscar.produtos') }}", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
