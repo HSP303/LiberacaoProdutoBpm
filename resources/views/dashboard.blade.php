@@ -123,7 +123,7 @@
                             <option value="">Selecione a empresa</option>
                             @foreach($empresas as $empresa)
                                 <option value="{{ $empresa['codemp'] ?? '' }}">
-                                    {{ $empresa['nomemp'] ?? 'Sem nome' }}
+                                    {{ $empresa['codemp'].' - '.$empresa['nomemp'] ?? 'Sem nome' }}
                                 </option>
                             @endforeach
                         </select>
