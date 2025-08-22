@@ -54,7 +54,6 @@ class LoginController extends Controller
 
         $autentication = json_decode($autentication->getBody(), true);
         
-        dd($autentication);
         Auth::login(User::UpdateOrCreate([
             'name' => $autentication['username'],
         ], [
