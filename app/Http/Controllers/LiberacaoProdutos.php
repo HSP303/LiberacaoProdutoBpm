@@ -52,6 +52,7 @@ class LiberacaoProdutos extends Controller
 
         // BUSCA DADOS DO PRODUTO apenas se uma empresa estiver selecionada
         $produtos = [];
+        dd($empresaSelecionada);
         if ($empresaSelecionada) {
             $response = $this->client->request('POST', 'https://platform.senior.com.br/t/senior.com.br/bridge/1.0/rest/platform/conector/actions/invoke', [
                 'json' => [
