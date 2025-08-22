@@ -35,11 +35,14 @@ class LiberacaoProdutos extends Controller
             
 
             $cavidadesLiberacao = CavidadeLiberacao::where('id', $idLiberacao)
-                ->select('id', 'id_cavidade', 'descricao')->get();
+                ->select('id', 'id_cavidade', 'descricao')
+                ->orderBy('id_cavidade','asc')
+                ->get();
 
             $itensCavidadeLiberacao = ItemCavidadeLiberacao::where('id', $idLiberacao)
                 ->where('id_item', $idItem)
                 ->select('id', 'id_item', 'id_cavidade', 'minimo', 'maximo')
+                ->orderBy('id_cavidade','asc')
                 ->get();
         }
 

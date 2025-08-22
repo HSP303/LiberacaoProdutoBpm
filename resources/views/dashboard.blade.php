@@ -56,9 +56,9 @@
                                             @foreach($liberacoes as $item)
                                                 <tr class="hover:bg-gray-50"
                                                     x-show="
-                                                                                                                                            {{ json_encode((string) $item->produto ?? '') }}.toLowerCase().includes(filtroProduto.toLowerCase()) &&
-                                                                                                                                            {{ json_encode((string) $item->empresa ?? '') }}.toLowerCase().includes(filtroEmpresa.toLowerCase())
-                                                                                                                                                                                                            ">
+                                                                                                                                                                                                                        {{ json_encode((string) $item->produto ?? '') }}.toLowerCase().includes(filtroProduto.toLowerCase()) &&
+                                                                                                                                                                                                                        {{ json_encode((string) $item->empresa ?? '') }}.toLowerCase().includes(filtroEmpresa.toLowerCase())
+                                                                                                                                                                                                                                                                                        ">
                                                     <td class="border px-2 py-1">{{ $item->id }}</td>
                                                     <td class="border px-2 py-1">{{ $item->empresa ?? '-' }}</td>
                                                     <td class="border px-2 py-1">{{ $item->produto ?? '-' }}</td>
@@ -99,6 +99,10 @@
 
                                 @if(session('status_code') == 205)
                                     <x-alert title="Sucesso!">Registro excluido com sucesso!</x-alert>
+                                @endif
+
+                                @if(session('status_code') == 206)
+                                    <x-alert title="Sucesso!">Registro alterado com sucesso!</x-alert>
                                 @endif
                             </div>
                         </form>
@@ -416,39 +420,50 @@
                                                 {{ $itens->equipamento }}
                                             </td>
 
+                                            <form onsubmit="return false;">
+                                                @csrf
+                                                @method('PUT')
+                                                @foreach ($itensCavidadesLiberacao as $itemCavidade)
+                                                    <td class="px-6 py-3 whitespace-nowrap w-[150px]">
+                                                        <div class="flex gap-2 items-center">
+                                                            <!-- Hidden inputs -->
+                                                            <input type="hidden" name="id" value="{{ $itemCavidade->id }}">
+                                                            <input type="hidden" name="id_item"
+                                                                value="{{ $itemCavidade->id_item }}">
 
-                                            @foreach ($itensCavidadesLiberacao as $itemCavidade)
-                                                <td class="px-6 py-4 whitespace-nowrap w-[180px]">
-                                                    <div class="flex gap-2 items-end">
-                                                        <div class="flex flex-col">
-                                                            <label for="minimo"
-                                                                class="text-xs font-medium text-gray-600">Min</label>
-                                                            <input type="number" name="minimo"
-                                                                value="{{ $itemCavidade->minimo }}"
-                                                                class="w-16 p-1 text-sm border border-gray-300 rounded"
-                                                                data-id="{{ $itemCavidade->id }}" />
-                                                        </div>
-                                                        <div class="flex flex-col">
-                                                            <label for="maximo"
-                                                                class="text-xs font-medium text-gray-600">Max</label>
-                                                            <input type="number" name="maximo"
-                                                                value="{{ $itemCavidade->maximo }}"
-                                                                class="w-16 p-1 text-sm border border-gray-300 rounded"
-                                                                data-id="{{ $itemCavidade->id }}" />
-                                                        </div>
-                                                        <span class="text-xs text-gray-500 status-msg"></span>
-                                                    </div>
-                                                </td>
+                                                            <!-- Min input -->
+                                                            <div class="flex flex-col items-start">
+                                                                <label for="minimo_{{ $itemCavidade->id_cavidade }}"
+                                                                    class="text-[10px] font-medium text-gray-600">Min</label>
+                                                                <input type="number"
+                                                                    class="input-cavidade w-14 text-xs border border-gray-300 rounded px-1 py-0.5"
+                                                                    data-id="{{ $itemCavidade->id_cavidade }}"
+                                                                    data-type="minimo" value="{{ $itemCavidade->minimo }}" />
+                                                            </div>
 
-                                            @endforeach
+                                                            <!-- Max input -->
+                                                            <div class="flex flex-col items-start">
+                                                                <label for="maximo_{{ $itemCavidade->id_cavidade }}"
+                                                                    class="text-[10px] font-medium text-gray-600">Max</label>
+                                                                <input type="number"
+                                                                    class="input-cavidade w-14 text-xs border border-gray-300 rounded px-1 py-0.5"
+                                                                    data-id="{{ $itemCavidade->id_cavidade }}"
+                                                                    data-type="maximo" value="{{ $itemCavidade->maximo }}" />
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                @endforeach
+                                            </form>
 
                                             <td
                                                 class="sticky right-0 z-10 bg-white w-[400px] px-6 py-4 whitespace-nowrap text-right">
                                                 <div class="flex items-center justify-end gap-2 w-full">
+
                                                     <form>
                                                         <select
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg">
-                                                            <option value="" {{ $itens->resultado === '' ? 'selected' : '' }} disabled>Selecione a Opção</option>
+                                                            <option value="" {{ $itens->resultado === '' ? 'selected' : '' }}
+                                                                disabled>Selecione a Opção</option>
                                                             <option value="OK" {{ $itens->resultado === 'OK' ? 'selected' : '' }}>OK</option>
                                                             <option value="Não OK" {{ $itens->resultado === 'Não OK' ? 'selected' : '' }}>Não OK</option>
                                                         </select>
@@ -479,4 +494,38 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.querySelectorAll('.input-cavidade').forEach(input => {
+            input.addEventListener('change', function () {
+                const td = this.closest('td'); // pega o pai da linha
+                const id = td.querySelector('input[name="id"]').value;
+                const id_item = td.querySelector('input[name="id_item"]').value;
+
+                const cavidade_id = this.dataset.id;   // ID da cavidade
+                const tipo = this.dataset.type;        // minimo ou maximo
+                const valor = this.value;
+
+                fetch("{{ route('itens-liberacao.update') }}", {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        id: id,
+                        id_item: id_item,
+                        cavidade_id: cavidade_id,
+                        tipo: tipo,
+                        valor: valor
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Atualizado:', data);
+                    })
+                    .catch(error => console.error('Erro:', error));
+            });
+        });
+    </script>
 </x-app-layout>
