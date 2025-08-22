@@ -14,7 +14,7 @@ Route::get('/home', [LiberacaoProdutos::class, 'index'])->name('dashboard.index'
 Route::post('/liberacao-produtos', [LiberacaoProdutos::class, 'store'])->name('liberacao-produtos.store');
 Route::put('/liberacao-produtos/{id}', [LiberacaoProdutos::class, 'update'])->name('liberacao-produtos.update');
 Route::get('/liberacoes/ids', [LiberacaoProdutos::class, 'getIds'])->name('liberacoes.ids');
-Route::post('/buscar-produtos/{empresaId}', [LiberacaoProdutos::class, 'buscarProdutos'])->name('buscar.produtos');
+Route::post('/buscar-produtos', [LiberacaoProdutos::class, 'buscarProdutos'])->name('buscar.produtos');
 
 
 // INSERIR ITENS DA LIBERAÇÃO 
