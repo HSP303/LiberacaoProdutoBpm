@@ -20,7 +20,7 @@ class LiberacaoProdutos extends Controller
         
         $token = $user->token;
 
-        $bearer = 'Bearer ' + $token;
+        $bearer = 'Bearer ' . $token;
 
         $this->client = new Client();
 
@@ -41,7 +41,7 @@ class LiberacaoProdutos extends Controller
         ]);
 
         $responseData = json_decode($response->getBody()->getContents(), true);
-        
+
         dd($responseData);
 
         $idLiberacao = $request->query('id');
