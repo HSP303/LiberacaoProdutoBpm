@@ -41,7 +41,7 @@ class LoginController extends Controller
         $name = 'integracaoseniorx@gramserv.com.br';
         $password = 'Integracao@2024';
 
-        $autentication = $this->client->request('POST', 'https://platform.senior.com.br/t/senior.com.br/bridge/1.0/rest/platform/authentication/actions/login', [
+        $response = $this->client->request('POST', 'https://platform.senior.com.br/t/senior.com.br/bridge/1.0/rest/platform/authentication/actions/login', [
             'json' => [
                 'username' => $name,
                 'password' => $password,
@@ -52,15 +52,17 @@ class LoginController extends Controller
             ]
         ]);
 
-        $autentication = json_decode($autentication->getBody(), true);
+        $data = json_decode($response->getBody()->getContents(), true);
+
+        dd($data);
 
         Auth::login(User::updateOrCreate(
             [
-                'name' => $autentication['username'],
+                'name' => $data['username'], // array key
             ],
             [
-                'name' => $autentication['username'],
-                'token' => $autentication['access_token']
+                'name' => $data['username'],
+                'token' => $data['access_token']
             ]
         ));
 
