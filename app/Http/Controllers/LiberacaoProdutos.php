@@ -81,7 +81,7 @@ class LiberacaoProdutos extends Controller
         ]);
 
         $responseDataProduto = json_decode($response->getBody()->getContents(), true);
-        $produtos = $responseDataProduto['outputData']['produtos'];
+        $produtos = $responseDataProduto['outputData']['contents']['produtos'];
 
 
         $liberacoes = LiberacaoProduto::select('id', 'empresa', 'produto', 'created_at')->get();
