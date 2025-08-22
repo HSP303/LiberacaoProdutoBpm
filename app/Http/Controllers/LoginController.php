@@ -58,16 +58,13 @@ class LoginController extends Controller
         // Agora decodifica a string JSON dentro de 'jsonToken'
         $tokenData = json_decode($responseData['jsonToken'], true);
 
-        // Depura apenas o username
-        dd($tokenData['username']);
-        
         Auth::login(User::updateOrCreate(
             [
-                'name' => $data['username'], // array key
+                'name' => $tokenData['username'], // array key
             ],
             [
-                'name' => $data['username'],
-                'token' => $data['access_token']
+                'name' => $tokenData['username'],
+                'token' => $tokenData['access_token']
             ]
         ));
 
