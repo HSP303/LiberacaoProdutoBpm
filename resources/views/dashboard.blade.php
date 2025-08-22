@@ -541,7 +541,7 @@
         });
 
         document.addEventListener('DOMContentLoaded', function () {
-            const empresaSelect = document.getElementById('empresa');
+            const empresaSelect = document.getElementById('codemp');
 
             empresaSelect.addEventListener('change', function () {
                 const empresaId = this.value;
