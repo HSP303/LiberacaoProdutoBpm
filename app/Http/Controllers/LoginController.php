@@ -35,23 +35,20 @@ class LoginController extends Controller
      * @throws ValidationException
      */
     public function store()
-    {   
+    {
         $this->client = new Client();
 
         $name = 'integracaoseniorx@gramserv.com.br';
         $password = 'Integracao@2024';
 
         $autentication = $this->client->request('POST', 'https://platform.senior.com.br/t/senior.com.br/bridge/1.0/rest/platform/authentication/actions/login', [
-            'data' => [
-                [
-                    'username' => $name,
-                    'password' => $password,
-                    'scope' => "string",
-                ]
+            'json' => [
+                'username' => $name,
+                'password' => $password,
+                'scope' => "string",
             ],
             'headers' => [
-                'accept' => 'application/json',
-                'content-Type' => 'application/json',
+                'Accept' => 'application/json',
             ]
         ]);
 
