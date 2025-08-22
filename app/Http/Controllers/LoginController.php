@@ -51,7 +51,7 @@ class LoginController extends Controller
             ],
             'headers' => [
                 'accept' => 'application/json',
-                'content-type' => 'application/json',
+                'content-Type' => 'application/json',
             ]
         ]);
 
