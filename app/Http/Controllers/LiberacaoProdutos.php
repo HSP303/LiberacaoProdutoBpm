@@ -26,16 +26,18 @@ class LiberacaoProdutos extends Controller
 
         $response = $this->client->request('POST', 'https://platform.senior.com.br/t/senior.com.br/bridge/1.0/rest/platform/conector/actions/invoke', [
             'json' => [
-                'server'=> 'https://senior.gramserv.com.br:8081',
-                'rootObject' => '',
-                'service' => 'com.avs.SeniorX',
-                'module' => 'sapiens',
-                'encryption' => '0',
-                'port' => 'BuscaEmpresa'
+                'inputData' => [
+                    'server'=> 'https://senior.gramserv.com.br:8081',
+                    'rootObject' => '',
+                    'service' => 'com.avs.SeniorX',
+                    'module' => 'sapiens',
+                    'encryption' => '0',
+                    'port' => 'BuscaEmpresa'
+                ],
+                'id' => 'f2200c3b-c7df-4040-9613-34f697b75889',
             ],
             'headers' => [
                 'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
                 'Authorization' => $bearer,
             ]
         ]);
