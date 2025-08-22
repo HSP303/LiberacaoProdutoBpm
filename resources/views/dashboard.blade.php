@@ -119,7 +119,7 @@
 
                         <label for="empresa" class="block text-sm font-medium text-gray-700">Empresa</label>
                         <select id="empresa" name="empresa" required
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                            class="border rounded p-2 w-full shadow-sm focus:ring focus:ring-blue-300 text-black">
                             <option value="">Selecione a empresa</option>
                             @foreach($empresas as $empresa)
                                 <option value="{{ $empresa['codemp'] ?? '' }}">
