@@ -13,10 +13,6 @@ class AnexosLiberacaoController extends Controller
         // Verifica se ID existe na tabela de liberações
         $anexos = AnexosLiberacao::find($id);
 
-        if (!$anexos) {
-            abort(404, 'ID  de liberação não encontrado.');
-        }
-
         return view('anexos', compact('anexos'));
     }
 
