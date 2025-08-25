@@ -123,7 +123,7 @@
                                 class="border rounded p-2 w-full shadow-sm focus:ring focus:ring-blue-300 text-black">
                                 <option value="">Selecione a empresa</option>
                                 @foreach($empresas as $empresa)
-                                    <option value="{{ $empresa['codemp'] }}">
+                                    <option value="{{ $empresa['codemp'] ?? '' }}" @if(request('empresa') == ($empresa['codemp'] ?? '')) selected @endif>
                                         {{ $empresa['codemp'] . ' - ' . ($empresa['nomemp'] ?? 'Sem nome') }}
                                     </option>
                                 @endforeach
@@ -148,7 +148,7 @@
                                     class="border rounded p-2 w-full shadow-sm focus:ring focus:ring-blue-300 text-black mt-2">
                                     <option value="">Selecione o produto</option>
                                     @foreach($produtos as $produto)
-                                        <option value="{{ $produto['codpro'] ?? '' }}">
+                                        <option value="{{ $produto['codpro'] ?? '' }}" @if(request('produto') == ($produto['codpro'] ?? '')) selected @endif>
                                             {{ ($produto['codpro'] ?? '') . ' - ' . ($produto['despro'] ?? 'Sem descrição') }}
                                         </option>
                                     @endforeach
