@@ -12,7 +12,7 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         <div class="relative">
-                            <form method="POST" action="{{ route('anexos.store', $liberacao->id) }}" enctype="multipart/form-data">
+                            <form method="POST" action="{{ route('anexos.store', ['id'=>$id]) }}" enctype="multipart/form-data">
                                 @csrf
                                 <div>
                                     <div>
