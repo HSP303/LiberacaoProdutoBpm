@@ -19,7 +19,6 @@ class LiberacaoProdutos extends Controller
     public function index(Request $request)
     {
         $idLiberacao = $request->query('id');
-        $empresaSelecionada = $request->query('empresa');
         $liberacao = null;
         $itensLiberacao = collect();
         $cavidadesLiberacao = collect();
@@ -75,6 +74,8 @@ class LiberacaoProdutos extends Controller
                 ->get();
         }
 
+        $produtos = [];
+
         return view('dashboard', [
             'liberacao' => $liberacao,
             'liberacoes' => $liberacoes,
@@ -82,6 +83,7 @@ class LiberacaoProdutos extends Controller
             'cavidadesLiberacao' => $cavidadesLiberacao,
             'itensCavidadesLiberacao' => $itensCavidadeLiberacao,
             'empresas' => $empresas,
+            'produtos' => $produtos,
         ]);
     }
 
