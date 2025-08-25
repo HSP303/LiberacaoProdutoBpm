@@ -23,16 +23,11 @@ class AnexosLiberacaoController extends Controller
 
     public function store(Request $request, $id)
     {
-        $liberacao = LiberacaoProduto::find($id);
-        $ultimo = AnexosLiberacao::where('liberacao_id', $id)
+        $ultimo = AnexosLiberacao::where('id', $id)
             ->orderBy('id_anx', 'desc')
             ->first();
 
         $proximoId = $ultimo ? $ultimo->id_anx + 1 : 1;
-
-        if (!$liberacao) {
-            return redirect()->route('dashboard.index')->with('error', 'ID de liberação inválido.');
-        }
 
         $request->validate([
             'file' => 'required',
