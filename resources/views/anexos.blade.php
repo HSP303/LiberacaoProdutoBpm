@@ -22,14 +22,14 @@
                                             required autofocus autocomplete="representado" />
                                         <x-input-error :messages="$errors->get('descricao_arquivo')" class="mt-2" />
                                     </div>
-                                    <div class="grid grid-cols-1 gap-6 mt-4">
+                                    <div class="grid grid-cols-1 gap-6 mt-2">
                                         <div class="grid grid-cols-1 gap-6 mt-2">
                                             <div>
                                                 <label
-                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                                    class="block mb-2 text-sm font-medium text-gray-900 text-white"
                                                     for="file">Arquivo</label>
                                                 <input accept=".jpg,.jpeg,.png,.pdf"
-                                                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                                                     name="file" id="file" type="file">
                                                 <x-input-error :messages="$errors->get('file')" class="mt-2" />
                                             </div>
