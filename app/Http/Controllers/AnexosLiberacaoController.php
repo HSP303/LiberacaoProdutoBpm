@@ -17,7 +17,7 @@ class AnexosLiberacaoController extends Controller
             abort(404, 'ID  de liberação não encontrado.');
         }
 
-        return view('files', compact('anexos'));
+        return view('files.blade', compact('anexos'));
     }
 
     public function destroy($id, $id_arq){

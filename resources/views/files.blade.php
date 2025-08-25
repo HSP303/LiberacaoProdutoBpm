@@ -56,8 +56,6 @@
                                         <tr>
                                             <th scope="col" class="px-6 py-3">Sequencia</th>
                                             <th scope="col" class="px-6 py-3">Descrição Arquivo</th>
-                                            <th scope="col" class="px-6 py-3">Arquivo</th>
-                                            <th scope="col" class="px-6 py-3">Ações</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -65,42 +63,6 @@
                                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100">
                                                 <td class="px-6 py-4">{{ $arq->id_anx }}</td>
                                                 <td class="px-6 py-4">{{ $arq->nome_arquivo }}</td>
-                                                <td class="px-6 py-4">
-                                                    <!-- Botão de três pontos -->
-                                                    <div class="relative">
-                                                        <button id="dropdownButton-{{ $arq->id_anx }}" class="text-gray-500 hover:text-gray-700 focus:outline-none" onclick="toggleDropdown('{{ $arq->id_anx }}')">
-                                                            <img src="https://cdn-icons-png.flaticon.com/512/1342/1342047.png" alt="Ações" class="w-9 h-9 ml-2">
-                                                        </button>
-                                                        
-                                                        <!-- Dropdown menu -->
-                                                        <div id="dropdownMenu-{{ $arq->id_anx }}" class="hidden absolute right-0 z-10 mt-2 w-48 bg-white rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 top-full">
-                                                            <!-- Botão Visualizar Documento -->
-                                                            <div class="flex items-center">
-                                                                <img src="https://cdn-icons-png.flaticon.com/512/475/475990.png" alt="Visualizar" class="w-8 h-8 ml-2">
-                                                                <button type="button" class="text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                    onclick="viewDocument('{{ url( $arq->arquivo) }}', '{{ pathinfo($arq->arquivo, PATHINFO_EXTENSION) }}'); toggleDropdown('{{ $arq->id_anx }}')">
-                                                                    Visualizar
-                                                                </button>
-                                                            </div>
-                                                        
-                                                            <div class="flex items-center">
-                                                                <img src="https://cdn-icons-png.flaticon.com/512/724/724933.png" alt="Baixar" class="w-8 h-8 ml-2">
-                                                                <a href="{{ $arq->downloadUrl() }}" class="text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" download>
-                                                                    Baixar
-                                                                </a>
-                                                            </div>
-                                                        
-                                                            <form action="{{ route('anexos.destroy', [$arq->id, 'id_anx' => $arq->id_anx]) }}" method="POST" class="block">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <div class="flex items-center">
-                                                                    <img src="https://cdn-icons-png.flaticon.com/512/1799/1799391.png" alt="Excluir" class="w-8 h-8 ml-2">
-                                                                    <button type="submit" class="text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="confirmDeletion({{ $arq->id_anx }}); toggleDropdown('{{ $arq->id_anx }}')">Excluir</button>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -112,18 +74,4 @@
             </div>
         </div>
     </div>
-
-    <!-- Modal para pré-visualização do documento -->
-    <div id="documentModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
-        <!-- Alterado para ocupar 100% da largura e altura -->
-        <div class="bg-white w-full h-full p-4 relative rounded-lg">
-            <button onclick="closeDocumentPreview()" class="absolute top-2 right-2 text-black text-xl font-bold">✕</button>
-
-            <!-- Container para exibir o documento -->
-            <div id="documentContainer" class="w-full h-full overflow-auto">
-                <!-- O conteúdo (iframe ou img) será inserido aqui dinamicamente -->
-            </div>
-        </div>
-    </div>
-    
 </x-app-layout>
