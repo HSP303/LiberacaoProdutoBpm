@@ -1,15 +1,17 @@
-<nav x-data="open: false,
-                get selectedId() {
-                    return document.getElementById('id')?.value || '';
-                },
-                goToAnexos() {
-                    if (!this.selectedId) {
-                        alert('Por favor, selecione um ID de liberação antes de acessar os anexos.');
-                        return;
-                    }
-                    window.location.href = '/anexos/' + this.selectedId; // Rota dinâmica
-                }
-            }" class="bg-white border-b border-gray-100">
+<nav x-data="{
+    open: false,
+    selectedId() {
+        return document.getElementById('id')?.value || '';
+    },
+    goToAnexos() {
+        let id = this.selectedId();
+        if (!id) {
+            alert('Por favor, selecione um ID de liberação antes de acessar os anexos.');
+            return;
+        }
+        window.location.href = '/anexos/' + id;
+    }
+}" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
