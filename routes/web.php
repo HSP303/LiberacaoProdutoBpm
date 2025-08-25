@@ -32,6 +32,8 @@ Route::post('/cavidades-liberacao', [CavidadeController::class, 'store'])->name(
 Route::get('/anexos/{id}', [AnexosLiberacaoController::class, 'show'])->name('anexos.show');
 Route::get('/anexos/{id}/{id_anx}', [AnexosLiberacaoController::class, 'destroy'])->name('anexos.destroy');
 Route::post('/anexos-inserir/{id}', [AnexosLiberacaoController::class, 'store'])->name('anexos.store');
+Route::get('/anexos/download/{id}/{id_anx}', [AnexosLiberacaoController::class, 'download'])->name('anexos.download');
+
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])->name('login');

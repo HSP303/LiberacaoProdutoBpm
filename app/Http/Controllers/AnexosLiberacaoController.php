@@ -50,4 +50,16 @@ class AnexosLiberacaoController extends Controller
         return redirect()->route('anexos.show', $id)->with('success', 'Anexo(s) adicionado(s) com sucesso!');
     }
 
+    public function download($id, $id_anx)
+    {
+        $anexo = AnexosLiberacao::where('id', $id)
+            ->where('id_anx', $id_anx)
+            ->firstOrFail();
+
+        // retorna o arquivo binário com headers corretos
+        return response($anexo->arquivo)
+            ->header('Content-Type', 'application/octet-stream')
+            ->header('Content-Disposition', 'attachment; filename="' . $anexo->nome_arquivo . '"');
+    }
+
 }
