@@ -201,7 +201,6 @@ class LiberacaoProdutos extends Controller
 
     public function update(Request $request, $id)
     {
-        dd($request);
         $liberacao = LiberacaoProduto::findOrFail($id);
 
         $data = $request->only([
