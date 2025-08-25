@@ -29,9 +29,9 @@ Route::post('/item-liberacao/update-minmax', [ItemLiberacaoController::class, 'u
 Route::post('/cavidades-liberacao', [CavidadeController::class, 'store'])->name('cavidades-liberacao.store');
 
 // ANEXOS
-Route::get('/anexos/{id}', [AnexosLiberacao::class, 'show'])->name('anexos.show');
-Route::get('/anexos/{id}/{id_arq}', [AnexosLiberacao::class, 'destroy'])->name('anexos.destroy');
-Route::post('/anexos-inserir', [AnexosLiberacao::class, 'store'])->name('anexos.store');
+Route::get('/anexos/{id}', [AnexosLiberacaoController::class, 'show'])->name('anexos.show');
+Route::get('/anexos/{id}/{id_anx}', [AnexosLiberacaoController::class, 'destroy'])->name('anexos.destroy');
+Route::post('/anexos-inserir', [AnexosLiberacaoController::class, 'store'])->name('anexos.store');
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])->name('login');

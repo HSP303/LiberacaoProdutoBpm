@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\LiberacaoProduto;
+use App\Models\AnexosLiberacao;
 use Illuminate\Http\Request;
 
-class AnexosLiberacao extends Controller
+class AnexosLiberacaoController extends Controller
 {
     public function show($id)
     {
         // Verifica se ID existe na tabela de liberações
-        $anexos = LiberacaoProduto::find($id);
+        $anexos = AnexosLiberacao::find($id);
 
         if (!$anexos) {
             abort(404, 'ID de liberação não encontrado.');
@@ -20,6 +21,6 @@ class AnexosLiberacao extends Controller
     }
 
     public function destroy($id, $id_arq){
-        
+
     }
 }
