@@ -131,7 +131,7 @@
                         </div>
 
                         <div class="flex gap-4">
-                            <div class="w-1/2 mt-3 relative">
+                            <div class="w-1/2">
                                 <label for="produto"
                                     class="block text-lg font-medium text-gray-700 mb-3 mt-3">Produto</label>
 
