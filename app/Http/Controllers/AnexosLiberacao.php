@@ -18,4 +18,8 @@ class AnexosLiberacao extends Controller
 
         return view('files', compact('anexos'));
     }
+
+    public function destroy($id, $id_arq){
+        
+    }
 }

@@ -90,7 +90,7 @@
                                                                 </a>
                                                             </div>
                                                         
-                                                            <form action="{{ route('protocolo_arquivo.destroy', [$arq->id, 'id_doc' => $arq->id_arq]) }}" method="POST" class="block">
+                                                            <form action="{{ route('anexos.destroy', [$arq->id, 'id_doc' => $arq->id_arq]) }}" method="POST" class="block">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <div class="flex items-center">
