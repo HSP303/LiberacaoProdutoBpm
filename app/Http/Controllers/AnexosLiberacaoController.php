@@ -12,7 +12,7 @@ class AnexosLiberacaoController extends Controller
     {
         $liberacao = LiberacaoProduto::findOrFail($id);
 
-        $anexos = AnexosLiberacao::where('liberacao_id', $id)
+        $anexos = AnexosLiberacao::where('id', $id)
             ->orderBy('id_anx')
             ->get(); // <- Collection, não boolean, não array simples
 
