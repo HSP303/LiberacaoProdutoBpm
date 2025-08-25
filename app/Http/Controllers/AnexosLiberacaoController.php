@@ -14,7 +14,7 @@ class AnexosLiberacaoController extends Controller
         $anexos = AnexosLiberacao::find($id);
 
         if (!$anexos) {
-            abort(404, 'ID de liberação não encontrado.');
+            abort(404, 'ID  de liberação não encontrado.');
         }
 
         return view('files', compact('anexos'));
