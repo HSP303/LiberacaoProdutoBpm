@@ -29,7 +29,7 @@ Route::post('/item-liberacao/update-minmax', [ItemLiberacaoController::class, 'u
 Route::post('/cavidades-liberacao', [CavidadeController::class, 'store'])->name('cavidades-liberacao.store');
 
 // ANEXOS
-Route::get('/anexos/{id}', [AnexosLiberacao::class, 'index'])->name('anexos.show');
+Route::get('/anexos/{id}', [AnexosLiberacao::class, 'show'])->name('anexos.show');
 Route::post('/anexos-inserir', [AnexosLiberacao::class, 'store'])->name('anexos.store');
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
