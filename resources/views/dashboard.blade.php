@@ -56,9 +56,9 @@
                                             @foreach($liberacoes as $item)
                                                 <tr class="hover:bg-gray-50"
                                                     x-show="
-                                                                                                                                                                                                                                                                                        {{ json_encode((string) $item->produto ?? '') }}.toLowerCase().includes(filtroProduto.toLowerCase()) &&
-                                                                                                                                                                                                                                                                                        {{ json_encode((string) $item->empresa ?? '') }}.toLowerCase().includes(filtroEmpresa.toLowerCase())
-                                                                                                                                                                                                                                                                                                                                                        ">
+                                                                                                                                                                                                                                                                                                    {{ json_encode((string) $item->produto ?? '') }}.toLowerCase().includes(filtroProduto.toLowerCase()) &&
+                                                                                                                                                                                                                                                                                                    {{ json_encode((string) $item->empresa ?? '') }}.toLowerCase().includes(filtroEmpresa.toLowerCase())
+                                                                                                                                                                                                                                                                                                                                                                    ">
                                                     <td class="border px-2 py-1">{{ $item->id }}</td>
                                                     <td class="border px-2 py-1">{{ $item->empresa ?? '-' }}</td>
                                                     <td class="border px-2 py-1">{{ $item->produto ?? '-' }}</td>
@@ -117,31 +117,38 @@
                             @method('PUT')
                         @endif
 
-                        <form method="GET" action="{{ route('dashboard') }}">
-                            <label for="empresa"
-                                class="block text-lg font-medium text-gray-700 mb-3 mt-3">Empresa</label>
-                            <select id="empresa" name="empresa" required
-                                class="border rounded p-2 w-full shadow-sm focus:ring focus:ring-blue-300 text-black"
-                                onchange="this.form.submit()">
+                        <div class="mb-6">
+                            <label for="empresa" class="block text-lg font-medium text-gray-700 mb-2">Empresa</label>
+                            <select id="empresa" name="empresa"
+                                class="border rounded p-2 w-full shadow-sm focus:ring focus:ring-blue-300 text-black">
                                 <option value="">Selecione a empresa</option>
                                 @foreach($empresas as $empresa)
-                                    <option value="{{ $empresa['codemp'] ?? '' }}"
-                                        @if(request('empresa') == ($empresa['codemp'] ?? '')) selected @endif>
-                                        {{ ($empresa['codemp'] ?? '') . ' - ' . ($empresa['nomemp'] ?? 'Sem nome') }}
+                                    <option value="{{ $empresa['codemp'] }}">
+                                        {{ $empresa['codemp'] . ' - ' . ($empresa['nomemp'] ?? 'Sem nome') }}
                                     </option>
                                 @endforeach
                             </select>
-                        </form>
+                        </div>
 
                         <div class="flex gap-4">
-                            <div class="w-1/2 mt-3">
+                            <div class="w-1/2 mt-3 relative">
                                 <label for="produto"
                                     class="block text-lg font-medium text-gray-700 mb-3 mt-3">Produto</label>
-                                <select id="produto" name="produto" required
-                                    class="border rounded p-2 w-full shadow-sm focus:ring focus:ring-blue-300 text-black">
+
+                                <div class="flex">
+                                    <input type="text" id="busca-produto" placeholder="Digite para buscar"
+                                        class="border rounded-l p-2 w-full shadow-sm focus:ring focus:ring-blue-300 text-black">
+                                    <button type="button" id="btn-buscar-produto"
+                                        class="bg-blue-500 text-white px-3 rounded-r hover:bg-blue-600">
+                                        🔍
+                                    </button>
+                                </div>
+
+                                <select id="lista-produtos" name="produto" required
+                                    class="border rounded p-2 w-full shadow-sm focus:ring focus:ring-blue-300 text-black mt-2">
                                     <option value="">Selecione o produto</option>
                                     @foreach($produtos as $produto)
-                                        <option value="{{ $produto['codpro'] ?? '' }}" @if(isset($liberacao) && $liberacao->produto == ($produto['codpro'] ?? '')) selected @endif>
+                                        <option value="{{ $produto['codpro'] ?? '' }}">
                                             {{ ($produto['codpro'] ?? '') . ' - ' . ($produto['despro'] ?? 'Sem descrição') }}
                                         </option>
                                     @endforeach
@@ -548,6 +555,33 @@
                     })
                     .catch(error => console.error('Erro:', error));
             });
+        });
+
+        document.getElementById('btn-buscar-produto').addEventListener('click', function () {
+            const termo = document.getElementById('busca-produto').value;
+            const empresa = document.getElementById('empresa').value;
+
+            if (!empresa) {
+                alert('Selecione a empresa antes de buscar o produto.');
+                return;
+            }
+
+            fetch(`{{ route('buscar.produtos') }}?empresa=${empresa}&termo=${termo}`)
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById('lista-produtos');
+                    select.innerHTML = '<option value="">Selecione o produto</option>'; // limpa
+
+                    data.forEach(produto => {
+                        const option = document.createElement('option');
+                        option.value = produto.codpro;
+                        option.textContent = `${produto.codpro} - ${produto.despro}`;
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar produtos:', error);
+                });
         });
     </script>
 </x-app-layout>

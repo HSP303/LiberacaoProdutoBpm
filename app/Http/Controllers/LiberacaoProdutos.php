@@ -19,16 +19,17 @@ class LiberacaoProdutos extends Controller
     public function index(Request $request)
     {
         $idLiberacao = $request->query('id');
-        $empresaSelecionada = $request->query('empresa'); // <- captura a empresa selecionada
+        $empresaSelecionada = $request->query('empresa');
         $liberacao = null;
         $itensLiberacao = collect();
         $cavidadesLiberacao = collect();
         $itensCavidadeLiberacao = collect();
+
         $user = Auth::user();
         $token = $user->token;
         $bearer = 'Bearer ' . $token;
 
-        // BUSCA DADOS DAS EMPRESAS
+        // ✅ Busca Empresas
         $this->client = new Client();
         $response = $this->client->request('POST', 'https://platform.senior.com.br/t/senior.com.br/bridge/1.0/rest/platform/conector/actions/invoke', [
             'json' => [
@@ -47,53 +48,26 @@ class LiberacaoProdutos extends Controller
                 'Authorization' => $bearer,
             ]
         ]);
+
         $responseDataEmpresa = json_decode($response->getBody()->getContents(), true);
         $empresas = $responseDataEmpresa['outputData']['empresas'];
 
-        // BUSCA DADOS DO PRODUTO apenas se uma empresa estiver selecionada
-        $produtos = [];
-        if ($empresaSelecionada) {
-            dd($empresaSelecionada);
-            $response = $this->client->request('POST', 'https://platform.senior.com.br/t/senior.com.br/bridge/1.0/rest/platform/conector/actions/invoke', [
-                'json' => [
-                    'inputData' => [
-                        'server' => 'https://senior.gramserv.com.br:8081',
-                        'rootObject' => '',
-                        'service' => 'com.avs.SeniorX',
-                        'module' => 'sapiens',
-                        'encryption' => '0',
-                        'port' => 'BuscaProduto',
-                        'despro' => '',
-                        'codemp' => $empresaSelecionada,
-                        'codpro' => '',
-                        'top' => '500000',
-                        'skip' => '0',
-                    ],
-                    'id' => 'f2200c3b-c7df-4040-9613-34f697b75889',
-                    'configurationId' => '7afdb58f-a138-4005-b3f2-f9d9f124459a',
-                ],
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Authorization' => $bearer,
-                ]
-            ]);
-
-            $responseDataProduto = json_decode($response->getBody()->getContents(), true);
-            $produtos = $responseDataProduto['outputData']['produtos'];
-        }
-
-        // BUSCA LIBERAÇÕES (opcional, permanece igual)
+        // ✅ Busca Liberações (permanece igual)
         $liberacoes = LiberacaoProduto::select('id', 'empresa', 'produto', 'created_at')->get();
+
         if ($idLiberacao) {
             $liberacao = LiberacaoProduto::find($idLiberacao);
             $itensLiberacao = ItemLiberacao::where('id', $idLiberacao)
                 ->select('id', 'id_item', 'especificado', 'equipamento', 'resultado')
                 ->get();
+
             $idItem = $itensLiberacao->first()->id_item ?? null;
+
             $cavidadesLiberacao = CavidadeLiberacao::where('id', $idLiberacao)
                 ->select('id', 'id_cavidade', 'descricao')
                 ->orderBy('id_cavidade', 'asc')
                 ->get();
+
             $itensCavidadeLiberacao = ItemCavidadeLiberacao::where('id', $idLiberacao)
                 ->where('id_item', $idItem)
                 ->select('id', 'id_item', 'id_cavidade', 'minimo', 'maximo')
@@ -108,11 +82,53 @@ class LiberacaoProdutos extends Controller
             'cavidadesLiberacao' => $cavidadesLiberacao,
             'itensCavidadesLiberacao' => $itensCavidadeLiberacao,
             'empresas' => $empresas,
-            'produtos' => $produtos,
-            'empresaSelecionada' => $empresaSelecionada, // opcional para usar na view
         ]);
     }
 
+
+    public function buscarProdutos(Request $request)
+    {
+        $empresaSelecionada = $request->input('empresa');
+        $termo = $request->input('termo'); // termo digitado pelo usuário
+
+        if (!$empresaSelecionada) {
+            return response()->json(['error' => 'Selecione a empresa antes de buscar o produto'], 400);
+        }
+
+        $user = Auth::user();
+        $token = $user->token;
+        $bearer = 'Bearer ' . $token;
+
+        $this->client = new Client();
+        $response = $this->client->request('POST', 'https://platform.senior.com.br/t/senior.com.br/bridge/1.0/rest/platform/conector/actions/invoke', [
+            'json' => [
+                'inputData' => [
+                    'server' => 'https://senior.gramserv.com.br:8081',
+                    'rootObject' => '',
+                    'service' => 'com.avs.SeniorX',
+                    'module' => 'sapiens',
+                    'encryption' => '0',
+                    'port' => 'BuscaProduto',
+                    'despro' => $termo ?? '',
+                    'codemp' => $empresaSelecionada,
+                    'codpro' => '',
+                    'top' => '100', // limite para melhorar performance
+                    'skip' => '0',
+                ],
+                'id' => 'f2200c3b-c7df-4040-9613-34f697b75889',
+                'configurationId' => '7afdb58f-a138-4005-b3f2-f9d9f124459a',
+            ],
+            'headers' => [
+                'Accept' => 'application/json',
+                'Authorization' => $bearer,
+            ]
+        ]);
+
+        $responseDataProduto = json_decode($response->getBody()->getContents(), true);
+        $produtos = $responseDataProduto['outputData']['produtos'] ?? [];
+
+        return response()->json($produtos);
+    }
 
     public function getIds(Request $request)
     {
