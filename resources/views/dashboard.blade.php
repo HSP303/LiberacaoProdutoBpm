@@ -56,9 +56,9 @@
                                             @foreach($liberacoes as $item)
                                                 <tr class="hover:bg-gray-50"
                                                     x-show="
-                                                                                                                                                                                                                                                                                                                    {{ json_encode((string) $item->produto ?? '') }}.toLowerCase().includes(filtroProduto.toLowerCase()) &&
-                                                                                                                                                                                                                                                                                                                    {{ json_encode((string) $item->empresa ?? '') }}.toLowerCase().includes(filtroEmpresa.toLowerCase())
-                                                                                                                                                                                                                                                                                                                                                                                    ">
+                                                                                                                                                                                                                                                                                                                {{ json_encode((string) $item->produto ?? '') }}.toLowerCase().includes(filtroProduto.toLowerCase()) &&
+                                                                                                                                                                                                                                                                                                                {{ json_encode((string) $item->empresa ?? '') }}.toLowerCase().includes(filtroEmpresa.toLowerCase())
+                                                                                                                                                                                                                                                                                                                                                                                ">
                                                     <td class="border px-2 py-1">{{ $item->id }}</td>
                                                     <td class="border px-2 py-1">{{ $item->empresa ?? '-' }}</td>
                                                     <td class="border px-2 py-1">{{ $item->produto ?? '-' }}</td>
@@ -558,50 +558,38 @@
         });
 
         document.getElementById('btn-buscar-produto').addEventListener('click', function () {
-            const btnBuscarProduto = document.getElementById('btn-buscar-produto');
-            const inputBuscaProduto = document.getElementById('busca-produto');
-            const selectEmpresa = document.getElementById('empresa');
-            const selectProdutos = document.getElementById('lista-produtos');
+            const termo = document.getElementById('busca-produto').value;
+            const empresa = document.getElementById('empresa').value;
 
-            // Zera o campo de produtos quando a empresa é alterada
-            selectEmpresa.addEventListener('change', function () {
-                selectProdutos.innerHTML = '<option value="">Selecione o produto</option>';
-                inputBuscaProduto.value = ''; // opcional: limpa também o campo de busca
-            });
+            if (!empresa) {
+                alert('Selecione a empresa antes de buscar o produto.');
+                return;
+            }
 
-            btnBuscarProduto.addEventListener('click', function () {
-                const termo = inputBuscaProduto.value;
-                const empresa = selectEmpresa.value;
+            fetch(`{{ route('buscar.produtos') }}?empresa=${empresa}&termo=${encodeURIComponent(termo)}`)
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById('lista-produtos');
+                    const produtoAtual = "{{ $liberacao->produto ?? '' }}"; // Produto atual da liberação
 
-                if (!empresa) {
-                    alert('Selecione a empresa antes de buscar o produto.');
-                    return;
-                }
+                    select.innerHTML = '<option value="">Selecione o produto</option>'; // limpa opções
 
-                fetch(`{{ route('buscar.produtos') }}?empresa=${empresa}&termo=${encodeURIComponent(termo)}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        const produtoAtual = "{{ $liberacao->produto ?? '' }}"; // Produto atual da liberação
+                    data.forEach(produto => {
+                        const option = document.createElement('option');
+                        option.value = produto.codpro;
+                        option.textContent = `${produto.codpro} - ${produto.despro}`;
 
-                        selectProdutos.innerHTML = '<option value="">Selecione o produto</option>'; // limpa opções
+                        // Se o produto atual for igual ao retornado, marca como selecionado
+                        if (produto.codpro === produtoAtual) {
+                            option.selected = true;
+                        }
 
-                        data.forEach(produto => {
-                            const option = document.createElement('option');
-                            option.value = produto.codpro;
-                            option.textContent = `${produto.codpro} - ${produto.despro}`;
-
-                            // Se o produto atual for igual ao retornado, marca como selecionado
-                            if (produto.codpro === produtoAtual) {
-                                option.selected = true;
-                            }
-
-                            selectProdutos.appendChild(option);
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Erro ao buscar produtos:', error);
+                        select.appendChild(option);
                     });
-            });
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar produtos:', error);
+                });
         });
     </script>
 </x-app-layout>
