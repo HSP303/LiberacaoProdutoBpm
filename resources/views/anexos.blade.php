@@ -41,60 +41,61 @@
         </div>
     </div>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div
-            class="bg-white dark:bg-gray-900 rounded-2xl shadow-md ring-1 ring-gray-200 dark:ring-gray-800 overflow-hidden">
-            <!-- Header -->
-            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-800">
-                <div>
-                    <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Anexos da Liberação</h2>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Lista de arquivos vinculados</p>
+    <div class="container">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div
+                class="bg-white dark:bg-gray-900 rounded-2xl shadow-md ring-1 ring-gray-200 dark:ring-gray-800 overflow-hidden">
+                <!-- Header -->
+                <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-800">
+                    <div>
+                        <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Anexos da Liberação</h2>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Lista de arquivos vinculados</p>
+                    </div>
+                    <span
+                        class="inline-flex items-center rounded-full bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 px-3 py-1 text-xs font-medium">
+                        2 itens
+                    </span>
                 </div>
-                <span
-                    class="inline-flex items-center rounded-full bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 px-3 py-1 text-xs font-medium">
-                    2 itens
-                </span>
-            </div>
 
-            <!-- Table -->
-            <div class="relative overflow-x-auto">
-                <table class="min-w-full">
-                    <thead class="bg-blue-600">
-                        <tr>
-                            <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-white">
-                                Seq. Anexo</th>
-                            <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-white">
-                                Descrição Arquivo</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
-                        <tr
-                            class="odd:bg-white even:bg-gray-50 dark:odd:bg-gray-900 dark:even:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700/60 transition-colors">
-                            <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-200">A</td>
-                            <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-200">B</td>
-                        </tr>
+                <!-- Table -->
+                <div class="relative overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead class="bg-blue-600">
+                            <tr>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-white">
+                                    Seq. Anexo</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-white">
+                                    Descrição Arquivo</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+                            <tr
+                                class="odd:bg-white even:bg-gray-50 dark:odd:bg-gray-900 dark:even:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700/60 transition-colors">
+                                <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-200">A</td>
+                                <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-200">B</td>
+                            </tr>
 
-                        <!-- Exemplo de outra linha -->
-                        <tr
-                            class="odd:bg-white even:bg-gray-50 dark:odd:bg-gray-900 dark:even:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700/60 transition-colors">
-                            <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-200">C</td>
-                            <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-200">D</td>
-                        </tr>
+                            <!-- Exemplo de outra linha -->
+                            <tr
+                                class="odd:bg-white even:bg-gray-50 dark:odd:bg-gray-900 dark:even:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700/60 transition-colors">
+                                <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-200">C</td>
+                                <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-200">D</td>
+                            </tr>
 
-                        <!-- Empty state (mostre se não houver registros) -->
-                        <!--
+                            <!-- Empty state (mostre se não houver registros) -->
+                            <!--
           <tr>
             <td colspan="2" class="px-6 py-12 text-center text-sm text-gray-500 dark:text-gray-400">
               Nenhum anexo encontrado.
             </td>
           </tr>
           -->
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-
 </x-app-layout>
