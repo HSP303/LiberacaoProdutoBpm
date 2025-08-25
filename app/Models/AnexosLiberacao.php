@@ -19,4 +19,9 @@ class AnexosLiberacao extends Model
     {
         return $this->belongsTo(LiberacaoProduto::class, 'id'); // mesma PK
     }
+
+    public function setArquivoAttribute($value)
+    {
+        $this->attributes['arquivo'] = pg_escape_bytea($value);
+    }
 }
