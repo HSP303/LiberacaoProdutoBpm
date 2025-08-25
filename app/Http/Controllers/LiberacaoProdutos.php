@@ -126,10 +126,9 @@ class LiberacaoProdutos extends Controller
             ]
         ]);
 
-        dd($response);
-
         $responseDataProduto = json_decode($response->getBody()->getContents(), true);
-        $produtos = $responseDataProduto['outputData']['produtos'] ?? [];
+        $produtos = $responseDataProduto['outputData']['contents'][0]['produtos'] ?? [];
+
 
         return response()->json($produtos);
     }
