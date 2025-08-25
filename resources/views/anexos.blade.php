@@ -49,7 +49,7 @@
                 <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-800">
                     <div>
                         <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Anexos da Liberação
-                            #{{ $anexos->id }}</h2>
+                            #{{ $liberacao->id }}</h2>
                         <p class="text-sm text-gray-500 dark:text-gray-400">Lista de arquivos vinculados</p>
                     </div>
                     <span
