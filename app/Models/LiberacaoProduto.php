@@ -72,4 +72,9 @@ class LiberacaoProduto extends Model
     {
         return $this->hasMany(ItemLiberacao::class, 'id', 'id');
     }
+
+    public function anexo()
+    {
+        return $this->hasOne(AnexoLiberacao::class, 'id'); // mesma PK
+    }
 }
