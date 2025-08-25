@@ -17,6 +17,7 @@ Route::get('/liberacoes/ids', [LiberacaoProdutos::class, 'getIds'])->name('liber
 Route::get('/buscar-produtos', [LiberacaoProdutos::class, 'buscarProdutos'])->name('buscar.produtos');
 
 
+
 // INSERIR ITENS DA LIBERAÇÃO 
 Route::post('/itens-liberacao', [ItemLiberacaoController::class, 'store'])->name('itens-liberacao.store');
 Route::delete('/itens-liberacao-delete', [ItemLiberacaoController::class, 'delete'])->name('itens-liberacao.delete');
