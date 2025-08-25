@@ -114,7 +114,7 @@ class LiberacaoProdutos extends Controller
                     'despro' => $termo ?? '',
                     'codemp' => $empresaSelecionada,
                     'codpro' => '',
-                    'top' => '100', // limite para melhorar performance
+                    'top' => '500000', // limite para melhorar performance
                     'skip' => '0',
                 ],
                 'id' => 'f2200c3b-c7df-4040-9613-34f697b75889',
@@ -125,6 +125,8 @@ class LiberacaoProdutos extends Controller
                 'Authorization' => $bearer,
             ]
         ]);
+
+        dd($response);
 
         $responseDataProduto = json_decode($response->getBody()->getContents(), true);
         $produtos = $responseDataProduto['outputData']['produtos'] ?? [];
