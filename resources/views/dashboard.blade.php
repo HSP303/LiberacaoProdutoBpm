@@ -56,9 +56,9 @@
                                             @foreach($liberacoes as $item)
                                                 <tr class="hover:bg-gray-50"
                                                     x-show="
-                                                                                                                                                                                                                                                                                                                {{ json_encode((string) $item->produto ?? '') }}.toLowerCase().includes(filtroProduto.toLowerCase()) &&
-                                                                                                                                                                                                                                                                                                                {{ json_encode((string) $item->empresa ?? '') }}.toLowerCase().includes(filtroEmpresa.toLowerCase())
-                                                                                                                                                                                                                                                                                                                                                                                ">
+                                                                                                                                                                                                                                                                                                                        {{ json_encode((string) $item->produto ?? '') }}.toLowerCase().includes(filtroProduto.toLowerCase()) &&
+                                                                                                                                                                                                                                                                                                                        {{ json_encode((string) $item->empresa ?? '') }}.toLowerCase().includes(filtroEmpresa.toLowerCase())
+                                                                                                                                                                                                                                                                                                                                                                                        ">
                                                     <td class="border px-2 py-1">{{ $item->id }}</td>
                                                     <td class="border px-2 py-1">{{ $item->empresa ?? '-' }}</td>
                                                     <td class="border px-2 py-1">{{ $item->produto ?? '-' }}</td>
@@ -149,7 +149,7 @@
                                     <option value="">Selecione o produto</option>
                                     @if($liberacao && $liberacao->produto)
                                         <option value="{{ $liberacao->produto }}" selected>
-                                            {{ $liberacao->produto }}
+                                            {{ $liberacao->produto }} - {{ $liberacao->descricao ?? '' }}
                                         </option>
                                     @endif
                                 </select>
@@ -557,6 +557,14 @@
             });
         });
 
+        // Zera o campo de produtos ao trocar de empresa
+        document.getElementById('empresa').addEventListener('change', function () {
+            const select = document.getElementById('lista-produtos');
+            const inputBusca = document.getElementById('busca-produto');
+            select.innerHTML = '<option value="">Selecione o produto</option>';
+            inputBusca.value = ''; // opcional: limpa também a busca
+        });
+
         document.getElementById('btn-buscar-produto').addEventListener('click', function () {
             const termo = document.getElementById('busca-produto').value;
             const empresa = document.getElementById('empresa').value;
@@ -576,10 +584,9 @@
 
                     data.forEach(produto => {
                         const option = document.createElement('option');
-                        option.value = produto.codpro;
-                        option.textContent = `${produto.codpro} - ${produto.despro}`;
+                        option.value = produto.codpro; // valor enviado no form
+                        option.textContent = `${produto.codpro} - ${produto.despro}`; // mostra código e descrição
 
-                        // Se o produto atual for igual ao retornado, marca como selecionado
                         if (produto.codpro === produtoAtual) {
                             option.selected = true;
                         }
