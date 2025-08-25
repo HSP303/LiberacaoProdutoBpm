@@ -4,6 +4,7 @@ use App\Http\Controllers\CavidadeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LiberacaoProdutos;
 use App\Http\Controllers\ItemLiberacaoController;
+use App\Http\Controllers\AnexosLiberacao;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 
@@ -27,6 +28,9 @@ Route::post('/item-liberacao/update-minmax', [ItemLiberacaoController::class, 'u
 // INSERIR CAVIDADES
 Route::post('/cavidades-liberacao', [CavidadeController::class, 'store'])->name('cavidades-liberacao.store');
 
+// ANEXOS
+Route::post('/anexos', [AnexosLiberacao::class, 'index'])->name('anexos.index');
+Route::post('/anexos-inserir', [AnexosLiberacao::class, 'store'])->name('anexos.store');
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])->name('login');

@@ -149,7 +149,7 @@
                                     <option value="">Selecione o produto</option>
                                     @if($liberacao && $liberacao->produto)
                                         <option value="{{ $liberacao->produto }}" selected>
-                                            {{ $liberacao->produto }} - {{ $liberacao->descricao ?? '' }}
+                                            {{ $liberacao->produto }}
                                         </option>
                                     @endif
                                 </select>
