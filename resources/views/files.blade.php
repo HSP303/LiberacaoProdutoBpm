@@ -12,7 +12,7 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         <div class="relative">
-                            <form method="POST" action="{{ route('anexos.store', ['id' => $id]) }}" enctype="multipart/form-data">
+                            <form method="POST" action="{{ route('anexos.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div>
                                     <div>
@@ -61,25 +61,24 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($arquivo as $arq)
+                                        @foreach($anexos as $arq)
                                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100">
-                                                <td class="px-6 py-4">{{ $arq->id_doc }}</td>
-                                                <td class="px-6 py-4">{{ $arq->des_document }}</td>
-                                                <td class="px-6 py-4">{{ $arq->cam_document }}</td>
+                                                <td class="px-6 py-4">{{ $arq->id_arq }}</td>
+                                                <td class="px-6 py-4">{{ $arq->nome_arquivo }}</td>
                                                 <td class="px-6 py-4">
                                                     <!-- Botão de três pontos -->
                                                     <div class="relative">
-                                                        <button id="dropdownButton-{{ $arq->id_doc }}" class="text-gray-500 hover:text-gray-700 focus:outline-none" onclick="toggleDropdown('{{ $arq->id_doc }}')">
+                                                        <button id="dropdownButton-{{ $arq->id_arq }}" class="text-gray-500 hover:text-gray-700 focus:outline-none" onclick="toggleDropdown('{{ $arq->id_arq }}')">
                                                             <img src="https://cdn-icons-png.flaticon.com/512/1342/1342047.png" alt="Ações" class="w-9 h-9 ml-2">
                                                         </button>
                                                         
                                                         <!-- Dropdown menu -->
-                                                        <div id="dropdownMenu-{{ $arq->id_doc }}" class="hidden absolute right-0 z-10 mt-2 w-48 bg-white rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 top-full">
+                                                        <div id="dropdownMenu-{{ $arq->id_arq }}" class="hidden absolute right-0 z-10 mt-2 w-48 bg-white rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 top-full">
                                                             <!-- Botão Visualizar Documento -->
                                                             <div class="flex items-center">
                                                                 <img src="https://cdn-icons-png.flaticon.com/512/475/475990.png" alt="Visualizar" class="w-8 h-8 ml-2">
                                                                 <button type="button" class="text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                    onclick="viewDocument('{{ url( $arq->cam_document) }}', '{{ pathinfo($arq->cam_document, PATHINFO_EXTENSION) }}'); toggleDropdown('{{ $arq->id_doc }}')">
+                                                                    onclick="viewDocument('{{ url( $arq->arquivo) }}', '{{ pathinfo($arq->arquivo, PATHINFO_EXTENSION) }}'); toggleDropdown('{{ $arq->id_arq }}')">
                                                                     Visualizar
                                                                 </button>
                                                             </div>
@@ -91,12 +90,12 @@
                                                                 </a>
                                                             </div>
                                                         
-                                                            <form action="{{ route('protocolo_arquivo.destroy', ['id' => $id, 'id_doc' => $arq->id_doc]) }}" method="POST" class="block">
+                                                            <form action="{{ route('protocolo_arquivo.destroy', [$arq->id, 'id_doc' => $arq->id_arq]) }}" method="POST" class="block">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <div class="flex items-center">
                                                                     <img src="https://cdn-icons-png.flaticon.com/512/1799/1799391.png" alt="Excluir" class="w-8 h-8 ml-2">
-                                                                    <button type="submit" class="text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="confirmDeletion({{ $arq->id_doc }}); toggleDropdown('{{ $arq->id_doc }}')">Excluir</button>
+                                                                    <button type="submit" class="text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="confirmDeletion({{ $arq->id_arq }}); toggleDropdown('{{ $arq->id_arq }}')">Excluir</button>
                                                                 </div>
                                                             </form>
                                                         </div>
