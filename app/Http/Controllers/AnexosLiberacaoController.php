@@ -10,10 +10,13 @@ class AnexosLiberacaoController extends Controller
 {
     public function show($id)
     {
-        // Verifica se ID existe na tabela de liberações
-        $anexos = AnexosLiberacao::find($id);
+        $liberacao = LiberacaoProduto::findOrFail($id);
 
-        return view('anexos', compact('anexos', 'id'));
+        $anexos = AnexosLiberacao::where('liberacao_id', $id)
+            ->orderBy('id_anx')
+            ->get(); // <- Collection, não boolean, não array simples
+
+        return view('anexos', compact('liberacao', 'anexos'));
     }
 
     public function destroy($id, $id_arq)
