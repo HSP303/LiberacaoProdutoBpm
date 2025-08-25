@@ -12,17 +12,11 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         <div class="relative">
-                            <form method="POST" action="{{ route('anexos.store', ['id'=>$id]) }}" enctype="multipart/form-data">
+                            <form method="POST" action="{{ route('anexos.store', ['id' => $id]) }}"
+                                enctype="multipart/form-data">
                                 @csrf
                                 <div>
-                                    <div>
-                                        <x-input-label for="descricao_arquivo" :value="__('Descrição do Arquivo')" />
-                                        <x-text-input id="descricao_arquivo" class="block mt-1" style="width:100%;"
-                                            type="text" name="descricao_arquivo" :value="old('descricao_arquivo')"
-                                            required autofocus autocomplete="representado" />
-                                        <x-input-error :messages="$errors->get('descricao_arquivo')" class="mt-2" />
-                                    </div>
-                                    <div class="grid grid-cols-1 gap-6 mt-2">
+                                    <div class="grid grid-cols-1 gap-6">
                                         <div>
                                             <label class="block mb-2 text-sm font-medium text-gray-900"
                                                 for="file">Arquivo</label>
@@ -47,34 +41,60 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="py-3">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">
-                        <div class="relative">
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-sm text-left text-black dark:text-gray-400">
-                                    <thead class="text-xs text-black uppercase rounded-lg"
-                                        style="background-color: #3b82f6; border-radius: 5px;">
-                                        <tr>
-                                            <th scope="col" class="px-6 py-3">Sequencia</th>
-                                            <th scope="col" class="px-6 py-3">Descrição Arquivo</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr
-                                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100">
-                                            <td class="px-6 py-4">A</td>
-                                            <td class="px-6 py-4">B</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div
+            class="bg-white dark:bg-gray-900 rounded-2xl shadow-md ring-1 ring-gray-200 dark:ring-gray-800 overflow-hidden">
+            <!-- Header -->
+            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-800">
+                <div>
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Anexos da Liberação</h2>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Lista de arquivos vinculados</p>
                 </div>
+                <span
+                    class="inline-flex items-center rounded-full bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 px-3 py-1 text-xs font-medium">
+                    2 itens
+                </span>
+            </div>
+
+            <!-- Table -->
+            <div class="relative overflow-x-auto">
+                <table class="min-w-full">
+                    <thead class="bg-blue-600">
+                        <tr>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-white">
+                                Seq. Anexo</th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-white">
+                                Descrição Arquivo</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+                        <tr
+                            class="odd:bg-white even:bg-gray-50 dark:odd:bg-gray-900 dark:even:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700/60 transition-colors">
+                            <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-200">A</td>
+                            <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-200">B</td>
+                        </tr>
+
+                        <!-- Exemplo de outra linha -->
+                        <tr
+                            class="odd:bg-white even:bg-gray-50 dark:odd:bg-gray-900 dark:even:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700/60 transition-colors">
+                            <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-200">C</td>
+                            <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-200">D</td>
+                        </tr>
+
+                        <!-- Empty state (mostre se não houver registros) -->
+                        <!--
+          <tr>
+            <td colspan="2" class="px-6 py-12 text-center text-sm text-gray-500 dark:text-gray-400">
+              Nenhum anexo encontrado.
+            </td>
+          </tr>
+          -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+
 </x-app-layout>
