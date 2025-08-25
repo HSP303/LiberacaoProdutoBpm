@@ -4,7 +4,7 @@ use App\Http\Controllers\CavidadeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LiberacaoProdutos;
 use App\Http\Controllers\ItemLiberacaoController;
-use App\Http\Controllers\AnexosLiberacao;
+use App\Http\Controllers\AnexosLiberacaoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 
