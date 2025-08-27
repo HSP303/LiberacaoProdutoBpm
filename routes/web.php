@@ -33,6 +33,7 @@ Route::get('/anexos/{id}', [AnexosLiberacaoController::class, 'show'])->name('an
 Route::get('/anexos/{id}/{id_anx}', [AnexosLiberacaoController::class, 'destroy'])->name('anexos.destroy');
 Route::post('/anexos-inserir/{id}', [AnexosLiberacaoController::class, 'store'])->name('anexos.store');
 Route::get('/anexos/download/{id}/{id_anx}', [AnexosLiberacaoController::class, 'download'])->name('anexos.download');
+Route::get('/anexos/{id}/{id_anx}/probe', [AnexosLiberacaoController::class, 'probe'])->name('anexos.probe');
 
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');

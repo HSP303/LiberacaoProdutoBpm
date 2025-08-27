@@ -73,38 +73,29 @@ class AnexosLiberacaoController extends Controller
 
     public function download($id, $id_anx)
     {
-        $anexo = AnexosLiberacao::where('id', $id)
-            ->where('id_anx', $id_anx)
-            ->firstOrFail();
+        $row = DB::table('anexos_liberacao')
+        ->where('id', $id)
+        ->where('id_anx', $id_anx)
+        ->first(['nome_arquivo', 'arquivo']);
 
-        // graças ao accessor, agora já é bytes puros
-        $data = $anexo->arquivo;
-        $filename = $anexo->nome_arquivo ?: "anexo_{$id}_{$id_anx}";
+        abort_if(!$row, 404);
 
-        // (opcional) detectar MIME
-        $mime = 'application/octet-stream';
-        if (function_exists('finfo_open')) {
-            $fi = finfo_open(FILEINFO_MIME_TYPE);
-            $detected = finfo_buffer($fi, $data);
-            if ($detected) $mime = $detected;
-            finfo_close($fi);
-        }
+        // normalizar “na unha” o campo bytea cru
+        $raw = $row->arquivo;
 
-        // Log de hash do que saiu do banco (diagnóstico)
-        \Log::info('DOWNLOAD banco md5', [
-            'nome' => $filename,
-            'md5'  => md5($data),
-            'id'   => $id,
-            'id_anx' => $id_anx,
-        ]);
+        if (is_resource($raw)) { rewind($raw); $data = stream_get_contents($raw) ?: ''; }
+        elseif (is_string($raw) && strncmp($raw, '\\x', 2) === 0) { $data = hex2bin(substr($raw, 2)) ?: ''; }
+        elseif (is_string($raw) && function_exists('pg_unescape_bytea')) { $tmp = @pg_unescape_bytea($raw); $data = ($tmp !== false) ? $tmp : $raw; }
+        else { $data = (string) $raw; }
+
+        $filename = $row->nome_arquivo ?: "anexo_{$id}_{$id_anx}";
 
         return response()->streamDownload(function () use ($data) {
             echo $data;
         }, $filename, [
-            'Content-Type'            => $mime,
-            'Content-Length'          => (string) strlen($data),
-            'Content-Disposition'     => 'attachment; filename="'.$filename.'"',
-            'X-Content-Type-Options'  => 'nosniff',
+            'Content-Type' => 'application/pdf', // se você sabe que é PDF
+            'Content-Length' => (string) strlen($data),
+            'Content-Disposition' => 'attachment; filename="'.$filename.'"',
         ]);
     }
 
@@ -143,6 +134,82 @@ class AnexosLiberacaoController extends Controller
 
         // Fallback
         return '';
+    }
+
+    public function probe($id, $id_anx)
+    {
+        $anexo = AnexosLiberacao::where('id', $id)
+            ->where('id_anx', $id_anx)
+            ->firstOrFail();
+
+        // 2.1 — Leia o valor exatamente como o Eloquent entregou (com ou sem accessor)
+        $valA = $anexo->arquivo; // se tiver accessor, vem “normalizado”
+        $lenA = is_string($valA) ? strlen($valA) : 0;
+
+        // 2.2 — Leia o valor BRUTO do atributo, ignorando accessor/mutator
+        $valB = $anexo->getAttributes()['arquivo'] ?? null;
+        $rawB = '';
+
+        if (is_resource($valB)) {
+            rewind($valB);
+            $rawB = stream_get_contents($valB) ?: '';
+        } elseif (is_string($valB)) {
+            $rawB = $valB;
+        }
+
+        // 2.3 — Normalização “na unha” do BRUTO
+        $normB = '';
+        if ($rawB !== '') {
+            if (strncmp($rawB, '\\x', 2) === 0) {
+                $normB = hex2bin(substr($rawB, 2)) ?: '';
+            } elseif (function_exists('pg_unescape_bytea')) {
+                $try = @pg_unescape_bytea($rawB);
+                $normB = ($try !== false) ? $try : $rawB;
+            } else {
+                $normB = $rawB;
+            }
+        }
+
+        // 2.4 — Calcular hashes e primeiros bytes
+        $md5A = $lenA ? md5($valA) : null;
+        $md5B = $normB !== '' ? md5($normB) : null;
+
+        $headA = $lenA ? bin2hex(substr($valA, 0, 8)) : null;
+        $headB = $normB !== '' ? bin2hex(substr($normB, 0, 8)) : null;
+
+        // 2.5 — Salvar duas cópias no disco para inspecionar
+        if ($lenA) Storage::put("probe_A_eloquent.pdf", $valA);
+        if ($normB !== '') Storage::put("probe_B_normalizado.pdf", $normB);
+
+        // 2.6 — Consultar o tamanho direto no banco (octet_length)
+        $lenDb = DB::table('anexos_liberacao')
+            ->where('id', $id)
+            ->where('id_anx', $id_anx)
+            ->selectRaw('octet_length(arquivo) as bytes')
+            ->value('bytes');
+
+        // Logar tudo
+        Log::info('PROBE anexos_liberacao', [
+            'id' => $id, 'id_anx' => $id_anx,
+            'lenA_eloquent' => $lenA,
+            'lenB_db_octet_length' => $lenDb,
+            'md5A' => $md5A,
+            'md5B' => $md5B,
+            'headA_hex' => $headA,     // ideal: 255044462d... (25 50 44 46 2D == %PDF-)
+            'headB_hex' => $headB,
+        ]);
+
+        // Retorno simples (texto) com links p/ baixar os probes
+        return response()->json([
+            'lenA_eloquent' => $lenA,
+            'lenB_db_octet_length' => (int) $lenDb,
+            'md5A' => $md5A,
+            'md5B' => $md5B,
+            'headA_hex' => $headA,
+            'headB_hex' => $headB,
+            'probe_A_path' => Storage::path("probe_A_eloquent.pdf"),
+            'probe_B_path' => Storage::path("probe_B_normalizado.pdf"),
+        ]);
     }
 
 }
