@@ -3,163 +3,215 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Relatório - Liberação #{{ $lib->id }}</title>
+    <title>Relatório de Liberação de Produto</title>
     <style>
         body {
             font-family: DejaVu Sans, Arial, sans-serif;
-            font-size: 12px;
-            color: #222;
-        }
-
-        .header {
-            margin-bottom: 12px;
-        }
-
-        .title {
-            font-size: 18px;
-            font-weight: bold;
-            margin: 0 0 6px;
-        }
-
-        .muted {
-            color: #666;
             font-size: 11px;
+            color: #000;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
         }
 
         th,
         td {
-            border: 1px solid #ddd;
-            padding: 6px;
+            border: 1px solid #000;
+            padding: 4px;
+            font-size: 10px;
         }
 
         th {
             background: #f3f3f3;
-            text-align: left;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            width: 80px;
+            margin-bottom: 5px;
         }
 
         .section {
-            margin-top: 14px;
+            margin-top: 12px;
         }
 
-        .right {
-            text-align: right;
+        .cav-table {
+            margin-bottom: 10px;
         }
 
-        .small {
-            font-size: 11px;
+        .anexo {
+            margin-top: 30px;
+            page-break-before: always;
         }
 
-        footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-size: 10px;
-            color: #777;
+        .anexo img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
         }
-
-        @page {
-            margin: 24mm 18mm 18mm;
-        }
-
-        /* topo, laterais, base */
     </style>
 </head>
 
 <body>
+
+    {{-- Cabeçalho --}}
     <div class="header">
-        <div class="title">Relatório da Liberação #{{ $lib->id }}</div>
-        <div class="muted">Gerado em {{ now()->format('d/m/Y H:i') }}</div>
+        <img src="https://media.licdn.com/dms/image/v2/C4D0BAQEmC35X1LOodg/company-logo_200_200/company-logo_200_200/0/1632589914374?e=2147483647&v=beta&t=RY9IWYGY8pK5O_4Jfcuy9XZUmJ7sRzVBR_TOs8CwbeM"
+            class="logo">
+        <h2>Relatório de Liberação do Produto</h2>
     </div>
 
+    {{-- Dados principais --}}
+    <table>
+        <tr>
+            <th>Descrição do comp/produto</th>
+            <td>{{ $lib->produto ?? '' }}</td>
+            <th>Código</th>
+            <td>{{ $lib->codigo ?? '' }}</td>
+            <th>Data da rev.</th>
+            <td>{{ $lib->rev ?? '' }}</td>
+        </tr>
+        <tr>
+            <th>Fornecedor ou processo interno</th>
+            <td>{{ $lib->fornecedor ?? '' }}</td>
+            <th>Qtd. Avaliada</th>
+            <td>{{ $lib->quantidade ?? '' }}</td>
+            <th>Lote</th>
+            <td>{{ $lib->lote ?? '' }}</td>
+        </tr>
+        <tr>
+            <th>Realizado por</th>
+            <td>{{ $lib->responsavel ?? '' }}</td>
+            <th>Data</th>
+            <td colspan="3">{{ $lib->data ?? '' }}</td>
+        </tr>
+    </table>
+
+    {{-- Tabela Itens / Cavidades --}}
     <div class="section">
+        <h3>Parâmetros indicados no desenho</h3>
+        @foreach (array_chunk($cavidades, 5) as $grupo)
+            <table class="cav-table">
+                <thead>
+                    <tr>
+                        <th>Especificado</th>
+                        @foreach ($grupo as $cav)
+                            <th>{{ $cav->nome ?? 'Cavidade' }}</th>
+                        @endforeach
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ $item->especificado ?? '' }}</td>
+                        @foreach ($grupo as $cav)
+                            <td>{{ $cav->valor ?? '' }}</td>
+                        @endforeach
+                    </tr>
+                </tbody>
+            </table>
+        @endforeach
+    </div>
+
+    {{-- Check List de testes --}}
+    <div class="section">
+        <h3>Check List para Testes Funcionais</h3>
         <table>
-            <tr>
-                <th>Cliente</th>
-                <td>{{ $lib->cliente->nome ?? '-' }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ $lib->status ?? '-' }}</td>
-            </tr>
-            <tr>
-                <th>Data</th>
-                <td>{{ optional($lib->created_at)->format('d/m/Y H:i') }}</td>
-            </tr>
-            {{-- adicione aqui os campos relevantes da sua rotina --}}
+            <thead>
+                <tr>
+                    <th>Verificar</th>
+                    <th>Ok</th>
+                    <th>Não ok</th>
+                    <th>Obs.</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Interferência na Montagem</td>
+                    <td>{{ $check['montagem_ok'] ?? '' }}</td>
+                    <td>{{ $check['montagem_nao'] ?? '' }}</td>
+                    <td>{{ $check['obs_montagem'] ?? '' }}</td>
+                </tr>
+                <tr>
+                    <td>Teste prático</td>
+                    <td>{{ $check['pratico_ok'] ?? '' }}</td>
+                    <td>{{ $check['pratico_nao'] ?? '' }}</td>
+                    <td>{{ $check['obs_pratico'] ?? '' }}</td>
+                </tr>
+                <tr>
+                    <td>Aparência (peças/regiões aparentes)</td>
+                    <td>{{ $check['aparencia_ok'] ?? '' }}</td>
+                    <td>{{ $check['aparencia_nao'] ?? '' }}</td>
+                    <td>{{ $check['obs_aparencia'] ?? '' }}</td>
+                </tr>
+                <tr>
+                    <td>Teste de vida útil</td>
+                    <td>{{ $check['vida_ok'] ?? '' }}</td>
+                    <td>{{ $check['vida_nao'] ?? '' }}</td>
+                    <td>{{ $check['obs_vida'] ?? '' }}</td>
+                </tr>
+            </tbody>
         </table>
     </div>
 
-    {{-- Exemplo de itens da liberação --}}
-    @if (isset($lib->itens) && count($lib->itens))
-        <div class="section">
-            <strong>Itens</strong>
-            <table>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Descrição</th>
-                        <th class="right">Qtd</th>
-                        <th class="right">Preço</th>
-                        <th class="right">Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($lib->itens as $i => $item)
-                        <tr>
-                            <td>{{ $i + 1 }}</td>
-                            <td>{{ $item->descricao }}</td>
-                            <td class="right">{{ number_format($item->qtd, 0, ',', '.') }}</td>
-                            <td class="right">{{ number_format($item->preco, 2, ',', '.') }}</td>
-                            <td class="right">{{ number_format($item->qtd * $item->preco, 2, ',', '.') }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    @endif
+    {{-- Observações --}}
+    <div class="section">
+        <h3>Observações</h3>
+        <p>{{ $lib->observacoes ?? '' }}</p>
+    </div>
 
-    {{-- Resumo de anexos (sem puxar o bytea) --}}
-    @if ($anexos->count())
-        <div class="section">
-            <strong>Anexos</strong>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID ANX</th>
-                        <th>Nome do Arquivo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($anexos as $ax)
-                        <tr>
-                            <td>{{ $ax->id_anx }}</td>
-                            <td>{{ $ax->nome_arquivo }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            <div class="small muted">Obs.: anexos em si não são embutidos; apenas listados.</div>
-        </div>
-    @endif
+    {{-- Laudo final --}}
+    <div class="section">
+        <table>
+            <tr>
+                <th>Laudo Final / Qualidade</th>
+                <td>
+                    @if ($lib->status == 'aprovado')
+                        ☑ Aprovado
+                    @endif
+                    @if ($lib->status == 'condicional')
+                        ☑ Aprovado Condicional
+                    @endif
+                    @if ($lib->status == 'reprovado')
+                        ☑ Reprovado
+                    @endif
+                </td>
+                <th>Analisado por</th>
+                <td>{{ $lib->responsavel ?? '' }}</td>
+            </tr>
+        </table>
+    </div>
 
-    <footer>Página <span class="pageNumber"></span></footer>
-    <script type="text/php">
-        if (isset($pdf)) {
-            $x = 520; $y = 820; // ajuste conforme margem/papel
-            $text = "Página {PAGE_NUM} de {PAGE_COUNT}";
-            $font = $fontMetrics->get_font("DejaVu Sans", "normal");
-            $size = 9;
-            $pdf->page_text($x, $y, $text, $font, $size, array(0.45,0.45,0.45));
-        }
-    </script>
+    {{-- Anexos --}}
+    <div class="section">
+        <h3>Anexos</h3>
+        @foreach ($anexos as $ax)
+            <div class="anexo">
+                <h4>{{ $ax->nome_arquivo }}</h4>
+
+                @php
+                    $mime = $ax->mime ?? '';
+                @endphp
+
+                @if (Str::startsWith($mime, 'image/'))
+                    <img src="data:{{ $mime }};base64,{{ base64_encode($ax->arquivo) }}">
+                @elseif($mime === 'application/pdf')
+                    <object data="data:application/pdf;base64,{{ base64_encode($ax->arquivo) }}" type="application/pdf"
+                        width="100%" height="800">
+                        PDF não pôde ser exibido.
+                    </object>
+                @else
+                    <p>[Arquivo não exibível]</p>
+                @endif
+            </div>
+        @endforeach
+    </div>
+
 </body>
 
 </html>
