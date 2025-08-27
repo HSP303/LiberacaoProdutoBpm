@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::post('/anexos-inserir/{id}', [AnexosLiberacaoController::class, 'GPTLixoStore']);
+Route::post('/anexos-inserir/{id}', [AnexosLiberacaoController::class, 'GPTLixoStore'])->name('anexos.store');
 Route::get('/pdf/{id}', [AnexosLiberacaoController::class, 'GPTLixoShow'])->name('GPTShow');
 
 
