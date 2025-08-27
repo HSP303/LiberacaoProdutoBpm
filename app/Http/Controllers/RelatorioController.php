@@ -31,8 +31,6 @@ class RelatorioController extends Controller
             'anexos' => $anexos,
         ])->setPaper('a4', 'portrait'); // ou 'landscape'
 
-        // Exibir no navegador (inline). Use ->download(...) para baixar.
-        return $pdf->stream("liberacao-{$id}.pdf");
-        // return $pdf->download("liberacao-{$id}.pdf");
+        return $pdf->download("liberacao-{$id}.pdf");
     }
 }
