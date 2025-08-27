@@ -35,51 +35,6 @@ class AnexosLiberacaoController extends Controller
         return redirect()->back()->with('success', 'Anexo excluído com sucesso!');
     }
 
-    public function store(Request $request, $id)
-    {
-        // Se o input é file[], valide como array
-        $request->validate([
-            'file' => ['required', 'array'],
-            'file.*' => ['file'], // pode adicionar max/mimes se quiser
-        ]);
-
-        DB::transaction(function () use ($request, $id) {
-
-            // pega o último id_anx existente p/ este id
-            $ultimo = AnexosLiberacao::where('id', $id)
-                ->orderBy('id_anx', 'desc')
-                ->lockForUpdate() // evita condição de corrida
-                ->first();
-
-            $proximoId = $ultimo ? $ultimo->id_anx + 1 : 1;
-
-            foreach ($request->file('file') as $file) {
-                $bytes = file_get_contents($file->getRealPath()); // bytes puros
-
-                // Log de hash do arquivo recebido (diagnóstico)
-                Log::info('UPLOAD original md5', [
-                    'nome' => $file->getClientOriginalName(),
-                    'md5'  => md5($bytes),
-                    'id'   => $id,
-                    'id_anx' => $proximoId,
-                ]);
-
-                AnexosLiberacao::create([
-                    'id'           => $id,
-                    'id_anx'       => $proximoId,
-                    'nome_arquivo' => $file->getClientOriginalName(),
-                    'arquivo'      => base64_encode($bytes), // salve sem base64/escape
-                ]);
-
-                // incrementa para o próximo arquivo
-                $proximoId++;
-            }
-        });
-
-        return redirect()->route('anexos.show', $id)
-            ->with('success', 'Anexo(s) adicionado(s) com sucesso!');
-    }
-
     public function download($id, $id_anx)
     {
         $anexo = AnexosLiberacao::where('id', $id)
@@ -170,7 +125,7 @@ class AnexosLiberacaoController extends Controller
             $name = $uploadedFile->getClientOriginalName();
             $data = base64_encode(file_get_contents($uploadedFile->getRealPath()));
 
-            DB::table('anexos_liberacao')->insert([
+            AnexosLiberacao::create([
                 'id'          => $id,
                 'id_anx'      => $proximoId++,
                 'nome_arquivo'=> $name,
@@ -215,10 +170,18 @@ class AnexosLiberacaoController extends Controller
 
         $content = base64_decode($arquivoString);
 
+        $filename = $pdf->nome_arquivo ?: "anexo_{$id}_{$id_anx}";
         $response = Response::make($content, 200);
         $response->header('Content-Type', 'application/pdf');
 
-        return $response;
+        return response()->streamDownload(function () use ($content) {
+            echo $content;
+        }, $filename, [
+            'Content-Type'        => 'application/pdf', // se você souber que é PDF
+            'Content-Length'      => (string) strlen($content),
+            'Content-Disposition' => 'attachment; filename="'.$filename.'"',
+            'X-Content-Type-Options' => 'nosniff',
+        ]);
     }
 }
 
