@@ -54,7 +54,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::post('/anexos-inserir/{id}', [AnexosLiberacaoController::class, 'GPTLixoStore']);
-Route::get('/pdf/{id}', [AnexosLiberacaoController::class, 'GPTLixoShow']);
+Route::get('/pdf/{id}', [AnexosLiberacaoController::class, 'GPTLixoShow'])->name('GPTShow');
 
 
 require __DIR__.'/auth.php';

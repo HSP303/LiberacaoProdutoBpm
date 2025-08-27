@@ -184,7 +184,7 @@ class AnexosLiberacaoController extends Controller
 
         DB::table('anexos_liberacao')->insert(['id' => $id, 'id_anx' => $proximoId, 'nome_arquivo' => $name, 'arquivo' => $data]);
 
-        return redirect()->route('anexos.show', $id)
+        return redirect()->route('GPTShow', $id)
             ->with('success', 'Anexo(s) adicionado(s) com sucesso!');
     }
 
