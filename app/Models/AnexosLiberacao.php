@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class AnexosLiberacao extends Model
 {
     protected $table = 'anexos_liberacao';
-    public $incrementing = false;     // PK composta
-    protected $primaryKey = null;     // Laravel ignora, pois PK composta foi criada na migration
+
+    // Chave composta → não usar delete/find por instância
+    public $incrementing = false;
     protected $keyType = 'string';
+    public $timestamps = false; // ajuste se sua tabela não tiver created_at/updated_at
 
     protected $fillable = [
         'id',
