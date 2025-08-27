@@ -101,7 +101,7 @@ class AnexosLiberacaoController extends Controller
         // Pegue o valor bruto do atributo (sem accessor)
         $raw = $anexo->getRawOriginal('arquivo');
 
-        $arquivo = base64_decode($raw);
+        $arquivo = $raw;
         // Normalize minimamente
         if (is_resource($raw)) {
             rewind($raw);
@@ -132,7 +132,7 @@ class AnexosLiberacaoController extends Controller
             echo $arquivo;
         }, $filename, [
             'Content-Type'        => 'application/pdf', // se você souber que é PDF
-            'Content-Length'      => (string) strlen($data),
+            'Content-Length'      => (string) strlen($arquivo),
             'Content-Disposition' => 'attachment; filename="'.$filename.'"',
             'X-Content-Type-Options' => 'nosniff',
         ]);
