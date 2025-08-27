@@ -1,4 +1,5 @@
 <x-app-layout>
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Anexos') }}
@@ -9,35 +10,27 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                 <div class="flex flex-col gap-4">
-
-<div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">
-                        <div class="relative">
-                            <form method="POST" action="{{ route('anexos.store', $liberacao->id) }}"
-                                enctype="multipart/form-data">
-                                @csrf
+                    <form method="POST" action="{{ route('anexos.store', $liberacao->id) }}"
+                        enctype="multipart/form-data">
+                        @csrf
+                        <div>
+                            <div class="grid grid-cols-1 gap-6">
                                 <div>
-                                    <div class="grid grid-cols-1 gap-6">
-                                        <div>
-                                            <label class="block mb-2 text-sm font-medium text-gray-900"
-                                                for="file">Arquivo</label>
-                                            <input accept=".jpg,.jpeg,.png,.pdf"
-                                                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 text-gray-400 focus:outline-none"
-                                                name="file[]" id="file" type="file" multiple>
-                                            <x-input-error :messages="$errors->get('file')" class="mt-2" />
-                                        </div>
-                                    </div>
-
-                                    <div class="flex items-center justify-ini mt-4">
-                                        <x-primary-button>
-                                            {{ __('Cadastrar') }}
-                                        </x-primary-button>
-                                    </div>
+                                    <label class="block mb-2 text-sm font-medium text-gray-900"
+                                        for="file">Arquivo</label>
+                                    <input accept=".jpg,.jpeg,.png,.pdf"
+                                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 text-gray-400 focus:outline-none"
+                                        name="file[]" id="file" type="file" multiple>
+                                    <x-input-error :messages="$errors->get('file')" class="mt-2" />
                                 </div>
-                            </form>
+                            </div
+                            <div class="flex items-center justify-ini mt-4">
+                                <x-primary-button>
+                                    {{ __('Cadastrar') }}
+                                </x-primary-button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -99,9 +92,6 @@
                             @endforelse
                         </tbody>
                     </table>
-                </div>
-            </div>
-
                 </div>
             </div>
         </div>
