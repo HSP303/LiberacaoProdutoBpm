@@ -119,7 +119,7 @@ class AnexosLiberacaoController extends Controller
             echo $arquivo;
         }, $filename, [
             'Content-Type'        => 'application/pdf', // se você souber que é PDF
-            'Content-Length'      => (string) strlen($data),
+            'Content-Length'      => (string) strlen($arquivo),
             'Content-Disposition' => 'attachment; filename="'.$filename.'"',
             'X-Content-Type-Options' => 'nosniff',
         ]);
