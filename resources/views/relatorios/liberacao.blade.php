@@ -133,27 +133,16 @@
             <tbody>
                 <tr>
                     <td>Interferência na Montagem</td>
-                    <td>{{ $check['montagem_ok'] ?? '' }}</td>
-                    <td>{{ $check['montagem_nao'] ?? '' }}</td>
-                    <td>{{ $check['obs_montagem'] ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Teste prático</td>
-                    <td>{{ $check['pratico_ok'] ?? '' }}</td>
-                    <td>{{ $check['pratico_nao'] ?? '' }}</td>
-                    <td>{{ $check['obs_pratico'] ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Aparência (peças/regiões aparentes)</td>
-                    <td>{{ $check['aparencia_ok'] ?? '' }}</td>
-                    <td>{{ $check['aparencia_nao'] ?? '' }}</td>
-                    <td>{{ $check['obs_aparencia'] ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Teste de vida útil</td>
-                    <td>{{ $check['vida_ok'] ?? '' }}</td>
-                    <td>{{ $check['vida_nao'] ?? '' }}</td>
-                    <td>{{ $check['obs_vida'] ?? '' }}</td>
+                   <!-- <td>{{ $check['vida_ok'] ?? '' }}</td> -->
                 </tr>
             </tbody>
         </table>
