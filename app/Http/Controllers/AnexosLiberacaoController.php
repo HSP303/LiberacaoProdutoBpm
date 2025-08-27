@@ -165,11 +165,17 @@ class AnexosLiberacaoController extends Controller
 
         $proximoId = $ultimo ? $ultimo->id_anx + 1 : 1;
 
-        $name = $request->file->getClientOriginalName();
-        $mime = $request->file->getClientMimeType();
-        $data = base64_encode(file_get_contents($request->file('file')));
+        foreach ($request->file('file') as $uploadedFile) {
+            $name = $uploadedFile->getClientOriginalName();
+            $data = base64_encode(file_get_contents($uploadedFile->getRealPath()));
 
-        DB::table('anexos_liberacao')->insert(['id' => $id, 'id_anx' => $proximoId, 'nome_arquivo' => $name, 'arquivo' => $data]);
+            DB::table('anexos_liberacao')->insert([
+                'id'          => $id,
+                'id_anx'      => $proximoId++,
+                'nome_arquivo'=> $name,
+                'arquivo'     => $data
+            ]);
+        }
 
         return redirect()->route('GPTShow', $id)
             ->with('success', 'Anexo(s) adicionado(s) com sucesso!');
