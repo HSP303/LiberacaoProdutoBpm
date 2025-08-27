@@ -74,35 +74,37 @@ class AnexosLiberacaoController extends Controller
 
     public function download($id, $id_anx)
     {
-        $anexo = AnexosLiberacao::where('id', $id)
+        $row = DB::table('anexos_liberacao')
+            ->selectRaw("nome_arquivo, encode(arquivo,'base64') AS data_b64") // evita qualquer interpretação do driver
+            ->where('id', $id)
             ->where('id_anx', $id_anx)
             ->firstOrFail();
 
-        // Pegue o valor bruto do atributo (sem accessor)
-        $raw = $anexo->getRawOriginal('arquivo');
+        $data = base64_decode($row->data_b64); // bytes puros, decodificados pelo PHP
 
-        // Normalize minimamente
-        if (is_resource($raw)) {
-            rewind($raw);
-            $data = stream_get_contents($raw) ?: '';
-        } elseif (is_string($raw) && strncmp($raw, '\\x', 2) === 0) {
-            // Formato padrão do bytea: "\xDEADBEEF..."
-            $data = hex2bin(substr($raw, 2)) ?: '';
-        } else {
-            // Já está em bytes puros; NÃO use pg_unescape_bytea aqui
-            $data = (string) $raw;
-        }
-
-        $filename = $anexo->nome_arquivo ?: "anexo_{$id}_{$id_anx}";
-
-        return response()->streamDownload(function () use ($data) {
-            echo $data;
-        }, $filename, [
-            'Content-Type'        => 'application/pdf', // se você souber que é PDF
-            'Content-Length'      => (string) strlen($data),
-            'Content-Disposition' => 'attachment; filename="'.$filename.'"',
-            'X-Content-Type-Options' => 'nosniff',
+        \Log::info('DOWNLOAD md5', [
+            'id' => $id,
+            'id_anx' => $id_anx,
+            'md5' => md5($data),
+            'len' => strlen($data),
         ]);
+
+        // Evita buffers/headers inconsistentes
+        while (ob_get_level()) { ob_end_clean(); }
+
+        $filename = $row->nome_arquivo ?: "anexo_{$id}_{$id_anx}.pdf";
+
+        return response()->streamDownload(
+            function () use ($data) { echo $data; },
+            $filename,
+            [
+                // deixe o Content-Length para o framework calcular; evita mismatch em respostas stream
+                'Content-Type'              => 'application/pdf',
+                'X-Content-Type-Options'    => 'nosniff',
+                'Cache-Control'             => 'private, no-transform',
+                'Accept-Ranges'             => 'none',
+            ]
+        );
     }
 
 /**
