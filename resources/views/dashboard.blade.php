@@ -16,16 +16,10 @@
 
                             <label for="id">Id. Liberação</label>
                             <div class="flex items-center space-x-2">
-                                <input
-                                  type="text"
-                                  name="id"
-                                  id="id"
-                                  class="border rounded p-2 w-full shadow-sm focus:ring focus:ring-blue-300"
-                                  placeholder="Selecione um ID"
-                                  required
-                                  readonly
-                                  value="{{ old('id', $liberacoes->first()?->id ?? '') }}"
-                                />
+                                <input type="text" name="id" id="id"
+                                    class="border rounded p-2 w-full shadow-sm focus:ring focus:ring-blue-300"
+                                    placeholder="Selecione um ID" required readonly
+                                    value="{{ old('id', $liberacoes->first()?->id ?? '') }}" />
                                 <button type="button" @click="showModal = true" class="p-2 bg-gray-200 rounded">
                                     🔍
                                 </button>
@@ -60,7 +54,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($liberacoes as $item)
+                                            @foreach ($liberacoes as $item)
                                                 <tr class="hover:bg-gray-50"
                                                     x-show="
                                                                                                                                                                                                                                                                                                                             {{ json_encode((string) $item->produto ?? '') }}.toLowerCase().includes(filtroProduto.toLowerCase()) &&
@@ -96,19 +90,19 @@
                             <div class="mt-4">
                                 <x-submit-button>Filtrar Id Selecionado</x-submit-button>
 
-                                @if(session('status_code') == 201)
+                                @if (session('status_code') == 201)
                                     <x-alert title="Sucesso!">Registro inserido com sucesso!</x-alert>
                                 @endif
 
-                                @if(session('status_code') == 200)
+                                @if (session('status_code') == 200)
                                     <x-alert title="Sucesso!">Registro alterado com sucesso!</x-alert>
                                 @endif
 
-                                @if(session('status_code') == 205)
+                                @if (session('status_code') == 205)
                                     <x-alert title="Sucesso!">Registro excluido com sucesso!</x-alert>
                                 @endif
 
-                                @if(session('status_code') == 206)
+                                @if (session('status_code') == 206)
                                     <x-alert title="Sucesso!">Registro alterado com sucesso!</x-alert>
                                 @endif
                             </div>
@@ -120,7 +114,7 @@
                         method="POST">
                         @csrf
 
-                        @if(isset($liberacao))
+                        @if (isset($liberacao))
                             @method('PUT')
                         @endif
 
@@ -129,8 +123,9 @@
                             <select id="empresa" name="empresa"
                                 class="border rounded p-2 w-full shadow-sm focus:ring focus:ring-blue-300 text-black">
                                 <option value="">Selecione a empresa</option>
-                                @foreach($empresas as $empresa)
-                                    <option value="{{ $empresa['codemp'] ?? '' }}" @if(($liberacao->empresa ?? '') == ($empresa['codemp'] ?? '')) selected @endif>
+                                @foreach ($empresas as $empresa)
+                                    <option value="{{ $empresa['codemp'] ?? '' }}"
+                                        @if (($liberacao->empresa ?? '') == ($empresa['codemp'] ?? '')) selected @endif>
                                         {{ $empresa['codemp'] . ' - ' . ($empresa['nomemp'] ?? 'Sem nome') }}
                                     </option>
                                 @endforeach
@@ -154,7 +149,7 @@
                                 <select id="lista-produtos" name="produto" required
                                     class="border rounded p-2 w-full shadow-sm focus:ring focus:ring-blue-300 text-black mt-2">
                                     <option value="">Selecione o produto</option>
-                                    @if($liberacao && $liberacao->produto)
+                                    @if ($liberacao && $liberacao->produto)
                                         <option value="{{ $liberacao->produto }}" selected>
                                             {{ $liberacao->produto }}
                                         </option>
@@ -235,7 +230,7 @@
                                                     'Teste Prático',
                                                     'Verificar se os tratamentos estão de acordo com as especificações. (para produto final)',
                                                     'Teste de queda (Conforme especificado)',
-                                                    'Teste de vida útil. (Conforme especificado)'
+                                                    'Teste de vida útil. (Conforme especificado)',
                                                 ];
 
                                                 $itensBanco = [
@@ -280,8 +275,7 @@
                                                     'ok_tratamentos_especificacoes',
                                                     'ok_teste_queda',
                                                     'ok_teste_vida',
-                                                ]
-
+                                                ];
 
                                             @endphp
 
@@ -289,23 +283,29 @@
                                                 <tr class="{{ $index % 2 === 0 ? 'bg-white' : 'bg-gray-50' }}">
                                                     <td class="border px-4 py-2">{{ $item }}</td>
                                                     <td class="border px-4 py-2">
-                                                        <x-input label="" name="{{ $itensBanco[$index] }}" type="text"
-                                                            placeholder="{{ $liberacao->{$itensBanco[$index]} ?? $item}}" />
+                                                        <x-input label="" name="{{ $itensBanco[$index] }}"
+                                                            type="text"
+                                                            placeholder="{{ $liberacao->{$itensBanco[$index]} ?? $item }}" />
                                                     </td>
                                                     <td class="border px-4 py-2">
-                                                        <select id="{{ $itensOk[$index] }}" name="{{ $itensOk[$index] }}"
+                                                        <select id="{{ $itensOk[$index] }}"
+                                                            name="{{ $itensOk[$index] }}"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                                             @php
                                                                 $valorAtual = $liberacao->{$itensOk[$index]} ?? '';
                                                             @endphp
 
-                                                            <option value="" {{ $valorAtual === '' ? 'selected' : '' }}
-                                                                disabled>Selecione a Opção</option>
-                                                            <option value="OK" {{ $valorAtual === 'OK' ? 'selected' : '' }}>OK
+                                                            <option value=""
+                                                                {{ $valorAtual === '' ? 'selected' : '' }} disabled>
+                                                                Selecione a Opção</option>
+                                                            <option value="OK"
+                                                                {{ $valorAtual === 'OK' ? 'selected' : '' }}>OK
                                                             </option>
-                                                            <option value="NOK" {{ $valorAtual === 'NOK' ? 'selected' : '' }}>
+                                                            <option value="NOK"
+                                                                {{ $valorAtual === 'NOK' ? 'selected' : '' }}>
                                                                 Não OK</option>
-                                                            <option value="NA" {{ $valorAtual === 'NA' ? 'selected' : '' }}>
+                                                            <option value="NA"
+                                                                {{ $valorAtual === 'NA' ? 'selected' : '' }}>
                                                                 N/A</option>
                                                         </select>
                                                     </td>
@@ -325,11 +325,11 @@
                         <div class="mt-4">
                             <x-submit-button>Salvar Liberação</x-submit-button>
 
-                            @if(session('status_code') == 201)
+                            @if (session('status_code') == 201)
                                 <x-alert title="Sucesso!">Registro inserido com sucesso!</x-alert>
                             @endif
 
-                            @if(session('status_code') == 200)
+                            @if (session('status_code') == 200)
                                 <x-alert title="Sucesso!">Registro alterado com sucesso!</x-alert>
                             @endif
                         </div>
@@ -364,7 +364,8 @@
                                 <h2 class="text-lg font-bold mb-4">Adicionar Item à Liberação
                                     #{{ $liberacao->id ?? '-' }}</h2>
 
-                                <form action="{{ route('itens-liberacao.store') }}" method="POST" class="space-y-4">
+                                <form action="{{ route('itens-liberacao.store') }}" method="POST"
+                                    class="space-y-4">
                                     @csrf
 
                                     <!-- id_liberacao hidden -->
@@ -463,7 +464,8 @@
                                                     <td class="px-6 py-3 whitespace-nowrap w-[150px]">
                                                         <div class="flex gap-2 items-center">
                                                             <!-- Hidden inputs -->
-                                                            <input type="hidden" name="id" value="{{ $itemCavidade->id }}">
+                                                            <input type="hidden" name="id"
+                                                                value="{{ $itemCavidade->id }}">
                                                             <input type="hidden" name="id_item"
                                                                 value="{{ $itemCavidade->id_item }}">
 
@@ -474,7 +476,8 @@
                                                                 <input type="number"
                                                                     class="input-cavidade w-14 text-xs border border-gray-300 rounded px-1 py-0.5"
                                                                     data-id="{{ $itemCavidade->id_cavidade }}"
-                                                                    data-type="minimo" value="{{ $itemCavidade->minimo }}" />
+                                                                    data-type="minimo"
+                                                                    value="{{ $itemCavidade->minimo }}" />
                                                             </div>
 
                                                             <!-- Max input -->
@@ -484,7 +487,8 @@
                                                                 <input type="number"
                                                                     class="input-cavidade w-14 text-xs border border-gray-300 rounded px-1 py-0.5"
                                                                     data-id="{{ $itemCavidade->id_cavidade }}"
-                                                                    data-type="maximo" value="{{ $itemCavidade->maximo }}" />
+                                                                    data-type="maximo"
+                                                                    value="{{ $itemCavidade->maximo }}" />
                                                             </div>
                                                         </div>
                                                     </td>
@@ -498,19 +502,27 @@
                                                     <form>
                                                         <select
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg">
-                                                            <option value="" {{ $itens->resultado === '' ? 'selected' : '' }}
+                                                            <option value=""
+                                                                {{ $itens->resultado === '' ? 'selected' : '' }}
                                                                 disabled>Selecione a Opção</option>
-                                                            <option value="OK" {{ $itens->resultado === 'OK' ? 'selected' : '' }}>OK</option>
-                                                            <option value="Não OK" {{ $itens->resultado === 'Não OK' ? 'selected' : '' }}>Não OK</option>
+                                                            <option value="OK"
+                                                                {{ $itens->resultado === 'OK' ? 'selected' : '' }}>OK
+                                                            </option>
+                                                            <option value="Não OK"
+                                                                {{ $itens->resultado === 'Não OK' ? 'selected' : '' }}>
+                                                                Não OK</option>
                                                         </select>
                                                     </form>
 
                                                     <!-- Botão Excluir -->
-                                                    <form action="{{ route('itens-liberacao.delete') }}" method="POST">
+                                                    <form action="{{ route('itens-liberacao.delete') }}"
+                                                        method="POST">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <input type="hidden" name="id" value="{{ $itens->id }}">
-                                                        <input type="hidden" name="id_item" value="{{ $itens->id_item }}">
+                                                        <input type="hidden" name="id"
+                                                            value="{{ $itens->id }}">
+                                                        <input type="hidden" name="id_item"
+                                                            value="{{ $itens->id_item }}">
                                                         <button
                                                             class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
                                                             title="Excluir Item">
@@ -533,29 +545,29 @@
 
     <script>
         document.querySelectorAll('.input-cavidade').forEach(input => {
-            input.addEventListener('change', function () {
+            input.addEventListener('change', function() {
                 const td = this.closest('td'); // pega o pai da linha
                 const id = td.querySelector('input[name="id"]').value;
                 const id_item = td.querySelector('input[name="id_item"]').value;
 
-                const cavidade_id = this.dataset.id;   // ID da cavidade
-                const tipo = this.dataset.type;        // minimo ou maximo
+                const cavidade_id = this.dataset.id; // ID da cavidade
+                const tipo = this.dataset.type; // minimo ou maximo
                 const valor = this.value;
 
                 fetch("{{ route('itens-liberacao.update') }}", {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({
-                        id: id,
-                        id_item: id_item,
-                        cavidade_id: cavidade_id,
-                        tipo: tipo,
-                        valor: valor
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            id: id,
+                            id_item: id_item,
+                            cavidade_id: cavidade_id,
+                            tipo: tipo,
+                            valor: valor
+                        })
                     })
-                })
                     .then(response => response.json())
                     .then(data => {
                         console.log('Atualizado:', data);
@@ -565,14 +577,14 @@
         });
 
         // Zera o campo de produtos ao trocar de empresa
-        document.getElementById('empresa').addEventListener('change', function () {
+        document.getElementById('empresa').addEventListener('change', function() {
             const select = document.getElementById('lista-produtos');
             const inputBusca = document.getElementById('busca-produto');
             select.innerHTML = '<option value="">Selecione o produto</option>';
             inputBusca.value = ''; // opcional: limpa também a busca
         });
 
-        document.getElementById('btn-buscar-produto').addEventListener('click', function () {
+        document.getElementById('btn-buscar-produto').addEventListener('click', function() {
             const termo = document.getElementById('busca-produto').value;
             const empresa = document.getElementById('empresa').value;
 
@@ -592,7 +604,8 @@
                     data.forEach(produto => {
                         const option = document.createElement('option');
                         option.value = produto.codpro; // valor enviado no form
-                        option.textContent = `${produto.codpro} - ${produto.despro}`; // mostra código e descrição
+                        option.textContent =
+                        `${produto.codpro} - ${produto.despro}`; // mostra código e descrição
 
                         if (produto.codpro === produtoAtual) {
                             option.selected = true;
