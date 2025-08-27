@@ -535,16 +535,18 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            <a href="{{ $liberacao?->id ? route('liberacao.pdf', $liberacao->id) : '#' }}"
-                                class="inline-flex items-center px-3 py-1.5 bg-emerald-600 text-white text-xs font-medium rounded-md shadow hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                                📄 Gerar PDF
-                            </a>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <a href="{{ $liberacao?->id ? route('liberacao.pdf', $liberacao->id) : '#' }}"
+        class="inline-flex items-center px-3 py-1.5 bg-emerald-600 text-white text-xs font-medium rounded-md shadow hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        📄 Gerar PDF
+    </a>
 
     <script>
         document.querySelectorAll('.input-cavidade').forEach(input => {
