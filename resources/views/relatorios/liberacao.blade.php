@@ -75,13 +75,13 @@
             <th>Código</th>
             <td>{{ $lib->codigo ?? '' }}</td>
             <th>Data da rev.</th>
-            <td>{{ $lib->rev ?? '' }}</td>
+            <td>{{ 'Rev '. $lib->revisao . ' - ' . $lib->data_revisao ?? '' }}</td>
         </tr>
         <tr>
             <th>Fornecedor ou processo interno</th>
             <td>{{ $lib->fornecedor ?? '' }}</td>
             <th>Qtd. Avaliada</th>
-            <td>{{ $lib->quantidade ?? '' }}</td>
+            <td>{{ $lib->qtd_avaliada ?? '' }}</td>
             <th>Lote</th>
             <td>{{ $lib->lote ?? '' }}</td>
         </tr>
@@ -89,13 +89,13 @@
             <th>Realizado por</th>
             <td>{{ $lib->responsavel ?? '' }}</td>
             <th>Data</th>
-            <td colspan="3">{{ $lib->data ?? '' }}</td>
+            <td colspan="3">{{ $lib->created_at ?? '' }}</td>
         </tr>
     </table>
 
     {{-- Tabela Itens / Cavidades --}}
     <div class="section">
-        <h3>Parâmetros indicados no desenho</h3>
+        <h3>Parâmetros indicados <strong>(F e FC)</strong> no desenho</h3>
         @foreach (array_chunk($cavidades, 5) as $grupo)
             <table class="cav-table">
                 <thead>

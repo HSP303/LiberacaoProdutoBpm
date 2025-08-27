@@ -15,52 +15,34 @@ class RelatorioController extends Controller
     public function liberacao(int $id)
     {
         // Buscar dados principais da liberação
-        $lib = LiberacaoProduto::with([
-            // carrega relações se precisar, ex:
-            // 'cliente', 'usuario', 'itens'
-        ])->findOrFail($id);
+        $lib = LiberacaoProduto::findOrFail($id);
 
         // Buscar itens (se houver)
-        $itens = $lib->itens ?? []; // ajuste conforme sua model
+        $itens = ItemLiberacao::findOrFail('id', $id);
+        $idItem = $itens->id_item;
 
-        // Buscar cavidades (ajuste conforme tabela real)
-        // Exemplo: $cavidades = Cavidades::where('liberacao_id', $id)->get();
-        $cavidades = [];
+        // Busca Cavidades
+        $cavidades = CavidadeLiberacao::findOrFail('id', $id);
+        $idItem = $cavidades->id_cavidade;
+
+        $itensCavidades = ItemCavidadeLiberacao::where('id', $id)
+            ->where('id_item', $idItem)
+            ->findOrFail();
 
         // Buscar anexos (traga mime + arquivo em bytea)
         $anexos = AnexosLiberacao::where('id', $id)
             ->orderBy('id_anx')
             ->get();
 
-        // Checklist (se existir tabela, substitua aqui)
-        $check = [
-            'montagem_ok'   => '',
-            'montagem_nao'  => '',
-            'obs_montagem'  => '',
-            'pratico_ok'    => '',
-            'pratico_nao'   => '',
-            'obs_pratico'   => '',
-            'aparencia_ok'  => '',
-            'aparencia_nao' => '',
-            'obs_aparencia' => '',
-            'vida_ok'       => '',
-            'vida_nao'      => '',
-            'obs_vida'      => '',
-        ];
-
         // Gerar PDF usando a view
         $pdf = Pdf::loadView('relatorios.liberacao', [
             'lib'       => $lib,
             'itens'     => $itens,
             'cavidades' => $cavidades,
-            'check'     => $check,
+            'itemCavidade' => $itensCavidades,
             'anexos'    => $anexos,
         ])->setPaper('a4', 'portrait');
 
-        // Exibir inline
-        return $pdf->stream("liberacao-{$id}.pdf");
-
-        // Para forçar download:
-        // return $pdf->download("liberacao-{$id}.pdf");
+        return $pdf->download("liberacao-{$id}.pdf");
     }
 }
