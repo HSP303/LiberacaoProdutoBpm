@@ -74,29 +74,34 @@ class AnexosLiberacaoController extends Controller
 
     public function download($id, $id_anx)
     {
-        $row = DB::table('anexos_liberacao')
-        ->where('id', $id)
-        ->where('id_anx', $id_anx)
-        ->first(['nome_arquivo', 'arquivo']);
+        $anexo = AnexosLiberacao::where('id', $id)
+            ->where('id_anx', $id_anx)
+            ->firstOrFail();
 
-        abort_if(!$row, 404);
+        // Pegue o valor bruto do atributo (sem accessor)
+        $raw = $anexo->getRawOriginal('arquivo');
 
-        // normalizar “na unha” o campo bytea cru
-        $raw = $row->arquivo;
+        // Normalize minimamente
+        if (is_resource($raw)) {
+            rewind($raw);
+            $data = stream_get_contents($raw) ?: '';
+        } elseif (is_string($raw) && strncmp($raw, '\\x', 2) === 0) {
+            // Formato padrão do bytea: "\xDEADBEEF..."
+            $data = hex2bin(substr($raw, 2)) ?: '';
+        } else {
+            // Já está em bytes puros; NÃO use pg_unescape_bytea aqui
+            $data = (string) $raw;
+        }
 
-        if (is_resource($raw)) { rewind($raw); $data = stream_get_contents($raw) ?: ''; }
-        elseif (is_string($raw) && strncmp($raw, '\\x', 2) === 0) { $data = hex2bin(substr($raw, 2)) ?: ''; }
-        elseif (is_string($raw) && function_exists('pg_unescape_bytea')) { $tmp = @pg_unescape_bytea($raw); $data = ($tmp !== false) ? $tmp : $raw; }
-        else { $data = (string) $raw; }
-
-        $filename = $row->nome_arquivo ?: "anexo_{$id}_{$id_anx}";
+        $filename = $anexo->nome_arquivo ?: "anexo_{$id}_{$id_anx}";
 
         return response()->streamDownload(function () use ($data) {
             echo $data;
         }, $filename, [
-            'Content-Type' => 'application/pdf', // se você sabe que é PDF
-            'Content-Length' => (string) strlen($data),
+            'Content-Type'        => 'application/pdf', // se você souber que é PDF
+            'Content-Length'      => (string) strlen($data),
             'Content-Disposition' => 'attachment; filename="'.$filename.'"',
+            'X-Content-Type-Options' => 'nosniff',
         ]);
     }
 
