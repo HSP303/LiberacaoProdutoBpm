@@ -183,7 +183,10 @@ class AnexosLiberacaoController extends Controller
 
     public function GPTLixoShow(int $id)
     {
-        $pdf = DB::table('anexos_liberacao')->find($id)->orderBy('id_anx', 'desc')->firstOrFail();
+        $pdf = DB::table('anexos_liberacao')
+          ->where('id', $id)
+          ->orderBy('id_anx', 'desc')
+          ->first();
 
         if (!$pdf) {
             abort(404);
