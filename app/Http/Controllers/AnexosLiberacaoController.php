@@ -88,7 +88,7 @@ class AnexosLiberacaoController extends Controller
         // Pegue o valor bruto do atributo (sem accessor)
         $raw = $anexo->getRawOriginal('arquivo');
 
-        $arquivo = base64_decode($raw);
+        $arquivo = $raw;
         // Normalize minimamente
         if (is_resource($raw)) {
             rewind($raw);
