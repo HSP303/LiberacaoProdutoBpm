@@ -103,7 +103,7 @@ class AnexosLiberacaoController extends Controller
 
         $md5_data = md5($dataGPT);
 
-        dd($md5_data);
+        //dd($md5_data);
 
         $filename = $anexo->nome_arquivo ?: "anexo_{$id}_{$id_anx}";
 
