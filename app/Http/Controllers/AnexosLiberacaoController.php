@@ -22,9 +22,16 @@ class AnexosLiberacaoController extends Controller
         return view('anexos', compact('liberacao', 'anexos'));
     }
 
-    public function destroy($id, $id_arq)
+    public function destroy($id, $id_anx)
     {
+        // sua lógica de exclusão
+        $anexo = AnexosLiberacao::where('id', $id)
+                      ->where('id_anx', $id_anx)
+                        ->firstOrFail();
 
+        $anexo->delete();
+
+        return redirect()->back()->with('success', 'Anexo excluído com sucesso!');
     }
 
     public function store(Request $request, $id)

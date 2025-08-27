@@ -85,8 +85,9 @@
                                         </a>
 
                                         <!-- Botão Excluir -->
-                                        <form action="{{ route('anexos.destroy', $anx->id, $anx->id_anx) }}" method="POST"
-                                            class="inline">
+                                        <form
+                                            action="{{ route('anexos.destroy', ['id' => $anx->id, 'id_anx' => $anx->id_anx]) }}"
+                                            method="POST" class="inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit"
