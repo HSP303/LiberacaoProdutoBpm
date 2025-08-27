@@ -88,13 +88,14 @@ class AnexosLiberacaoController extends Controller
             'md5' => md5($data),
             'len' => strlen($data),
         ]);
+        dd($data);
 
         // Evita buffers/headers inconsistentes
         while (ob_get_level()) { ob_end_clean(); }
 
         $filename = $row->nome_arquivo ?: "anexo_{$id}_{$id_anx}.pdf";
 
-        return response()->streamDownload(
+        /*return response()->streamDownload(
             function () use ($data) { echo $data; },
             $filename,
             [
@@ -104,7 +105,7 @@ class AnexosLiberacaoController extends Controller
                 'Cache-Control'             => 'private, no-transform',
                 'Accept-Ranges'             => 'none',
             ]
-        );
+        );*/
     }
 
 /**
