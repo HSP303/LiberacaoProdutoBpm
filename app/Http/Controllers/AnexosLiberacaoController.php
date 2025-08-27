@@ -58,12 +58,12 @@ class AnexosLiberacaoController extends Controller
         $anexo = AnexosLiberacao::where('id', $id)
             ->where('id_anx', $id_anx)
             ->firstOrFail();
-        
+
         $filename = $anexo->nome_arquivo ?: "anexo_{$id}_{$id_anx}";
-        
+
         return response()->streamDownload(function () use ($anexo) {
             $blob = $anexo->arquivo;
-        
+
             if (is_resource($blob)) {
                 rewind($blob);
                 fpassthru($blob); // escreve o stream direto na resposta
