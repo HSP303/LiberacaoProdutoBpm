@@ -9,16 +9,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('anexos_liberacao', function (Blueprint $table) {
-            $table->unsignedBigInteger('id')->primary(); // mesmo ID da liberacao_produto
-            $table->integer('id_anx')->nullable();
-            $table->string('nome_arquivo');
-            $table->binary('arquivo');
-            $table->timestamps();
+        $table->unsignedBigInteger('id');      // mesmo ID da liberacao_produto
+        $table->integer('id_anx');             // agora faz parte da PK
+        $table->string('nome_arquivo');
+        $table->binary('arquivo');
+        $table->timestamps();
 
-            $table->foreign('id')
-                  ->references('id')
-                  ->on('liberacao_produtos')
-                  ->onDelete('cascade');
+        // chave primária composta
+        $table->primary(['id', 'id_anx']);
+
+        // relação com liberacao_produtos
+        $table->foreign('id')
+              ->references('id')
+              ->on('liberacao_produtos')
+              ->onDelete('cascade');
         });
     }
 
