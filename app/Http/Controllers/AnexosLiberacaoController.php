@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\LiberacaoProduto;
 use App\Models\AnexosLiberacao;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class AnexosLiberacaoController extends Controller
 {
@@ -26,31 +28,47 @@ class AnexosLiberacaoController extends Controller
 
     public function store(Request $request, $id)
     {
-        $ultimo = AnexosLiberacao::where('id', $id)
-            ->orderBy('id_anx', 'desc')
-            ->first();
-
-        $proximoId = $ultimo ? $ultimo->id_anx + 1 : 1;
-
+        // Se o input é file[], valide como array
         $request->validate([
-            'file' => 'required',
+            'file' => ['required', 'array'],
+            'file.*' => ['file'], // pode adicionar max/mimes se quiser
         ]);
 
-        if ($request->hasFile('file')) {
-            foreach ($request->file('file') as $file) {
+        DB::transaction(function () use ($request, $id) {
 
-                $conteudo = file_get_contents($file->getRealPath());
+            // pega o último id_anx existente p/ este id
+            $ultimo = AnexosLiberacao::where('id', $id)
+                ->orderBy('id_anx', 'desc')
+                ->lockForUpdate() // evita condição de corrida
+                ->first();
+
+            $proximoId = $ultimo ? $ultimo->id_anx + 1 : 1;
+
+            foreach ($request->file('file') as $file) {
+                $bytes = file_get_contents($file->getRealPath()); // bytes puros
+
+                // Log de hash do arquivo recebido (diagnóstico)
+                Log::info('UPLOAD original md5', [
+                    'nome' => $file->getClientOriginalName(),
+                    'md5'  => md5($bytes),
+                    'id'   => $id,
+                    'id_anx' => $proximoId,
+                ]);
 
                 AnexosLiberacao::create([
-                    'id' => $id,
-                    'id_anx' => $proximoId,
+                    'id'           => $id,
+                    'id_anx'       => $proximoId,
                     'nome_arquivo' => $file->getClientOriginalName(),
-                    'arquivo' => $conteudo,
+                    'arquivo'      => $bytes, // salve sem base64/escape
                 ]);
-            }
-        }
 
-        return redirect()->route('anexos.show', $id)->with('success', 'Anexo(s) adicionado(s) com sucesso!');
+                // incrementa para o próximo arquivo
+                $proximoId++;
+            }
+        });
+
+        return redirect()->route('anexos.show', $id)
+            ->with('success', 'Anexo(s) adicionado(s) com sucesso!');
     }
 
     public function download($id, $id_anx)
@@ -59,28 +77,34 @@ class AnexosLiberacaoController extends Controller
             ->where('id_anx', $id_anx)
             ->firstOrFail();
 
+        // graças ao accessor, agora já é bytes puros
+        $data = $anexo->arquivo;
         $filename = $anexo->nome_arquivo ?: "anexo_{$id}_{$id_anx}";
 
-        // normaliza o conteúdo do bytea para string binária correta
-        $data = $this->normalizeBytea($anexo->arquivo);
-
-        // opcional: tenta detectar o MIME (melhora a experiência no navegador)
+        // (opcional) detectar MIME
         $mime = 'application/octet-stream';
         if (function_exists('finfo_open')) {
-            $f = finfo_open(FILEINFO_MIME_TYPE);
-            $detected = finfo_buffer($f, $data);
+            $fi = finfo_open(FILEINFO_MIME_TYPE);
+            $detected = finfo_buffer($fi, $data);
             if ($detected) $mime = $detected;
-            finfo_close($f);
+            finfo_close($fi);
         }
 
-        // retorna o arquivo para download
+        // Log de hash do que saiu do banco (diagnóstico)
+        \Log::info('DOWNLOAD banco md5', [
+            'nome' => $filename,
+            'md5'  => md5($data),
+            'id'   => $id,
+            'id_anx' => $id_anx,
+        ]);
+
         return response()->streamDownload(function () use ($data) {
-            echo $data; // já está como bytes puros
+            echo $data;
         }, $filename, [
-            'Content-Type'        => $mime,
-            'Content-Length'      => (string) strlen($data),
-            'Content-Disposition' => 'attachment; filename="'.$filename.'"',
-            'X-Content-Type-Options' => 'nosniff',
+            'Content-Type'            => $mime,
+            'Content-Length'          => (string) strlen($data),
+            'Content-Disposition'     => 'attachment; filename="'.$filename.'"',
+            'X-Content-Type-Options'  => 'nosniff',
         ]);
     }
 
