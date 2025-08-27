@@ -60,7 +60,7 @@ class AnexosLiberacaoController extends Controller
                     'id'           => $id,
                     'id_anx'       => $proximoId,
                     'nome_arquivo' => $file->getClientOriginalName(),
-                    'arquivo'      => $bytes, // salve sem base64/escape
+                    'arquivo'      => base64_encode($bytes), // salve sem base64/escape
                 ]);
 
                 // incrementa para o próximo arquivo
@@ -81,6 +81,7 @@ class AnexosLiberacaoController extends Controller
         // Pegue o valor bruto do atributo (sem accessor)
         $raw = $anexo->getRawOriginal('arquivo');
 
+        $arquivo = base64_decode($raw);
         // Normalize minimamente
         if (is_resource($raw)) {
             rewind($raw);
@@ -107,8 +108,8 @@ class AnexosLiberacaoController extends Controller
 
         $filename = $anexo->nome_arquivo ?: "anexo_{$id}_{$id_anx}";
 
-        return response()->streamDownload(function () use ($data) {
-            echo $data;
+        return response()->streamDownload(function () use ($arquivo) {
+            echo $arquivo;
         }, $filename, [
             'Content-Type'        => 'application/pdf', // se você souber que é PDF
             'Content-Length'      => (string) strlen($data),
