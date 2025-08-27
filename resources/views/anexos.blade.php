@@ -38,7 +38,8 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-md ring-1 ring-gray-200 dark:ring-gray-800 overflow-hidden">
+            <div
+                class="bg-white dark:bg-gray-900 rounded-2xl shadow-md ring-1 ring-gray-200 dark:ring-gray-800 overflow-hidden">
                 <!-- Header -->
                 <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-800">
                     <div>
@@ -72,19 +73,34 @@
                             @forelse($anexos as $anx)
                                 <tr
                                     class="odd:bg-white even:bg-gray-50 dark:odd:bg-gray-900 dark:even:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700/60 transition-colors">
-                                    <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-200">{{ $anx->id_anx }}</td>
-                                    <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-200">{{ $anx->nome_arquivo }}
+                                    <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-200">{{ $anx->id_anx }}
                                     </td>
-                                    <td class="px-6 py-4 text-center">
+                                    <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-200">
+                                        {{ $anx->nome_arquivo }}</td>
+                                    <td class="px-6 py-4 text-center space-x-2">
+                                        <!-- Botão Baixar -->
                                         <a href="{{ route('anexos.download', ['id' => $anx->id, 'id_anx' => $anx->id_anx]) }}"
                                             class="inline-flex items-center px-3 py-1.5 bg-blue-600 text-white text-xs font-medium rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
                                             ⬇️ Baixar
                                         </a>
+
+                                        <!-- Botão Excluir -->
+                                        <form action="{{ route('anexos.destroy', $anx->id, $anx->id_anx) }}" method="POST"
+                                            class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="inline-flex items-center px-3 py-1.5 bg-red-600 text-white text-xs font-medium rounded-md shadow hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                                                onclick="return confirm('Tem certeza que deseja excluir este anexo?')">
+                                                🗑️ Excluir
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="3" class="px-6 py-12 text-center text-sm text-gray-500 dark:text-gray-400">
+                                    <td colspan="3"
+                                        class="px-6 py-12 text-center text-sm text-gray-500 dark:text-gray-400">
                                         Nenhum anexo encontrado.
                                     </td>
                                 </tr>
