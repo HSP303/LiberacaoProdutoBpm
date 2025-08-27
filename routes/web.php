@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LiberacaoProdutos;
 use App\Http\Controllers\ItemLiberacaoController;
 use App\Http\Controllers\AnexosLiberacaoController;
+use App\Http\Controllers\RelatorioController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 
@@ -35,6 +36,8 @@ Route::post('/anexos-inserir/{id}', [AnexosLiberacaoController::class, 'store'])
 Route::get('/anexos/download/{id}/{id_anx}', [AnexosLiberacaoController::class, 'download'])->name('anexos.download');
 Route::delete('/anexos/{id}/{id_anx}', [AnexosLiberacaoController::class, 'destroy'])->name('anexos.destroy');
 
+// RELATORIO
+Route::get('/liberacao/{id}/pdf', [RelatorioController::class, 'liberacao'])->name('liberacao.pdf');
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])->name('login');
