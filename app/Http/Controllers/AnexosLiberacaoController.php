@@ -61,18 +61,64 @@ class AnexosLiberacaoController extends Controller
 
         $filename = $anexo->nome_arquivo ?: "anexo_{$id}_{$id_anx}";
 
-        return response()->streamDownload(function () use ($anexo) {
-            $blob = $anexo->arquivo;
+        // normaliza o conteúdo do bytea para string binária correta
+        $data = $this->normalizeBytea($anexo->arquivo);
 
-            if (is_resource($blob)) {
-                rewind($blob);
-                fpassthru($blob); // escreve o stream direto na resposta
-            } else {
-                echo $blob ?? '';
-            }
+        // opcional: tenta detectar o MIME (melhora a experiência no navegador)
+        $mime = 'application/octet-stream';
+        if (function_exists('finfo_open')) {
+            $f = finfo_open(FILEINFO_MIME_TYPE);
+            $detected = finfo_buffer($f, $data);
+            if ($detected) $mime = $detected;
+            finfo_close($f);
+        }
+
+        // retorna o arquivo para download
+        return response()->streamDownload(function () use ($data) {
+            echo $data; // já está como bytes puros
         }, $filename, [
-            'Content-Type' => 'application/octet-stream',
+            'Content-Type'        => $mime,
+            'Content-Length'      => (string) strlen($data),
+            'Content-Disposition' => 'attachment; filename="'.$filename.'"',
+            'X-Content-Type-Options' => 'nosniff',
         ]);
+    }
+
+/**
+ * Converte o valor vindo do PG (bytea) para bytes puros.
+ * - resource: lê o stream
+ * - string iniciando com "\x": decode de hex
+ * - string com escapes: usa pg_unescape_bytea, se disponível
+ */
+    private function normalizeBytea($value): string
+    {
+        // Se for stream/resource, lê tudo
+        if (is_resource($value)) {
+            rewind($value);
+            return stream_get_contents($value) ?: '';
+        }
+
+        // Se for string
+        if (is_string($value)) {
+            // Caso padrão do PG: "\xDEADBEEF..." (hex)
+            if (strncmp($value, '\\x', 2) === 0) {
+                return hex2bin(substr($value, 2)) ?: '';
+            }
+
+            // Caso "old style escapes"
+            if (function_exists('pg_unescape_bytea')) {
+                $un = @pg_unescape_bytea($value);
+                if ($un !== false) {
+                    return $un;
+                }
+            }
+
+            // Já está em bytes puros
+            return $value;
+        }
+
+        // Fallback
+        return '';
     }
 
 }
