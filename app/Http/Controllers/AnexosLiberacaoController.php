@@ -28,9 +28,7 @@ class AnexosLiberacaoController extends Controller
         // sua lógica de exclusão
         $anexo = AnexosLiberacao::where('id', $id)
                       ->where('id_anx', $id_anx)
-                        ->firstOrFail();
-
-        $anexo->delete();
+                      ->delete();
 
         return redirect()->back()->with('success', 'Anexo excluído com sucesso!');
     }
