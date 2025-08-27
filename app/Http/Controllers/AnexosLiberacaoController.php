@@ -32,8 +32,6 @@ class AnexosLiberacaoController extends Controller
 
         $proximoId = $ultimo ? $ultimo->id_anx + 1 : 1;
 
-        dd($proximoId);
-        
         $request->validate([
             'file' => 'required',
         ]);
