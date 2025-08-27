@@ -192,7 +192,7 @@ class AnexosLiberacaoController extends Controller
             abort(404);
         }
 
-        $content = base64_decode($pdf->data);
+        $content = base64_decode($pdf->arquivo);
 
         $response = Response::make($content, 200);
         $response->header('Content-Type', 'application/pdf');
