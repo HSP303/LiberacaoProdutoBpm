@@ -165,9 +165,9 @@ class AnexosLiberacaoController extends Controller
 
         $proximoId = $ultimo ? $ultimo->id_anx + 1 : 1;
 
-        $name = $request->file('pdf_file')->getClientOriginalName();
-        $mime = $request->file('pdf_file')->getClientMimeType();
-        $data = base64_encode(file_get_contents($request->file('pdf_file')));
+        $name = $request->file('file')->getClientOriginalName();
+        $mime = $request->file('file')->getClientMimeType();
+        $data = base64_encode(file_get_contents($request->file('file')));
 
         DB::table('anexos_liberacao')->insert(['id' => $id, 'id_anx' => $proximoId, 'nome_arquivo' => $name, 'arquivo' => $data]);
 
