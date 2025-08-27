@@ -11,7 +11,7 @@ class AnexosLiberacao extends Model
     // Chave composta → não usar delete/find por instância
     public $incrementing = false;
     protected $keyType = 'string';
-    public $timestamps = false; // ajuste se sua tabela não tiver created_at/updated_at
+    public $timestamps = true; // ajuste se sua tabela não tiver created_at/updated_at
 
     protected $fillable = [
         'id',
