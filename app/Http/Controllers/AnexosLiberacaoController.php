@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Response;
 
 class AnexosLiberacaoController extends Controller
 {
@@ -184,34 +183,41 @@ class AnexosLiberacaoController extends Controller
 
     public function GPTLixoShow(int $id)
     {
-        $row = DB::table('anexos_liberacao')
-        ->where('id', $id)
-        ->orderBy('id_anx', 'desc')
-        ->first(['arquivo', 'nome_arquivo']);
+        $pdf = DB::table('anexos_liberacao')
+          ->where('id', $id)
+          ->orderBy('id_anx', 'desc')
+          ->first();
 
-        if (!$row)
-            abort(404, 'Anexo não encontrado');
-
-        $raw = $row->arquivo;
-
-        if (is_resource($raw)) {
-            rewind($raw);
-            $content = stream_get_contents($raw) ?: '';
-        } elseif (is_string($raw) && strncmp($raw, '\\x', 2) === 0) {
-            // Formato padrão PG: "\xDEADBEEF..."
-            $content = hex2bin(substr($raw, 2)) ?: '';
-        } elseif (is_string($raw)) {
-            // Pode ser base64 salvo em TEXT OU já bytes puros
-            $try = base64_decode($raw, true);
-            $content = ($try !== false) ? $try : $raw;
-        } else {
-            $content = (string) $raw;
+        if (!$pdf) {
+            abort(404);
         }
 
-        return Response::make($content, 200, [
-            'Content-Type'        => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="'.($row->nome_arquivo ?? 'arquivo.pdf').'"',
-        ]);
+        $arquivo = $pdf->arquivo;
+
+        if (is_resource($arquivo)) {
+            // Caso venha como resource (stream)
+            rewind($arquivo);
+            $arquivoString = stream_get_contents($arquivo) ?: '';
+        }
+        elseif (is_string($arquivo) && strncmp($arquivo, '\\x', 2) === 0) {
+            // Caso venha como "\xDEADBEEF..."
+            $arquivoString = hex2bin(substr($arquivo, 2)) ?: '';
+        }
+        elseif (is_string($arquivo)) {
+            // Já é string (pode ser bytes ou até base64)
+            $arquivoString = $arquivo;
+        }
+        else {
+            // Último caso: força conversão
+            $arquivoString = (string) $arquivo;
+        }
+
+        $content = base64_decode($arquivoString);
+
+        $response = Response::make($content, 200);
+        $response->header('Content-Type', 'application/pdf');
+
+        return $response;
     }
 }
 
