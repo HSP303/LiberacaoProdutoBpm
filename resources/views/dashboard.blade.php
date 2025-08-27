@@ -18,7 +18,8 @@
                             <div class="flex items-center space-x-2">
                                 <input type="text" name="id" id="id"
                                     class="border rounded p-2 w-full shadow-sm focus:ring focus:ring-blue-300"
-                                    placeholder="Selecione um ID" required readonly>
+                                    placeholder="Selecione um ID" required readonly
+                                    value="{{ isset($liberacoes) ? $liberacoes->id : '' }}">
                                 <button type="button" @click="showModal = true" class="p-2 bg-gray-200 rounded">
                                     🔍
                                 </button>
