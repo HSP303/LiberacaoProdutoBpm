@@ -168,4 +168,40 @@ class AnexosLiberacaoController extends Controller
         // Fallback
         return '';
     }
+
+    public function GPTLixoStore(Request $request, $id)
+    {
+        $ultimo = AnexosLiberacao::where('id', $id)
+            ->orderBy('id_anx', 'desc')
+            ->lockForUpdate() // evita condição de corrida
+            ->first();
+
+        $proximoId = $ultimo ? $ultimo->id_anx + 1 : 1;
+
+        $name = $request->file('pdf_file')->getClientOriginalName();
+        $mime = $request->file('pdf_file')->getClientMimeType();
+        $data = base64_encode(file_get_contents($request->file('pdf_file')));
+
+        DB::table('anexos_liberacao')->insert(['id' => $id, 'id_anx' => $proximoId, 'nome_arquivo' => $name, 'arquivo' => $data]);
+
+        return redirect()->route('anexos.show', $id)
+            ->with('success', 'Anexo(s) adicionado(s) com sucesso!');
+    }
+
+    public function GPTLixoShow(int $id)
+    {
+        $pdf = DB::table('anexos_liberacao')->find($id)->orderBy('id_anx', 'desc')->firstOrFail();
+
+        if (!$pdf) {
+            abort(404);
+        }
+
+        $content = base64_decode($pdf->data);
+
+        $response = Response::make($content, 200);
+        $response->header('Content-Type', 'application/pdf');
+
+        return $response;
+    }
 }
+

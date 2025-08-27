@@ -31,7 +31,7 @@ Route::post('/cavidades-liberacao', [CavidadeController::class, 'store'])->name(
 // ANEXOS
 Route::get('/anexos/{id}', [AnexosLiberacaoController::class, 'show'])->name('anexos.show');
 Route::get('/anexos/{id}/{id_anx}', [AnexosLiberacaoController::class, 'destroy'])->name('anexos.destroy');
-Route::post('/anexos-inserir/{id}', [AnexosLiberacaoController::class, 'store'])->name('anexos.store');
+//Route::post('/anexos-inserir/{id}', [AnexosLiberacaoController::class, 'store'])->name('anexos.store');
 Route::get('/anexos/download/{id}/{id_anx}', [AnexosLiberacaoController::class, 'download'])->name('anexos.download');
 Route::delete('/anexos/{id}/{id_anx}', [AnexosLiberacaoController::class, 'destroy'])->name('anexos.destroy');
 
@@ -52,6 +52,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::post('/anexos-inserir/{id}', [AnexosLiberacaoController::class, 'GPTLixoStore']);
+Route::get('/pdf/{id}', [AnexosLiberacaoController::class, 'GPTLixoShow']);
 
 
 require __DIR__.'/auth.php';
