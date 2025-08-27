@@ -22,29 +22,16 @@ class AnexosLiberacaoController extends Controller
         return view('anexos', compact('liberacao', 'anexos'));
     }
 
-
     public function destroy($id, $id_anx)
     {
-        // Se quiser excluir arquivo físico, primeiro carregue o registro:
+        // sua lógica de exclusão
         $anexo = AnexosLiberacao::where('id', $id)
-                                ->where('id_anx', $id_anx)
-                                    ->first();
+                      ->where('id_anx', $id_anx)
+                        ->firstOrFail();
 
-        if (!$anexo) {
-            return back()->with('warning', 'Anexo não encontrado.');
-            }
+        $anexo->delete();
 
-        // Exemplo: se você guarda caminho/nome e usa Storage
-        if (!empty($anexo->caminho) && Storage::exists($anexo->caminho)) {
-            Storage::delete($anexo->caminho);
-            }
-
-        // Delete direto via query (seguro para chave composta)
-        AnexosLiberacao::where('id', $id)
-            ->where('id_anx', $id_anx)
-                ->delete();
-
-        return back()->with('success', 'Anexo excluído com sucesso!');
+        return redirect()->back()->with('success', 'Anexo excluído com sucesso!');
     }
 
     public function store(Request $request, $id)
