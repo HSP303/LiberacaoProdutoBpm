@@ -183,21 +183,34 @@ class AnexosLiberacaoController extends Controller
 
     public function GPTLixoShow(int $id)
     {
-        $pdf = DB::table('anexos_liberacao')
-          ->where('id', $id)
-          ->orderBy('id_anx', 'desc')
-          ->first();
+        $row = DB::table('anexos_liberacao')
+        ->where('id', $id)
+        ->orderBy('id_anx', 'desc')
+        ->first(['arquivo', 'nome_arquivo']);
 
-        if (!$pdf) {
-            abort(404);
+        if (!$row)
+            abort(404, 'Anexo não encontrado');
+
+        $raw = $row->arquivo;
+
+        if (is_resource($raw)) {
+            rewind($raw);
+            $content = stream_get_contents($raw) ?: '';
+        } elseif (is_string($raw) && strncmp($raw, '\\x', 2) === 0) {
+            // Formato padrão PG: "\xDEADBEEF..."
+            $content = hex2bin(substr($raw, 2)) ?: '';
+        } elseif (is_string($raw)) {
+            // Pode ser base64 salvo em TEXT OU já bytes puros
+            $try = base64_decode($raw, true);
+            $content = ($try !== false) ? $try : $raw;
+        } else {
+            $content = (string) $raw;
         }
 
-        $content = base64_decode($pdf->arquivo);
-
-        $response = Response::make($content, 200);
-        $response->header('Content-Type', 'application/pdf');
-
-        return $response;
+        return Response::make($content, 200, [
+            'Content-Type'        => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="'.($row->nome_arquivo ?? 'arquivo.pdf').'"',
+        ]);
     }
 }
 
