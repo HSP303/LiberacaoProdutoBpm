@@ -1,1 +1,1 @@
-<img src="Gramlogo.jpg" alt="Logo Gram" width="60px" height="60px"> 
+<img src="{{ asset('Gramlogo.jpg') }}" alt="Logo Gram" width="60" height="60"> 
