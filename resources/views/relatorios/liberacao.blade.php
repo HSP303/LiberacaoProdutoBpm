@@ -181,19 +181,34 @@
                 @endphp
                 @foreach ($checks as [$label, $okField, $obsField])
                     @php
-                        $raw = $lib->{$okField} ?? null; // pode vir como bool, int ou string ('0'/'1')
-                        // Normaliza o status para tri-state: true/false/null
-                        if (is_string($raw)) {
-                            $tmp = trim($raw);
-                            if ($tmp === '0' || $tmp === '1') {
-                                $raw = (int) $tmp;
-                            } elseif ($tmp === '') {
-                                $raw = null;
+                        $raw = $lib->{$okField} ?? null; // pode vir como bool, int ou string ('OK'/'NOK'/'NA')
+                        // Normaliza status para tri-state
+                        $isOk = false; $isNao = false; $isNA = false;
+                        if (is_null($raw)) {
+                            $isNA = true;
+                        } elseif (is_bool($raw)) {
+                            $isOk = $raw === true;
+                            $isNao = $raw === false;
+                        } elseif (is_numeric($raw)) {
+                            $isOk = ((int)$raw) === 1;
+                            $isNao = ((int)$raw) === 0;
+                            $isNA = !($isOk || $isNao);
+                        } else {
+                            $txt = strtoupper(trim((string)$raw));
+                            // aceita variações comuns
+                            if ($txt === 'OK') {
+                                $isOk = true;
+                            } elseif (in_array($txt, ['NOK','NÃO OK','NAO OK','NAO_OK','NAO-OK','NAO'])) {
+                                $isNao = true;
+                            } elseif (in_array($txt, ['NA','N/A','ND','N.D.'])) {
+                                $isNA = true;
+                            } elseif ($txt === '') {
+                                $isNA = true;
+                            } else {
+                                // fallback: qualquer valor diferente de OK será tratado como Não ok
+                                $isNao = true;
                             }
                         }
-                        $isOk = ($raw === true || $raw === 1);
-                        $isNao = ($raw === false || $raw === 0);
-                        $isNA = is_null($raw);
 
                         $obs = $lib->{$obsField} ?? '';
                     @endphp
