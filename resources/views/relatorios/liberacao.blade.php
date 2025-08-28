@@ -181,15 +181,28 @@
                 @endphp
                 @foreach ($checks as [$label, $okField, $obsField])
                     @php
-                        $status = $lib->{$okField} ?? null; // true, false ou null (NA)
+                        $raw = $lib->{$okField} ?? null; // pode vir como bool, int ou string ('0'/'1')
+                        // Normaliza o status para tri-state: true/false/null
+                        if (is_string($raw)) {
+                            $tmp = trim($raw);
+                            if ($tmp === '0' || $tmp === '1') {
+                                $raw = (int) $tmp;
+                            } elseif ($tmp === '') {
+                                $raw = null;
+                            }
+                        }
+                        $isOk = ($raw === true || $raw === 1);
+                        $isNao = ($raw === false || $raw === 0);
+                        $isNA = is_null($raw);
+
                         $obs = $lib->{$obsField} ?? '';
                     @endphp
-                    @if (!is_null($status) || !empty($obs))
+                    @if (!$isNA || !empty($obs))
                         <tr>
                             <td>{{ $label }}</td>
-                            <td style="text-align:center;">{{ $status === true || $status === 1 ? '☑' : '' }}</td>
-                            <td style="text-align:center;">{{ $status === false || $status === 0 ? '☑' : '' }}</td>
-                            <td style="text-align:center;">{{ is_null($status) ? '☑' : '' }}</td>
+                            <td style="text-align:center;">{{ $isOk ? '☑' : '' }}</td>
+                            <td style="text-align:center;">{{ $isNao ? '☑' : '' }}</td>
+                            <td style="text-align:center;">{{ $isNA ? '☑' : '' }}</td>
                             <td>{{ $obs }}</td>
                         </tr>
                     @endif
