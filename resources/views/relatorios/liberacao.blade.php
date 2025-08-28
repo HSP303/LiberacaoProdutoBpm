@@ -98,6 +98,7 @@
         <h3>Parâmetros indicados <strong>(F e FC)</strong> no desenho</h3>
         @foreach ($cavidades->chunk(5) as $grupo)
             <table class="cav-table">
+                <p>teste</p>
                 <thead>
                     <tr>
                         <th>Especificado</th>
