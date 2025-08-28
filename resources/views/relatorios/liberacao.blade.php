@@ -157,16 +157,27 @@
             <tbody>
                 <tr>
                     <td>Interferência na Montagem</td>
+                    <td style="text-align:center;">{{ ($lib->ok_interferencia_montagem ?? null) ? '☑' : '' }}</td>
+                    <td style="text-align:center;">{{ (isset($lib->ok_interferencia_montagem) && !($lib->ok_interferencia_montagem)) ? '☑' : '' }}</td>
+                    <td>{{ $lib->interferencia_montagem ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Teste prático</td>
+                    <td style="text-align:center;">{{ ($lib->ok_teste_pratico ?? null) ? '☑' : '' }}</td>
+                    <td style="text-align:center;">{{ (isset($lib->ok_teste_pratico) && !($lib->ok_teste_pratico)) ? '☑' : '' }}</td>
+                    <td>{{ $lib->teste_pratico ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Aparência (peças/regiões aparentes)</td>
+                    <td style="text-align:center;">{{ ($lib->ok_aparencia ?? null) ? '☑' : '' }}</td>
+                    <td style="text-align:center;">{{ (isset($lib->ok_aparencia) && !($lib->ok_aparencia)) ? '☑' : '' }}</td>
+                    <td>{{ $lib->aparencia ?? '' }}</td>
                 </tr>
                 <tr>
                     <td>Teste de vida útil</td>
-                   <!-- <td>{{ $check['vida_ok'] ?? '' }}</td> -->
+                    <td style="text-align:center;">{{ ($lib->ok_teste_vida ?? null) ? '☑' : '' }}</td>
+                    <td style="text-align:center;">{{ (isset($lib->ok_teste_vida) && !($lib->ok_teste_vida)) ? '☑' : '' }}</td>
+                    <td>{{ $lib->teste_vida ?? '' }}</td>
                 </tr>
             </tbody>
         </table>
