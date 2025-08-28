@@ -590,7 +590,7 @@
                                     <span>Reprovado</span>
                                 </label>
                             </div>
-
+                            <br>
                             <x-submit-button>Salvar</x-submit-button>
                         </div>
                     </div>
