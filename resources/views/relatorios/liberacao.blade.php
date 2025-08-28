@@ -98,22 +98,39 @@
         <h3>Parâmetros indicados <strong>(F e FC)</strong> no desenho</h3>
         @foreach ($cavidades->chunk(5) as $grupo)
             <table class="cav-table">
-                <p>teste</p>
                 <thead>
                     <tr>
                         <th>Especificado</th>
                         @foreach ($grupo as $cav)
-                            <th>{{ $cav->nome ?? 'Cavidade' }}</th>
+                            <th>{{ $cav->descricao ?? ('Cavidade ' . ($cav->id_cavidade ?? '')) }}</th>
                         @endforeach
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>{{ $item->especificado ?? '' }}</td>
-                        @foreach ($grupo as $cav)
-                            <td>{{ $cav->valor ?? '' }}</td>
-                        @endforeach
-                    </tr>
+                    @foreach ($itens as $item)
+                        <tr>
+                            <td>{{ $item->especificado ?? '' }}</td>
+                            @foreach ($grupo as $cav)
+                                @php
+                                    $cv = $itemCavidade->first(function ($row) use ($item, $cav) {
+                                        return ($row->id_item ?? null) == ($item->id_item ?? null)
+                                            && ($row->id_cavidade ?? null) == ($cav->id_cavidade ?? null);
+                                    });
+                                @endphp
+                                <td>
+                                    @if ($cv)
+                                        @if (!is_null($cv->minimo) || !is_null($cv->maximo))
+                                            {{ $cv->minimo }}{{ (!is_null($cv->minimo) && !is_null($cv->maximo)) ? ' - ' : '' }}{{ $cv->maximo }}
+                                        @else
+                                            —
+                                        @endif
+                                    @else
+                                        —
+                                    @endif
+                                </td>
+                            @endforeach
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         @endforeach
