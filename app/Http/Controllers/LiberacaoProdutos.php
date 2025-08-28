@@ -221,7 +221,7 @@ class LiberacaoProdutos extends Controller
             ->with(['success' => 'Produto liberado com sucesso!', 'status_code' => 201]);
     }
 
-    public function storeObsLaudo(Request $request, $id)
+    public function storeObsLaudoLegacy(Request $request, $id)
     {
         $request->validate([
             'obs_laudo' => 'nullable|string',
