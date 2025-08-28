@@ -55,6 +55,11 @@
             height: auto;
             margin-bottom: 10px;
         }
+
+        .anexo .anexo-header {
+            text-align: center;
+            margin-bottom: 8px;
+        }
     </style>
 </head>
 
@@ -259,6 +264,10 @@
         <h3>Anexos</h3>
         @foreach ($anexos as $ax)
             <div class="anexo">
+                <div class="anexo-header">
+                    <img src="https://media.licdn.com/dms/image/v2/C4D0BAQEmC35X1LOodg/company-logo_200_200/company-logo_200_200/0/1632589914374?e=2147483647&v=beta&t=RY9IWYGY8pK5O_4Jfcuy9XZUmJ7sRzVBR_TOs8CwbeM"
+                        class="logo" alt="Logo" />
+                </div>
                 <h4>{{ $ax->nome_arquivo }}</h4>
 
                 @php
