@@ -555,6 +555,22 @@
                         </div>
 
                         <div>
+                            <label for="realizador" class="block text-sm font-medium text-gray-700 mb-1">Realizador</label>
+                            <input type="text" id="realizador" name="realizador"
+                                value="{{ $liberacao->realizador ?? '' }}"
+                                class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+                                placeholder="Quem realizou a análise" />
+                        </div>
+
+                        <div>
+                            <label for="analista" class="block text-sm font-medium text-gray-700 mb-1">Analista</label>
+                            <input type="text" id="analista" name="analista"
+                                value="{{ $liberacao->analista ?? '' }}"
+                                class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+                                placeholder="Quem analisou/validou" />
+                        </div>
+
+                        <div>
                             <span class="block text-sm font-medium text-gray-700 mb-1">Laudo</span>
                             <div class="flex flex-col sm:flex-row sm:items-center gap-3">
                                 @php($laudoAtual = $liberacao->laudo ?? '')
@@ -574,22 +590,8 @@
                                     <span>Reprovado</span>
                                 </label>
                             </div>
-                        </div>
 
-                        <div>
-                            <label for="realizador" class="block text-sm font-medium text-gray-700 mb-1">Realizador</label>
-                            <input type="text" id="realizador" name="realizador"
-                                value="{{ $liberacao->realizador ?? '' }}"
-                                class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
-                                placeholder="Quem realizou a análise" />
-                        </div>
-
-                        <div>
-                            <label for="analista" class="block text-sm font-medium text-gray-700 mb-1">Analista</label>
-                            <input type="text" id="analista" name="analista"
-                                value="{{ $liberacao->analista ?? '' }}"
-                                class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
-                                placeholder="Quem analisou/validou" />
+                            <x-submit-button>Salvar</x-submit-button>
                         </div>
                     </div>
                 </div>
