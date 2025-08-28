@@ -18,21 +18,23 @@ class RelatorioController extends Controller
         $lib = LiberacaoProduto::findOrFail($id);
 
         // Buscar itens (se houver)
-        $itens = ItemLiberacao::findOrFail($id);
+        $itens = ItemLiberacao::where('id', $id)->get();
         $idItem = $itens->id_item;
 
         // Busca Cavidades
-        $cavidades = CavidadeLiberacao::findOrFail('id', $id);
+        $cavidades = CavidadeLiberacao::where('id', $id)->get();
         $idItem = $cavidades->id_cavidade;
 
         $itensCavidades = ItemCavidadeLiberacao::where('id', $id)
-            ->where('id_item', $idItem)
-            ->findOrFail();
+        ->when($itens->isNotEmpty(), fn($q) =>
+            $q->whereIn('id_item', $itens->pluck('id_item'))
+        )
+        ->get();
 
         // Buscar anexos (traga mime + arquivo em bytea)
         $anexos = AnexosLiberacao::where('id', $id)
-            ->orderBy('id_anx')
-            ->get();
+        ->orderBy('id_anx')
+        ->get();
 
         // Gerar PDF usando a view
         $pdf = Pdf::loadView('relatorios.liberacao', [
