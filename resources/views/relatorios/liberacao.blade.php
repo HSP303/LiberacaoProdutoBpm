@@ -151,34 +151,49 @@
                     <th>Verificar</th>
                     <th>Ok</th>
                     <th>Não ok</th>
+                    <th>NA</th>
                     <th>Obs.</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Interferência na Montagem</td>
-                    <td style="text-align:center;">{{ ($lib->ok_interferencia_montagem ?? null) ? '☑' : '' }}</td>
-                    <td style="text-align:center;">{{ (isset($lib->ok_interferencia_montagem) && !($lib->ok_interferencia_montagem)) ? '☑' : '' }}</td>
-                    <td>{{ $lib->interferencia_montagem ?? '' }}</td>
-                </tr>
-                <tr>
-                    <td>Teste prático</td>
-                    <td style="text-align:center;">{{ ($lib->ok_teste_pratico ?? null) ? '☑' : '' }}</td>
-                    <td style="text-align:center;">{{ (isset($lib->ok_teste_pratico) && !($lib->ok_teste_pratico)) ? '☑' : '' }}</td>
-                    <td>{{ $lib->teste_pratico ?? '' }}</td>
-                </tr>
-                <tr>
-                    <td>Aparência (peças/regiões aparentes)</td>
-                    <td style="text-align:center;">{{ ($lib->ok_aparencia ?? null) ? '☑' : '' }}</td>
-                    <td style="text-align:center;">{{ (isset($lib->ok_aparencia) && !($lib->ok_aparencia)) ? '☑' : '' }}</td>
-                    <td>{{ $lib->aparencia ?? '' }}</td>
-                </tr>
-                <tr>
-                    <td>Teste de vida útil</td>
-                    <td style="text-align:center;">{{ ($lib->ok_teste_vida ?? null) ? '☑' : '' }}</td>
-                    <td style="text-align:center;">{{ (isset($lib->ok_teste_vida) && !($lib->ok_teste_vida)) ? '☑' : '' }}</td>
-                    <td>{{ $lib->teste_vida ?? '' }}</td>
-                </tr>
+                @php
+                    $checks = [
+                        ['Interferência na Montagem', 'ok_interferencia_montagem', 'interferencia_montagem'],
+                        ['Folga dos componentes', 'ok_folga_componentes', 'folga_componentes'],
+                        ['Teste prático', 'ok_teste_pratico', 'teste_pratico'],
+                        ['Aparência (peças/regiões aparentes)', 'ok_aparencia', 'aparencia'],
+                        ['Tratamentos conforme especificações', 'ok_tratamentos_especificacoes', 'tratamentos_especificacoes'],
+                        ['Teste de queda', 'ok_teste_queda', 'teste_queda'],
+                        ['Teste de vida útil', 'ok_teste_vida', 'teste_vida'],
+                        ['Outro (5)', 'ok_outro_cinco', 'outro_cinco'],
+                        ['Impedir desmontagem', 'ok_impedir_desmontagem', 'impedir_desmontagem'],
+                        ['Introdução e funcionamento', 'ok_introducao_funcionamento', 'introducao_funcionamento'],
+                        ['Giro livre', 'ok_giro_livre', 'giro_livre'],
+                        ['Funcionamento da válvula', 'ok_funcionamento_valvula', 'funcionamento_valvula'],
+                        ['Introdução do bocal', 'ok_introducao_bocal', 'introducao_bocal'],
+                        ['Retirada do bocal', 'ok_retirada_bocal', 'retirada_bocal'],
+                        ['Estanqueidade', 'ok_estanqueidade', 'estanqueidade'],
+                        ['Altura conforme requisitos', 'ok_altura_requisitos', 'altura_requisitos'],
+                        ['Aparência visual', 'ok_aparencia_visual', 'aparencia_visual'],
+                        ['Teste de campo', 'ok_teste_campo', 'teste_campo'],
+                        ['Outro (3)', 'ok_outro_tres', 'outro_tres'],
+                    ];
+                @endphp
+                @foreach ($checks as [$label, $okField, $obsField])
+                    @php
+                        $status = $lib->{$okField} ?? null; // true, false ou null (NA)
+                        $obs = $lib->{$obsField} ?? '';
+                    @endphp
+                    @if (!is_null($status) || !empty($obs))
+                        <tr>
+                            <td>{{ $label }}</td>
+                            <td style="text-align:center;">{{ $status === true || $status === 1 ? '☑' : '' }}</td>
+                            <td style="text-align:center;">{{ $status === false || $status === 0 ? '☑' : '' }}</td>
+                            <td style="text-align:center;">{{ is_null($status) ? '☑' : '' }}</td>
+                            <td>{{ $obs }}</td>
+                        </tr>
+                    @endif
+                @endforeach
             </tbody>
         </table>
     </div>
