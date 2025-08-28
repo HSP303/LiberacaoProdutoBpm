@@ -19,11 +19,11 @@ class RelatorioController extends Controller
 
         // Buscar itens (se houver)
         $itens = ItemLiberacao::where('id', $id)->get();
-        $idItem = $itens->id_item;
+        $idItem = $itens->pluck('id_item');
 
         // Busca Cavidades
         $cavidades = CavidadeLiberacao::where('id', $id)->get();
-        $idItem = $cavidades->id_cavidade;
+        $idItem = $cavidades->pluck('id_cavidade');
 
         $itensCavidades = ItemCavidadeLiberacao::where('id', $id)
         ->when($itens->isNotEmpty(), fn($q) =>
