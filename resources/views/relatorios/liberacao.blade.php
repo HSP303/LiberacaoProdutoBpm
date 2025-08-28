@@ -100,16 +100,21 @@
             <table class="cav-table">
                 <thead>
                     <tr>
+                        <th>Item</th>
                         <th>Especificado</th>
+                        <th>Equipamento</th>
                         @foreach ($grupo as $cav)
                             <th>{{ $cav->descricao ?? ('Cavidade ' . ($cav->id_cavidade ?? '')) }}</th>
                         @endforeach
+                        <th>Resultado</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($itens as $item)
                         <tr>
+                            <td>{{ $item->id_item ?? '' }}</td>
                             <td>{{ $item->especificado ?? '' }}</td>
+                            <td>{{ $item->equipamento ?? '' }}</td>
                             @foreach ($grupo as $cav)
                                 @php
                                     $cv = $itemCavidade->first(function ($row) use ($item, $cav) {
@@ -129,6 +134,7 @@
                                     @endif
                                 </td>
                             @endforeach
+                            <td>{{ $item->resultado ?? '' }}</td>
                         </tr>
                     @endforeach
                 </tbody>
