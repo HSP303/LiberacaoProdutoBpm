@@ -39,6 +39,9 @@ Route::delete('/anexos/{id}/{id_anx}', [AnexosLiberacaoController::class, 'destr
 // RELATORIO
 Route::get('/liberacao/{id}/pdf', [RelatorioController::class, 'liberacao'])->name('liberacao.pdf');
 
+// Observação/Laudo (salvar)
+Route::post('/obs-laudo', [LiberacaoProdutos::class, 'storeObsLaudo'])->name('obs-laudo.sotore');
+
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])->name('login');
 Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');

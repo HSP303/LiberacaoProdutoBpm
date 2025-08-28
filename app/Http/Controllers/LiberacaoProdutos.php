@@ -87,6 +87,28 @@ class LiberacaoProdutos extends Controller
         ]);
     }
 
+    public function storeObsLaudo(Request $request)
+    {
+        $validated = $request->validate([
+            'id' => 'required|integer|exists:liberacao_produtos,id',
+            'observacao' => 'nullable|string',
+            'laudo' => 'nullable|string|in:Aprovado,Aprovado Condicional,Reprovado',
+            'realizador' => 'nullable|string',
+            'analista' => 'nullable|string',
+        ]);
+
+        $lib = LiberacaoProduto::findOrFail($validated['id']);
+
+        $lib->observacao = $validated['observacao'] ?? $lib->observacao;
+        $lib->laudo = $validated['laudo'] ?? $lib->laudo;
+        $lib->realizador = $validated['realizador'] ?? $lib->realizador;
+        $lib->analista = $validated['analista'] ?? $lib->analista;
+        $lib->save();
+
+        return redirect()->route('dashboard.index', ['id' => $lib->id, 'code' => 200])
+            ->with(['success' => 'Observação/Laudo atualizados com sucesso!', 'status_code' => 200]);
+    }
+
 
     public function buscarProdutos(Request $request)
     {
@@ -197,6 +219,20 @@ class LiberacaoProdutos extends Controller
 
         return redirect()->route('dashboard.index', ['id' => $idCriado, 'code' => 201])
             ->with(['success' => 'Produto liberado com sucesso!', 'status_code' => 201]);
+    }
+
+    public function storeObsLaudo(Request $request, $id)
+    {
+        $request->validate([
+            'obs_laudo' => 'nullable|string',
+        ]);
+
+        $liberacao = LiberacaoProduto::findOrFail($id);
+        $liberacao->obs_laudo = $request->input('obs_laudo');
+        $liberacao->save();
+
+        return redirect()->route('dashboard.index', ['id' => $id, 'code' => 200])
+            ->with(['success' => 'Observação do laudo atualizada com sucesso!', 'status_code' => 200]);
     }
 
     public function update(Request $request, $id)

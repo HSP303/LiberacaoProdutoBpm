@@ -543,7 +543,9 @@
                 <hr>
                 <br>
                 <!-- Seção: Observação, Laudo, Realizador, Analista -->
-                <div class="mb-6 p-4 border border-gray-200 rounded-md bg-gray-50">
+                <form action="{{ route('obs-laudo.sotore') }}" method="POST" class="mb-6 p-4 border border-gray-200 rounded-md bg-gray-50">
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $liberacao?->id }}">
                     <h3 class="text-md font-semibold mb-3">Observação e Laudo</h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -594,7 +596,13 @@
                             <x-submit-button>Salvar</x-submit-button>
                         </div>
                     </div>
-                </div>
+
+                    <div class="mt-4">
+                        <button type="submit" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-xs font-medium rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            Salvar Observação e Laudo
+                        </button>
+                    </div>
+                </form>
 
                 <a href="{{ $liberacao?->id ? route('liberacao.pdf', $liberacao->id) : '#' }}"
                     class="inline-flex items-center px-4 py-2 bg-emerald-600 text-white text-xs font-medium rounded-md shadow hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500">
