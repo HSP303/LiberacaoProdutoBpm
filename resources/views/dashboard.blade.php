@@ -542,6 +542,58 @@
                 <br>
                 <hr>
                 <br>
+                <!-- Seção: Observação, Laudo, Realizador, Analista -->
+                <div class="mb-6 p-4 border border-gray-200 rounded-md bg-gray-50">
+                    <h3 class="text-md font-semibold mb-3">Observação e Laudo</h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="col-span-1 md:col-span-2">
+                            <label for="observacao" class="block text-sm font-medium text-gray-700 mb-1">Observação</label>
+                            <textarea id="observacao" name="observacao" rows="3"
+                                class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+                                placeholder="Descreva observações relevantes...">{{ $liberacao->observacao ?? '' }}</textarea>
+                        </div>
+
+                        <div>
+                            <span class="block text-sm font-medium text-gray-700 mb-1">Laudo</span>
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+                                @php($laudoAtual = $liberacao->laudo ?? '')
+                                <label class="inline-flex items-center gap-2">
+                                    <input type="radio" name="laudo" value="Aprovado" class="text-emerald-600"
+                                        {{ $laudoAtual === 'Aprovado' ? 'checked' : '' }}>
+                                    <span>Aprovado</span>
+                                </label>
+                                <label class="inline-flex items-center gap-2">
+                                    <input type="radio" name="laudo" value="Aprovado Condicional" class="text-amber-600"
+                                        {{ $laudoAtual === 'Aprovado Condicional' ? 'checked' : '' }}>
+                                    <span>Aprovado Condicional</span>
+                                </label>
+                                <label class="inline-flex items-center gap-2">
+                                    <input type="radio" name="laudo" value="Reprovado" class="text-red-600"
+                                        {{ $laudoAtual === 'Reprovado' ? 'checked' : '' }}>
+                                    <span>Reprovado</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="realizador" class="block text-sm font-medium text-gray-700 mb-1">Realizador</label>
+                            <input type="text" id="realizador" name="realizador"
+                                value="{{ $liberacao->realizador ?? '' }}"
+                                class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+                                placeholder="Quem realizou a análise" />
+                        </div>
+
+                        <div>
+                            <label for="analista" class="block text-sm font-medium text-gray-700 mb-1">Analista</label>
+                            <input type="text" id="analista" name="analista"
+                                value="{{ $liberacao->analista ?? '' }}"
+                                class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+                                placeholder="Quem analisou/validou" />
+                        </div>
+                    </div>
+                </div>
+
                 <a href="{{ $liberacao?->id ? route('liberacao.pdf', $liberacao->id) : '#' }}"
                     class="inline-flex items-center px-4 py-2 bg-emerald-600 text-white text-xs font-medium rounded-md shadow hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     📄 Gerar PDF

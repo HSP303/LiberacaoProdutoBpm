@@ -59,6 +59,10 @@ class LiberacaoProduto extends Model
         'ok_aparencia_visual',
         'ok_teste_campo',
         'ok_outro_tres',
+        'observacao',
+        'laudo',
+        'realizador',
+        'analista'
     ];
 
     protected $dates = [
