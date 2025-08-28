@@ -96,7 +96,7 @@
     {{-- Tabela Itens / Cavidades --}}
     <div class="section">
         <h3>Parâmetros indicados <strong>(F e FC)</strong> no desenho</h3>
-        @foreach (array_chunk($cavidades, 5) as $grupo)
+        @foreach ($cavidades->chunk(5) as $grupo)
             <table class="cav-table">
                 <thead>
                     <tr>
