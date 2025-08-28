@@ -18,7 +18,7 @@ class RelatorioController extends Controller
         $lib = LiberacaoProduto::findOrFail($id);
 
         // Buscar itens (se houver)
-        $itens = ItemLiberacao::findOrFail('id', $id);
+        $itens = ItemLiberacao::findOrFail($id);
         $idItem = $itens->id_item;
 
         // Busca Cavidades
